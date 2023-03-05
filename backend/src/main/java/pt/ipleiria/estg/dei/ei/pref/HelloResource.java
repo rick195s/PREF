@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.pref;
+package pt.ipleiria.estg.dei.ei.pref;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
