@@ -18,12 +18,12 @@ mv $DEPLOYMENTS_DIR/* /tmp/deployments
 echo "=> Starting WildFly server"
 $WILDFLY_HOME/bin/standalone.sh -b=0.0.0.0 -c standalone.xml > /dev/null &
 
-#source $WILDFLY_HOME/bin/download_postgresql_driver.sh
+source $WILDFLY_HOME/bin/download_postgresql_driver.sh
 
 echo "=> Waiting for the server to boot"
 wait_for_server
 
-#source $WILDFLY_HOME/bin/setup_datasource.sh
+source $WILDFLY_HOME/bin/setup_datasource.sh
 #source $WILDFLY_HOME/bin/setup_mail.sh
 
 echo "=> Shutdown Wildfly"
