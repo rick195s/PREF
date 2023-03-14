@@ -29,7 +29,16 @@ jobs:
 
     - name: Run the Docker container
       run: |
-        docker run -d -p 8080:8080 -p 9990:9990 --name wildfly $IMAGE_NAME
+        docker run -d -p 8080:8080 -p 9990:9990 --env DATASOURCE_JNDI=${{ vars.DATASOURCE_JNDI }}
+        --env DATASOURCE_NAME=${{ vars.DATASOURCE_NAME }}  
+        --env DB_USER=${{ vars.DB_USER }}
+        --env DB_PASS=${{ vars.DB_PASS }}
+        --env DB_HOST=${{ vars.DB_HOST }}
+        --env DB_PORT=${{ vars.DB_PORT }}
+        --env DB_NAME=${{ vars.DB_NAME }}
+        --env POSTGRES_DRIVER_VERSION=${{ vars.POSTGRES_DRIVER_VERSION }}
+        --env WILDFLY_ADMIN_PASSWORD= ${{ vars.WILDFLY_ADMIN_PASSWORD }}
+        --name wildfly $IMAGE_NAME
 
     - name: Copy the WAR file to the Docker container
       run: |
