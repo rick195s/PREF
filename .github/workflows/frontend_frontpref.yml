@@ -49,3 +49,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_55897ecdfa424d25b8ab453308e6fc86 }}
         images: 'projpref.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_3083fc1a51e74b5e92414e513c9ecd10 }}/frontend:${{ github.sha }}'
+        restart-deployment: true
