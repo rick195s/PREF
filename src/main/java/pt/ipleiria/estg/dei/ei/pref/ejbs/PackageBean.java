@@ -11,9 +11,12 @@ public class PackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create() {
-        SimplePackage simplePackage = new SimplePackage(1, "Simple Package");
-        entityManager.persist(entityManager.merge(simplePackage));
+    public void create(int id, String name) {
+        // create simple package and persist it
+        SimplePackage simplePackage = new SimplePackage(id, name);
+
+        entityManager.persist(simplePackage);
+
         System.out.println("Package created!");
     }
 }

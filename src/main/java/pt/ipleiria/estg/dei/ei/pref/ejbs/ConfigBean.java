@@ -1,8 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
-
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -19,6 +16,6 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
-        packageBean.create();
+        packageBean.create(1, "Simple package");
     }
 }

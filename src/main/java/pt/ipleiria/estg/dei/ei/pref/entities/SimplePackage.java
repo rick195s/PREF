@@ -1,16 +1,15 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(
         name = "simple_packages"
 )
-public class SimplePackage implements Serializable {
-
+public class SimplePackage {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     protected int id;
 
     protected String name;

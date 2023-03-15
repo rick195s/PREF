@@ -10,6 +10,6 @@ public class HelloResource {
     @GET
     @Produces("text/plain")
     public String hello() {
-        return "Hello, World! version 19";
+        return "Hello, World! version 20";
     }
 }
