@@ -1,72 +1,51 @@
-name: Azure Container Registry Build and Deploy
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - pref
 
 on:
   push:
     branches:
       - backend
-
-env:
-  IMAGE_NAME: wildfly
-  ACR_SERVER: projpref.azurecr.io
-  ACR_USERNAME: ${{ secrets.AzureAppService_ContainerUsername_3ab46bedd4444fdd8f0f91ae50fd2c85  }}
-  ACR_PASSWORD: ${{ secrets.AzureAppService_ContainerPassword_41453aba5acf4dc29ce0f3c0a4ec8c04  }}
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-latest'
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Build the WAR file
-      run: |
-        mvn clean package
-    - name: Build the Docker image
-      run: |
-        docker build -t $IMAGE_NAME .
-    - name: Run the Docker container
-      run: |
-        docker run -d -p 8080:8080 -p 9990:9990 -e DATASOURCE_JNDI=$vars.DATASOURCE_JNDI -e DATASOURCE_NAME=$vars.DATASOURCE_NAME -e DB_USER=$vars.DB_USER -e DB_PASS=$vars.DB_PASS -e DB_HOST=$vars.DB_HOST -e DB_PORT=$vars.DB_PORT -e DB_NAME=$vars.DB_NAME -e POSTGRES_DRIVER_VERSION=$vars.POSTGRES_DRIVER_VERSION -e WILDFLY_ADMIN_PASSWORD=$vars.WILDFLY_ADMIN_PASSWORD --name wildfly $IMAGE_NAME
-    - name: Copy the WAR file to the Docker container
-      run: |
-        docker cp target/pref.war wildfly:/opt/jboss/wildfly/standalone/deployments
-    - name: Commit the changes to the Docker container
-      run: |
-        docker commit wildfly $IMAGE_NAME
-    - name: Log in to Azure Container Registry
-      uses: azure/docker-login@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to registry
+      uses: docker/login-action@v1
       with:
-        login-server: ${{ env.ACR_SERVER }}
-        username: ${{ env.ACR_USERNAME }}
-        password: ${{ env.ACR_PASSWORD }}
+        registry: https://projpref.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_f4e1818e943e460589d4ad3ad8a6c30b }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_782a1a798e3441f0bd71c637f2e660ef }}
 
-    - name: Tag the Docker image
-      run: |
-        docker tag $IMAGE_NAME $ACR_SERVER/$IMAGE_NAME:latest
-    - name: Push the Docker image to Azure Container Registry
-      run: |
-        docker push $ACR_SERVER/$IMAGE_NAME:latest
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: projpref.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f4e1818e943e460589d4ad3ad8a6c30b }}/wildfly:${{ github.sha }}
+        file: ./Dockerfile
 
   deploy:
-        runs-on: ubuntu-latest
-        needs: build
-        environment:
-          name: 'production'
-          url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-        steps:
-        - name: Deploy to Azure Web App
-          id: deploy-to-webapp
-          uses: azure/webapps-deploy@v2
-          with:
-            app-name: 'pref'
-            slot-name: 'production'
-            publish-profile: ${{ secrets.AzureAppService_PublishProfile_780967313d304d12b9b3e99b77f724cf  }}
-            images: ${{ env.ACR_SERVER }}/${{ env.IMAGE_NAME }}:latest
-
-          env:
-            DOCKER_REGISTRY_SERVER_URL: https://${{ env.ACR_SERVER }}
-            DOCKER_REGISTRY_SERVER_USERNAME: ${{ env.ACR_USERNAME }}
-            DOCKER_REGISTRY_SERVER_PASSWORD: ${{ env.ACR_PASSWORD }}
-  
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'pref'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_46b8b03f47ef4f268bcf4856cd58a996 }}
+        images: 'projpref.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f4e1818e943e460589d4ad3ad8a6c30b }}/wildfly:${{ github.sha }}'
