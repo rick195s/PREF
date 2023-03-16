@@ -47,24 +47,4 @@ jobs:
     - name: Push the Docker image to Azure Container Registry
       run: |
         docker push $ACR_SERVER/$IMAGE_NAME:latest
-  deploy:
-      runs-on: ubuntu-latest
-      needs: build
-      environment:
-        name: 'production'
-        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-      steps:
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'pref'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_780967313d304d12b9b3e99b77f724cf  }}
-          images: ${{ env.ACR_SERVER }}/${{ env.IMAGE_NAME }}:latest
-
-        env:
-          DOCKER_REGISTRY_SERVER_URL: https://${{ env.ACR_SERVER }}
-          DOCKER_REGISTRY_SERVER_USERNAME: ${{ env.ACR_USERNAME }}
-          DOCKER_REGISTRY_SERVER_PASSWORD: ${{ env.ACR_PASSWORD }}
+  
