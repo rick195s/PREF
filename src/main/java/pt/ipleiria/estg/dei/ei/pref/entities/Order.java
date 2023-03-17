@@ -12,6 +12,7 @@ public class Order {
 
     @Id
     @NotNull
+    @Column(name = "tracking_number")
     protected long trackingNumber;
 
     protected String orderDate;
