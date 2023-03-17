@@ -1,42 +1,27 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
+import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Entity
-@Table(
-        name = "simple_packages"
-)
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllSimplePackages",
-                query = "SELECT s FROM SimplePackage s ORDER BY s.id" // JPQL
-        )})
-public class SimplePackage implements Serializable {
-    @Id
-    @NotNull
+public class SimplePackageDTO implements Serializable {
     private long id;
-    @NotNull
     private String name;
-    @NotNull
     private String dimension;
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = PackageMaterialType.class, fetch = FetchType.EAGER)
     private List<PackageMaterialType> materialsType;
-    @NotNull
     private PackageCategory packageCategory;
 
-    public SimplePackage() {
+    public SimplePackageDTO() {
         materialsType = new LinkedList<>();
     }
 
-    public SimplePackage(long id, String name, String dimension, List<PackageMaterialType> materialsType, PackageCategory packageCategory) {
+    public SimplePackageDTO(long id, String name, String dimension, List<PackageMaterialType> materialsType, PackageCategory packageCategory) {
         this.id = id;
         this.name = name;
         this.dimension = dimension;
@@ -73,7 +58,7 @@ public class SimplePackage implements Serializable {
         return materialsType;
     }
 
-    public void setMaterialsType(List<PackageMaterialType> materialsType) {
+    public void setMaterialType(List<PackageMaterialType> materialsType) {
         this.materialsType = materialsType;
     }
 
@@ -85,11 +70,16 @@ public class SimplePackage implements Serializable {
         this.packageCategory = packageCategory;
     }
 
-    public void addMaterialType(PackageMaterialType materialType) {
-        this.materialsType.add(materialType);
+    public static SimplePackageDTO from(SimplePackage simplePackage) {
+        return new SimplePackageDTO(
+                simplePackage.getId(),
+                simplePackage.getName(),
+                simplePackage.getDimension(),
+                simplePackage.getMaterialsType(),
+                simplePackage.getPackageCategory());
     }
 
-    public void removeMaterialType(PackageMaterialType materialType) {
-        this.materialsType.remove(materialType);
+    public static List<SimplePackageDTO> from(List<SimplePackage> simplePackages) {
+        return simplePackages.stream().map(SimplePackageDTO::from).collect(Collectors.toList());
     }
 }
