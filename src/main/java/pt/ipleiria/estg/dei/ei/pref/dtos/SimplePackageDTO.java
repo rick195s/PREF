@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SimplePackageDTO implements Serializable {
-    @Id
     private long id;
     private String name;
     private String dimension;

@@ -5,6 +5,7 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
                 name = "getAllSimplePackages",
                 query = "SELECT s FROM SimplePackage s ORDER BY s.id" // JPQL
         )})
-public class SimplePackage {
+public class SimplePackage implements Serializable {
     @Id
     @NotNull
     private long id;
