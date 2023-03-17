@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -28,9 +30,9 @@ public class Order {
 
     protected String destination;
 
-    protected String state;
+    protected OrderState state;
 
-    public Order(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, String state) {
+    public Order(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.client = client;
@@ -100,11 +102,11 @@ public class Order {
         this.destination = destination;
     }
 
-    public String getState() {
+    public OrderState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(OrderState state) {
         this.state = state;
     }
 }

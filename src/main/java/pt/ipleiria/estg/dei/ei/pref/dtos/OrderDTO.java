@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,9 +14,9 @@ public class OrderDTO implements Serializable {
     private List<String> products;
     private String source;
     private String destination;
-    private String state;
+    private OrderState state;
 
-    public OrderDTO(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, String state) {
+    public OrderDTO(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.client = client;
@@ -83,11 +84,11 @@ public class OrderDTO implements Serializable {
         this.destination = destination;
     }
 
-    public String getState() {
+    public OrderState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(OrderState state) {
         this.state = state;
     }
 

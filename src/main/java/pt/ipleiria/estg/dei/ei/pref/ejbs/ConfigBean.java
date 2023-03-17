@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
 
@@ -27,7 +28,7 @@ public class ConfigBean {
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
-        orderBean.create(1, "2020-01-01", "Client", "Supplier", List.of("Product 1", "Product 2"), "Source", "Destination", "State");
+        orderBean.create(1, "2020-01-01", "Client", "Supplier", List.of("Product 1", "Product 2"), "Source", "Destination", OrderState.PENDING);
 
         System.out.println(orderBean.find(1).getProducts().get(0));
 
