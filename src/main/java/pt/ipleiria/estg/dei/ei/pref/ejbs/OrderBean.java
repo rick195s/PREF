@@ -19,5 +19,8 @@ public class OrderBean {
         entityManager.persist(order);
     }
 
-    
+    public Order find(long trackingNumber) {
+        return entityManager.find(Order.class, trackingNumber);
+    }
+
 }

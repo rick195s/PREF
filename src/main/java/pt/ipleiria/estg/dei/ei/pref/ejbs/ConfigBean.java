@@ -22,5 +22,7 @@ public class ConfigBean {
         System.out.println("Hello Java EfE!");
         packageBean.create(1, "Simple package");
         orderBean.create(1, "2020-01-01", "Client", "Supplier", List.of("Product 1", "Product 2"), "Source", "Destination", "State");
+
+        System.out.println(orderBean.find(1).getProducts().get(0));
     }
 }
