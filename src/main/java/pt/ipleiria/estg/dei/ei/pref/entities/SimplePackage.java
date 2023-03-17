@@ -32,7 +32,11 @@ public class SimplePackage implements Serializable {
     @NotNull
     private PackageCategory packageCategory;
 
+    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Order> orders;
+
     public SimplePackage() {
+        orders = new LinkedList<>();
         materialsType = new LinkedList<>();
     }
 
@@ -43,6 +47,7 @@ public class SimplePackage implements Serializable {
         this.materialsType = new LinkedList<>();
         this.materialsType.addAll(materialsType);
         this.packageCategory = packageCategory;
+        orders = new LinkedList<>();
     }
 
     public long getId() {
@@ -91,5 +96,21 @@ public class SimplePackage implements Serializable {
 
     public void removeMaterialType(PackageMaterialType materialType) {
         this.materialsType.remove(materialType);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        this.orders.remove(order);
     }
 }

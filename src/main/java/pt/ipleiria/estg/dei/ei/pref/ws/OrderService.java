@@ -21,4 +21,10 @@ public class OrderService {
         return Response.ok(OrderDTO.from(orderBean.findOrFail(trackingNumber))).build();
     }
 
+    @PATCH
+    @Path("/{trackingNumber}/{simplePackageId}")
+    public Response get(@PathParam("trackingNumber") long trackingNumber, @PathParam("simplePackageId") long simplePackageId) {
+        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, simplePackageId))).build();
+    }
+
 }

@@ -23,7 +23,14 @@ public class Order {
 
     protected String supplier;
 
+
+    @ManyToOne
+    @JoinColumn(name = "simplePackage_id")
+    protected SimplePackage simplePackage;
+
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @OrderColumn(name = "product_index")
+    @CollectionTable(name = "products")
     protected List<String> products;
 
     protected String source;
@@ -31,7 +38,6 @@ public class Order {
     protected String destination;
 
     protected OrderState state;
-
     public Order(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
@@ -108,5 +114,13 @@ public class Order {
 
     public void setState(OrderState state) {
         this.state = state;
+    }
+
+    public SimplePackage getSimplePackage() {
+        return simplePackage;
+    }
+
+    public void setSimplePackage(SimplePackage simplePackage) {
+        this.simplePackage = simplePackage;
     }
 }

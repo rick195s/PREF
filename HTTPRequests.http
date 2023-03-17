@@ -10,3 +10,8 @@ Accept: application/json
 ##### Get Package Details
 GET http://localhost:8080/pref/api/packages/1
 Accept: application/json
+
+##### Dispatch Order
+PATCH http://localhost:8080/pref/api/orders/2/2
+Content-Type: application/json
+
