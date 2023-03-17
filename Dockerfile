@@ -15,6 +15,4 @@ RUN chmod 755 ${WILDFLY_HOME}/bin/*.sh
 
 USER jboss
 
-EXPOSE 8080 9990
-
 ENTRYPOINT ${WILDFLY_HOME}/bin/start_wildfly.sh
