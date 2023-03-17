@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 
@@ -23,4 +24,9 @@ public class OrderBean {
         return entityManager.find(Order.class, trackingNumber);
     }
 
+    public Order findOrFail(long trackingNumber) {
+        Order order = entityManager.getReference(Order.class, trackingNumber);
+        Hibernate.initialize(order);
+        return order;
+    }
 }

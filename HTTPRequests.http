@@ -1,0 +1,3 @@
+##### Get Order Details
+GET http://localhost:8080/pref/api/orders/1
+Accept: application/json
