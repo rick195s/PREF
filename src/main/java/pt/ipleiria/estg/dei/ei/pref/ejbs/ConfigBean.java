@@ -13,9 +13,9 @@ import java.util.List;
 @Singleton
 public class ConfigBean {
 
-    List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMÍNIO);
-    List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTÃO);
-    List<PackageMaterialType> polipla = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.PLÁSTICO);
+    List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
+    List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
+    List<PackageMaterialType> polipla = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.PLASTICO);
 
     @EJB
     SimplePackageBean simplePackageBean;

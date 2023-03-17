@@ -1,16 +1,13 @@
 package pt.ipleiria.estg.dei.ei.pref.enumerators;
 
 public enum PackageMaterialType {
-    CARTÃO,
-    PLÁSTICO,
+    CARTAO,
+    PLASTICO,
     POLIETILENO,
-    ALUMÍNIO,
-    AÇÃO,
-    VIDRO,
+    ALUMINIO,
     MADEIRA,
     PAPEL,
     FERRO,
     FIBRA,
-    CERÂMICA,
     OUTRO
 }
