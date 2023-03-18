@@ -15,8 +15,9 @@ public class OrderDTO implements Serializable {
     private String source;
     private String destination;
     private OrderState state;
+    private long simplePackageId;
 
-    public OrderDTO(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
+    public OrderDTO(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state, long simplePackageId) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.client = client;
@@ -25,6 +26,7 @@ public class OrderDTO implements Serializable {
         this.source = source;
         this.destination = destination;
         this.state = state;
+        this.simplePackageId = simplePackageId;
     }
 
 
@@ -92,6 +94,14 @@ public class OrderDTO implements Serializable {
         this.state = state;
     }
 
+    public long getSimplePackageId() {
+        return simplePackageId;
+    }
+
+    public void setSimplePackageId(long simplePackageId) {
+        this.simplePackageId = simplePackageId;
+    }
+
     public static OrderDTO from(Order order) {
         return new OrderDTO(
                 order.getTrackingNumber(),
@@ -101,7 +111,8 @@ public class OrderDTO implements Serializable {
                 order.getProducts(),
                 order.getSource(),
                 order.getDestination(),
-                order.getState()
+                order.getState(),
+                order.getSimplePackage() != null ? order.getSimplePackage().getId() : 0
         );
     }
 
