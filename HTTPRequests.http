@@ -1,17 +1,16 @@
 
-##### Get Order Details
+### Get Order Details
 GET http://localhost:8080/pref/api/orders/1
 Accept: application/json
 
-##### Get Packages
-GET http://localhost:8080/pref/api/packages
-Accept: application/json
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
 
-##### Get Package Details
-GET http://localhost:8080/pref/api/packages/1
-Accept: application/json
 
-##### Dispatch Order
+### Dispatch Order
 PATCH http://localhost:8080/pref/api/orders/1
 Content-Type: application/json
 
@@ -19,3 +18,33 @@ Content-Type: application/json
   "simplePackageId": 1
 }
 
+### List Orders
+GET http://localhost:8080/pref/api/orders
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Get Packages
+GET http://localhost:8080/pref/api/packages
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+##### Get Package Details
+GET http://localhost:8080/pref/api/packages/1
+Accept: application/json
+
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

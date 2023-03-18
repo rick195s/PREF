@@ -10,6 +10,11 @@ import java.util.List;
 @Table(
         name = "orders"
 )
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOrders",
+                query = "SELECT o FROM Order o ORDER BY o.trackingNumber" // JPQL
+        )})
 public class Order {
 
     @Id
