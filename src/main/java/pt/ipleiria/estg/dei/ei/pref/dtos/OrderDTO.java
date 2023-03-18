@@ -1,10 +1,12 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderDTO implements Serializable {
     private long trackingNumber;
@@ -116,4 +118,7 @@ public class OrderDTO implements Serializable {
         );
     }
 
+    public static List<OrderDTO> from(List<Order> orders) {
+        return orders.stream().map(OrderDTO::from).collect(Collectors.toList());
+    }
 }

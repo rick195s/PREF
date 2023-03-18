@@ -54,4 +54,8 @@ public class OrderBean {
         order.setState(OrderState.IN_TRANSIT);
         return order;
     }
+
+    public List<Order> getAllOrders() {
+        return (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+    }
 }
