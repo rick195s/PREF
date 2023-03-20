@@ -1,9 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -24,18 +21,20 @@ public class PackagePathLog {
 
     private String dateOfDeparture;
 
-    private SimplePackage simplePackage;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     public PackagePathLog() {
     }
 
-    public PackagePathLog(long id, String location, String transportationType, String dateOfArrival, String dateOfDeparture, SimplePackage simplePackage) {
+    public PackagePathLog(long id, String location, String transportationType, String dateOfArrival, String dateOfDeparture, Order order) {
         this.id = id;
         this.location = location;
         this.transportationType = transportationType;
         this.dateOfArrival = dateOfArrival;
         this.dateOfDeparture = dateOfDeparture;
-        this.simplePackage = simplePackage;
+        this.order = order;
     }
 
     public long getId() {
@@ -78,11 +77,11 @@ public class PackagePathLog {
         this.dateOfDeparture = dateOfDeparture;
     }
 
-    public SimplePackage getSimplePackage() {
-        return simplePackage;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setSimplePackage(SimplePackage simplePackage) {
-        this.simplePackage = simplePackage;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

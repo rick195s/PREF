@@ -28,10 +28,12 @@ public class Order {
 
     protected String supplier;
 
-
     @ManyToOne
-    @JoinColumn(name = "simplePackage_id")
+    @JoinColumn(name = "simple_package_id")
     protected SimplePackage simplePackage;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    protected List<PackagePathLog> packagePathLogs;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @OrderColumn(name = "product_index")
@@ -43,6 +45,7 @@ public class Order {
     protected String destination;
 
     protected OrderState state;
+
     public Order(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
@@ -127,5 +130,21 @@ public class Order {
 
     public void setSimplePackage(SimplePackage simplePackage) {
         this.simplePackage = simplePackage;
+    }
+
+    public List<PackagePathLog> getPackagePathLogs() {
+        return packagePathLogs;
+    }
+
+    public void setPackagePathLogs(List<PackagePathLog> packagePathLogs) {
+        this.packagePathLogs = packagePathLogs;
+    }
+
+    public void addPackagePathLog(PackagePathLog packagePathLog) {
+        this.packagePathLogs.add(packagePathLog);
+    }
+
+    public void removePackagePathLog(PackagePathLog packagePathLog) {
+        this.packagePathLogs.remove(packagePathLog);
     }
 }

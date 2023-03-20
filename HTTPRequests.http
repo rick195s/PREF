@@ -38,7 +38,7 @@ Accept: application/json
     });
 %}
 
-##### Get Package Details
+### Get Package Details
 GET http://localhost:8080/pref/api/packages/1
 Accept: application/json
 
@@ -46,5 +46,25 @@ Accept: application/json
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+
+### Create Package Path Log
+POST http://localhost:8080/pref/api/package-path-logs
+Content-Type: application/json
+
+{
+  "id": 2,
+  "location":  "LISBOA",
+  "transportationType": "AIR",
+  "dateOfArrival": "2019-01-01",
+  "dateOfDeparture": "2019-01-01",
+  "orderTrackingNumber": 1
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 201, "Response status is not 201");
     });
 %}
