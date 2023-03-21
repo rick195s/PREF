@@ -29,9 +29,12 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.3.0",
+        "@nuxtjs/eslint-config-typescript": "^12.0.0",
         "@popperjs/core": "2.11.6",
         "@tailwindcss/forms": "0.5.3",
+        "@typescript-eslint/parser": "^5.56.0",
         "chart.js": "2.9.4",
-        "core-js": "^3.29.0"
+        "core-js": "^3.29.0",
+        "typescript": "^5.0.2"
     }
 }
