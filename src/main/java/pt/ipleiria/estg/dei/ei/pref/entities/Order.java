@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -28,26 +29,26 @@ public class Order {
     @JoinColumn(name = "simplePackage_id")
     protected SimplePackage simplePackage;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @OrderColumn(name = "product_index")
-    @CollectionTable(name = "products")
-    protected List<String> products;
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    protected List<OrderLine> orderLines;
 
     protected String source;
 
     protected String destination;
 
     protected OrderState state;
-    public Order(long trackingNumber, String orderDate, List<String> products, String source, String destination, OrderState state) {
+
+    public Order(long trackingNumber, String date, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
-        this.date = orderDate;
-        this.products = products;
+        this.date = date;
         this.source = source;
         this.destination = destination;
         this.state = state;
+        this.orderLines = new LinkedList<>();
     }
 
     public Order() {
+        this.orderLines = new LinkedList<>();
     }
 
     public long getTrackingNumber() {
@@ -66,12 +67,12 @@ public class Order {
         this.date = date;
     }
 
-    public List<String> getProducts() {
-        return products;
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
     }
 
-    public void setProducts(List<String> products) {
-        this.products = products;
+    public void addOrderLine(OrderLine orderLine) {
+        this.orderLines.add(orderLine);
     }
 
     public String getSource() {

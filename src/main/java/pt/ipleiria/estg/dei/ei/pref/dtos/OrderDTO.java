@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 public class OrderDTO implements Serializable {
     private long trackingNumber;
     private String orderDate;
-    private List<String> products;
+    private List<OrderLineDTO> orderLines;
     private String source;
     private String destination;
     private OrderState state;
     private long simplePackageId;
 
-    public OrderDTO(long trackingNumber, String orderDate, List<String> products, String source, String destination, OrderState state, long simplePackageId) {
+    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, long simplePackageId) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
-        this.products = products;
+        this.orderLines = orderLines;
         this.source = source;
         this.destination = destination;
         this.state = state;
@@ -43,12 +43,12 @@ public class OrderDTO implements Serializable {
         this.orderDate = orderDate;
     }
 
-    public List<String> getProducts() {
-        return products;
+    public List<OrderLineDTO> getOrderLines() {
+        return orderLines;
     }
 
-    public void setProducts(List<String> products) {
-        this.products = products;
+    public void setOrderLines(List<OrderLineDTO> orderLines) {
+        this.orderLines = orderLines;
     }
 
     public String getSource() {
@@ -87,7 +87,7 @@ public class OrderDTO implements Serializable {
         return new OrderDTO(
                 order.getTrackingNumber(),
                 order.getDate(),
-                order.getProducts(),
+                OrderLineDTO.from(order.getOrderLines()),
                 order.getSource(),
                 order.getDestination(),
                 order.getState(),
