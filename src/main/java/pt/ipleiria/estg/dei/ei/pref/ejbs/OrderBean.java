@@ -45,6 +45,7 @@ public class OrderBean {
     public Order findOrFail(long trackingNumber) {
         Order order = entityManager.getReference(Order.class, trackingNumber);
         Hibernate.initialize(order);
+        Hibernate.initialize(order.getOrderLines());
         return order;
     }
 
@@ -63,10 +64,17 @@ public class OrderBean {
         order.setSimplePackage(simplePackage);
         simplePackage.addOrder(order);
         order.setState(OrderState.IN_TRANSIT);
+
+        Hibernate.initialize(order.getOrderLines());
+
         return order;
     }
 
     public List<Order> getAllOrders() {
-        return (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+        List<Order> orders=  (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+        for (Order order : orders) {
+            Hibernate.initialize(order.getOrderLines());
+        }
+        return orders;
     }
 }

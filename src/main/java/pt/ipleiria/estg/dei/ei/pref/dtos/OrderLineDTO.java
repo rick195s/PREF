@@ -21,6 +21,30 @@ public class OrderLineDTO implements Serializable {
     public OrderLineDTO() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
     public static OrderLineDTO from(OrderLine orderLine) {
         return new OrderLineDTO(
                 orderLine.getId(),

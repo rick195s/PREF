@@ -26,6 +26,8 @@ public class OrderDTO implements Serializable {
         this.simplePackageId = simplePackageId;
     }
 
+    public OrderDTO() {
+    }
 
     public long getTrackingNumber() {
         return trackingNumber;
