@@ -25,9 +25,6 @@ public class ConfigBean {
     @EJB
     SimplePackageBean simplePackageBean;
 
-    @EJB
-    PackagePathLogBean packagePathLogBean;
-
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
@@ -42,7 +39,6 @@ public class ConfigBean {
         simplePackageBean.create(4, "PE laminado", "10x10x10", poliAl, PackageCategory.SIMPLE);
         simplePackageBean.create(5, "DOYPACK PP+AL/PE+AL", "10x10x10", polipla, PackageCategory.SIMPLE);
 
-        packagePathLogBean.create(1, "Porto", "Aéreo", "2020-01-01", "2020-01-02", 1);
 
     }
 }

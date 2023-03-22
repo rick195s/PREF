@@ -49,22 +49,3 @@ Accept: application/json
     });
 %}
 
-
-### Create Package Path Log
-POST http://localhost:8080/pref/api/package-path-logs
-Content-Type: application/json
-
-{
-  "id": 2,
-  "location":  "LISBOA",
-  "transportationType": "AIR",
-  "dateOfArrival": "2019-01-01",
-  "dateOfDeparture": "2019-01-01",
-  "orderTrackingNumber": 1
-}
-
-> {%
-    client.test("Request executed successfully", function() {
-        client.assert(response.status === 201, "Response status is not 201");
-    });
-%}

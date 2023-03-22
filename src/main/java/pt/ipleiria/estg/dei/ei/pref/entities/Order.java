@@ -32,9 +32,6 @@ public class Order {
     @JoinColumn(name = "simple_package_id")
     protected SimplePackage simplePackage;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    protected List<PackagePathLog> packagePathLogs;
-
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @OrderColumn(name = "product_index")
     @CollectionTable(name = "products")
@@ -132,19 +129,4 @@ public class Order {
         this.simplePackage = simplePackage;
     }
 
-    public List<PackagePathLog> getPackagePathLogs() {
-        return packagePathLogs;
-    }
-
-    public void setPackagePathLogs(List<PackagePathLog> packagePathLogs) {
-        this.packagePathLogs = packagePathLogs;
-    }
-
-    public void addPackagePathLog(PackagePathLog packagePathLog) {
-        this.packagePathLogs.add(packagePathLog);
-    }
-
-    public void removePackagePathLog(PackagePathLog packagePathLog) {
-        this.packagePathLogs.remove(packagePathLog);
-    }
 }
