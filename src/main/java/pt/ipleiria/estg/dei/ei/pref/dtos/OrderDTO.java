@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
@@ -11,19 +10,15 @@ import java.util.stream.Collectors;
 public class OrderDTO implements Serializable {
     private long trackingNumber;
     private String orderDate;
-    private String client;
-    private String supplier;
     private List<String> products;
     private String source;
     private String destination;
     private OrderState state;
     private long simplePackageId;
 
-    public OrderDTO(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state, long simplePackageId) {
+    public OrderDTO(long trackingNumber, String orderDate, List<String> products, String source, String destination, OrderState state, long simplePackageId) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
-        this.client = client;
-        this.supplier = supplier;
         this.products = products;
         this.source = source;
         this.destination = destination;
@@ -46,22 +41,6 @@ public class OrderDTO implements Serializable {
 
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
     }
 
     public List<String> getProducts() {
@@ -107,9 +86,7 @@ public class OrderDTO implements Serializable {
     public static OrderDTO from(Order order) {
         return new OrderDTO(
                 order.getTrackingNumber(),
-                order.getOrderDate(),
-                order.getClient(),
-                order.getSupplier(),
+                order.getDate(),
                 order.getProducts(),
                 order.getSource(),
                 order.getDestination(),
