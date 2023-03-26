@@ -21,9 +21,6 @@ public class OrderBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @EJB
-    private SimplePackageBean simplePackageBean;
-
     public void create(String date, List<Product> products, String source, String destination, OrderState state) {
         Order order = new Order(date, source, destination, state);
 
@@ -39,35 +36,11 @@ public class OrderBean {
         }
     }
 
-    public Order find(long trackingNumber) {
-        return entityManager.find(Order.class, trackingNumber);
-    }
 
     public Order findOrFail(long trackingNumber) {
         Order order = entityManager.getReference(Order.class, trackingNumber);
         Hibernate.initialize(order);
         Hibernate.initialize(order.getOrderLines());
-        return order;
-    }
-
-    public Order dispatchOrder(long trackingNumber, long simplePackageId) {
-        Order order = find(trackingNumber);
-        if (order == null) {
-            throw new MyEntityNotFoundException("Order not found");
-        }
-        if (order.getState() != OrderState.PENDING) {
-            throw new MyIllegalArgumentException("Order is not waiting for dispatch");
-        }
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
-        if (simplePackage == null) {
-            throw new MyEntityNotFoundException("Package not found");
-        }
-        order.setSimplePackage(simplePackage);
-        simplePackage.addOrder(order);
-        order.setState(OrderState.IN_TRANSIT);
-
-        Hibernate.initialize(order.getOrderLines());
-
         return order;
     }
 

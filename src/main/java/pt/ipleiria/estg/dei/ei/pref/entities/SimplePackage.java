@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,33 +24,27 @@ public class SimplePackage implements Serializable {
     private long id;
 
     @NotNull
-    private String name;
-
-    @NotNull
     private String dimension;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = PackageMaterialType.class, fetch = FetchType.EAGER)
     private List<PackageMaterialType> materialsType;
     @NotNull
-    private PackageCategory packageCategory;
+    private PackageType type;
 
     @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Order> orders;
+    private List<OrderLine> orderLine;
 
     public SimplePackage() {
-        orders = new LinkedList<>();
         materialsType = new LinkedList<>();
     }
 
-    public SimplePackage(long id, String name, String dimension, List<PackageMaterialType> materialsType, PackageCategory packageCategory) {
+    public SimplePackage(long id, String dimension, List<PackageMaterialType> materialsType, PackageType type) {
         this.id = id;
-        this.name = name;
         this.dimension = dimension;
         this.materialsType = new LinkedList<>();
         this.materialsType.addAll(materialsType);
-        this.packageCategory = packageCategory;
-        orders = new LinkedList<>();
+        this.type = type;
     }
 
     public long getId() {
@@ -59,14 +53,6 @@ public class SimplePackage implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDimension() {
@@ -85,12 +71,12 @@ public class SimplePackage implements Serializable {
         this.materialsType = materialsType;
     }
 
-    public PackageCategory getPackageCategory() {
-        return packageCategory;
+    public PackageType getPackageType() {
+        return type;
     }
 
-    public void setPackageCategory(PackageCategory packageCategory) {
-        this.packageCategory = packageCategory;
+    public void setPackageType(PackageType type) {
+        this.type = type;
     }
 
     public void addMaterialType(PackageMaterialType materialType) {
@@ -101,19 +87,17 @@ public class SimplePackage implements Serializable {
         this.materialsType.remove(materialType);
     }
 
-    public List<Order> getOrders() {
-        return orders;
+
+
+    public List<OrderLine> getOrderLine() {
+        return orderLine;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void addOrderLine(OrderLine orderLine) {
+        this.orderLine.add(orderLine);
     }
 
-    public void addOrder(Order order) {
-        this.orders.add(order);
-    }
-
-    public void removeOrder(Order order) {
-        this.orders.remove(order);
+    public void removeOrderLine(OrderLine orderLine) {
+        this.orderLine.remove(orderLine);
     }
 }

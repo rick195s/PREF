@@ -12,10 +12,13 @@ public class OrderLineDTO implements Serializable {
     private int quantity;
     private ProductDTO product;
 
-    public OrderLineDTO(long id, int quantity, ProductDTO product) {
+    private SimplePackageDTO simplePackage;
+
+    public OrderLineDTO(long id, int quantity, ProductDTO product, SimplePackageDTO simplePackage) {
         this.id = id;
         this.quantity = quantity;
         this.product = product;
+        this.simplePackage = simplePackage;
     }
 
     public OrderLineDTO() {
@@ -45,11 +48,21 @@ public class OrderLineDTO implements Serializable {
         this.product = product;
     }
 
+    public SimplePackageDTO getSimplePackage() {
+        return simplePackage;
+    }
+
+    public void setSimplePackage(SimplePackageDTO simplePackage) {
+        this.simplePackage = simplePackage;
+    }
+
     public static OrderLineDTO from(OrderLine orderLine) {
         return new OrderLineDTO(
                 orderLine.getId(),
                 orderLine.getQuantity(),
-                ProductDTO.from(orderLine.getProduct())
+                ProductDTO.from(orderLine.getProduct()),
+
+                orderLine.getSimplePackage() != null ? SimplePackageDTO.from(orderLine.getSimplePackage()) : null
         );
     }
 

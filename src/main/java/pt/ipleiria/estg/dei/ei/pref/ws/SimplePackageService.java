@@ -1,12 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
-import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.dtos.SimplePackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
