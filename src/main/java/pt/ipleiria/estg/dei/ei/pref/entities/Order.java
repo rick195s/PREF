@@ -20,6 +20,7 @@ public class Order {
 
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tracking_number")
     protected long trackingNumber;
 
@@ -38,8 +39,7 @@ public class Order {
 
     protected OrderState state;
 
-    public Order(long trackingNumber, String date, String source, String destination, OrderState state) {
-        this.trackingNumber = trackingNumber;
+    public Order(String date, String source, String destination, OrderState state) {
         this.date = date;
         this.source = source;
         this.destination = destination;

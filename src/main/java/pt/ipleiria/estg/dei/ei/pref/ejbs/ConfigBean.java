@@ -54,7 +54,7 @@ public class ConfigBean {
     private void createOrders() {
         Faker faker = new Faker();
         for (int i = 0; i < 20; i++) {
-            orderBean.create(i,
+            orderBean.create(
                     faker.date().past(2, TimeUnit.DAYS).toString(),
                     List.of(entityManager.find(Product.class, 1L)),
                     faker.address().cityName(),

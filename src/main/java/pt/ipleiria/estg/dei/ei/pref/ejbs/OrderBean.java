@@ -24,8 +24,8 @@ public class OrderBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public void create(long trackingNumber, String date, List<Product> products, String source, String destination, OrderState state) {
-        Order order = new Order(trackingNumber, date, source, destination, state);
+    public void create(String date, List<Product> products, String source, String destination, OrderState state) {
+        Order order = new Order(date, source, destination, state);
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 new OrderLine(1, product, order)).collect(Collectors.toList());
