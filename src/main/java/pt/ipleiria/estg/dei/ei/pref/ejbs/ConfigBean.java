@@ -1,11 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import net.datafaker.Faker;
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -66,7 +66,7 @@ public class ConfigBean {
     private void createProducts(){
         Faker faker = new Faker();
         for (int i = 0; i < 20; i++) {
-            entityManager.persist(new Product(faker.commerce().productName(), "food"));
+            entityManager.persist(new Product(faker.food().dish(), ProductCategory.FOOD));
         }
     }
 }

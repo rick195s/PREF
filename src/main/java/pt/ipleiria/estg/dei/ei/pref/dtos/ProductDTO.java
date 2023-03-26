@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,12 +13,12 @@ public class ProductDTO implements Serializable {
 
     private String name;
 
-    private String category;
+    private ProductCategory category;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, String category) {
+    public ProductDTO(long id, String name, ProductCategory category) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -40,11 +40,11 @@ public class ProductDTO implements Serializable {
         this.name = name;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 

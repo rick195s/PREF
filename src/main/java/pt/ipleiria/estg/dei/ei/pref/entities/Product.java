@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,12 +17,13 @@ public class Product {
 
     private String name;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLine;
 
-    public Product(String name, String category) {
+    public Product(String name, ProductCategory category) {
         this.name = name;
         this.category = category;
     }
@@ -43,11 +47,11 @@ public class Product {
         this.name = name;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
