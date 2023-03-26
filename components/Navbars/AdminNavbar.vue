@@ -31,9 +31,9 @@
         </div>
       </form>
       <!-- User -->
-      <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
+      <!--<ul class="flex-col md:flex-row list-none items-center hidden md:flex">
         <user-dropdown />
-      </ul>
+      </ul>-->
     </div>
   </nav>
   <!-- End Navbar -->
@@ -44,7 +44,7 @@ import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 
 export default {
   components: {
-    UserDropdown,
-  },
+    UserDropdown
+  }
 };
 </script>

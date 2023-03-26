@@ -101,6 +101,7 @@
               </span>
             </nuxt-link>
           </li>
+          <!--
           <li class="items-center">
             <nuxt-link
               v-slot="{ isActive }"
@@ -122,6 +123,7 @@
               </span>
             </nuxt-link>
           </li>
+          -->
         </ul>
 
         <!-- Divider -->
@@ -133,7 +135,7 @@
           Auth Layout Pages
         </h6>
         <!-- Navigation -->
-
+        <!--
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <nuxt-link
@@ -157,7 +159,7 @@
             </nuxt-link>
           </li>
         </ul>
-
+        -->
         <!-- Divider -->
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
@@ -167,6 +169,7 @@
           Documentation
         </h6>
         <!-- Navigation -->
+        <!--
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="inline-flex">
             <a
@@ -179,6 +182,7 @@
             </a>
           </li>
         </ul>
+        -->
       </div>
     </div>
   </nav>
