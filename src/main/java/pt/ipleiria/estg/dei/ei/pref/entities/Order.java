@@ -37,6 +37,7 @@ public class Order {
 
     protected String destination;
 
+    @Enumerated(EnumType.STRING)
     protected OrderState state;
 
     public Order(String date, String source, String destination, OrderState state) {
