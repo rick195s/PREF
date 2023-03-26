@@ -1,10 +1,9 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,22 +11,20 @@ import java.util.stream.Collectors;
 
 public class SimplePackageDTO implements Serializable {
     private long id;
-    private String name;
     private String dimension;
     private List<PackageMaterialType> materialsType;
-    private PackageCategory packageCategory;
+    private PackageType type;
 
     public SimplePackageDTO() {
         materialsType = new LinkedList<>();
     }
 
-    public SimplePackageDTO(long id, String name, String dimension, List<PackageMaterialType> materialsType, PackageCategory packageCategory) {
+    public SimplePackageDTO(long id, String dimension, List<PackageMaterialType> materialsType, PackageType type) {
         this.id = id;
-        this.name = name;
         this.dimension = dimension;
         this.materialsType = new LinkedList<>();
         this.materialsType.addAll(materialsType);
-        this.packageCategory = packageCategory;
+        this.type = type;
     }
 
     public long getId() {
@@ -36,14 +33,6 @@ public class SimplePackageDTO implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDimension() {
@@ -62,21 +51,20 @@ public class SimplePackageDTO implements Serializable {
         this.materialsType = materialsType;
     }
 
-    public PackageCategory getPackageCategory() {
-        return packageCategory;
+    public PackageType getPackageType() {
+        return type;
     }
 
-    public void setPackageCategory(PackageCategory packageCategory) {
-        this.packageCategory = packageCategory;
+    public void setPackageType(PackageType type) {
+        this.type = type;
     }
 
     public static SimplePackageDTO from(SimplePackage simplePackage) {
         return new SimplePackageDTO(
                 simplePackage.getId(),
-                simplePackage.getName(),
                 simplePackage.getDimension(),
                 simplePackage.getMaterialsType(),
-                simplePackage.getPackageCategory());
+                simplePackage.getPackageType());
     }
 
     public static List<SimplePackageDTO> from(List<SimplePackage> simplePackages) {

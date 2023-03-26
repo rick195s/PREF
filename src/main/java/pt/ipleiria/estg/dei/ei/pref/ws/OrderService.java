@@ -33,18 +33,6 @@ public class OrderService {
         return Response.ok(OrderDTO.from(orderBean.getAllOrders())).build();
     }
 
-    @PATCH
-    @Path("/{trackingNumber}")
-    public Response dispatchOrder(@Context HttpServletRequest request, @PathParam("trackingNumber") long trackingNumber) throws IOException {
-        InputStream inputStream = request.getInputStream();
 
-        // Read the message body from the input stream
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(inputStream);
-
-        // Extract the values from the JSON object
-        long simplePackageId = rootNode.get("simplePackageId").asLong();
-        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, simplePackageId))).build();
-    }
 
 }

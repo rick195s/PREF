@@ -23,6 +23,10 @@ public class OrderLine {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "simplePackage_id")
+    private SimplePackage simplePackage;
+
     public OrderLine(int quantity, Product product, Order order) {
         this.quantity = quantity;
         this.product = product;
@@ -62,5 +66,13 @@ public class OrderLine {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public SimplePackage getSimplePackage() {
+        return simplePackage;
+    }
+
+    public void setSimplePackage(SimplePackage simplePackage) {
+        this.simplePackage = simplePackage;
     }
 }

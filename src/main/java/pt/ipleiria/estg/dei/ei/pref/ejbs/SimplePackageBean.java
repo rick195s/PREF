@@ -3,7 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,9 +29,9 @@ public class SimplePackageBean {
         return (List<SimplePackage>) entityManager.createNamedQuery("getAllSimplePackages").getResultList();
     }
 
-    public SimplePackage create(long id, String name, String dimension, List<PackageMaterialType> materialsType, PackageCategory packageCategory) {
+    public SimplePackage create(long id,String dimension, List<PackageMaterialType> materialsType, PackageType type) {
         // create simple package and persist it
-        SimplePackage simplePackage = new SimplePackage(id, name, dimension, materialsType, packageCategory);
+        SimplePackage simplePackage = new SimplePackage(id, dimension, materialsType, type);
 
         entityManager.persist(simplePackage);
 

@@ -26,10 +26,6 @@ public class Order {
 
     protected String date;
 
-    @ManyToOne
-    @JoinColumn(name = "simplePackage_id")
-    protected SimplePackage simplePackage;
-
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     protected List<OrderLine> orderLines;
 
@@ -98,13 +94,5 @@ public class Order {
 
     public void setState(OrderState state) {
         this.state = state;
-    }
-
-    public SimplePackage getSimplePackage() {
-        return simplePackage;
-    }
-
-    public void setSimplePackage(SimplePackage simplePackage) {
-        this.simplePackage = simplePackage;
     }
 }

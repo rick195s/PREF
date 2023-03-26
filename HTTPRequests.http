@@ -10,8 +10,8 @@ Accept: application/json
 %}
 
 
-### Dispatch Order
-PATCH http://localhost:8080/pref/api/orders/1
+### Dispatch Order Line
+PATCH http://localhost:8080/pref/api/ordersLine/1
 Content-Type: application/json
 
 {
