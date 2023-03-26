@@ -15,13 +15,15 @@ public class OrderLine {
 
     private int quantity;
 
-    private String product;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderLine(int quantity, String product, Order order) {
+    public OrderLine(int quantity, Product product, Order order) {
         this.quantity = quantity;
         this.product = product;
         this.order = order;
@@ -46,11 +48,19 @@ public class OrderLine {
         this.quantity = quantity;
     }
 
-    public String getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(String product) {
+    public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

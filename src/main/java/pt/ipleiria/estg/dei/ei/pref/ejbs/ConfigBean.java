@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
+import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
@@ -10,6 +11,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -17,9 +20,8 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class ConfigBean {
 
-    List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
-    List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
-    List<PackageMaterialType> polipla = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.PLASTICO);
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @EJB
     OrderBean orderBean;
@@ -27,12 +29,18 @@ public class ConfigBean {
     @EJB
     SimplePackageBean simplePackageBean;
 
+    List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
+    List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
+    List<PackageMaterialType> polipla = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.PLASTICO);
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
-        createOrders();
+        createProducts();
+        System.out.println("Products created");
 
+        createOrders();
         System.out.println("Orders created");
 
         simplePackageBean.create(1, "duplex PE+AL", "10x10x10", poliAl, PackageCategory.SIMPLE);
@@ -48,10 +56,17 @@ public class ConfigBean {
         for (int i = 0; i < 20; i++) {
             orderBean.create(i,
                     faker.date().past(2, TimeUnit.DAYS).toString(),
-                    List.of("Product 1", "Product 2"),
+                    List.of(entityManager.find(Product.class, 1L)),
                     faker.address().cityName(),
                     faker.address().cityName(),
                     OrderState.PENDING);
+        }
+    }
+
+    private void createProducts(){
+        Faker faker = new Faker();
+        for (int i = 0; i < 20; i++) {
+            entityManager.persist(new Product(faker.commerce().productName(), "food"));
         }
     }
 }

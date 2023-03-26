@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
+import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
@@ -23,7 +24,7 @@ public class OrderBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public void create(long trackingNumber, String date, List<String> products, String source, String destination, OrderState state) {
+    public void create(long trackingNumber, String date, List<Product> products, String source, String destination, OrderState state) {
         Order order = new Order(trackingNumber, date, source, destination, state);
 
         List<OrderLine> orderLines = products.stream().map(product ->

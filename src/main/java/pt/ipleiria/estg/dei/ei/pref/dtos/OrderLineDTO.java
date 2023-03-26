@@ -10,9 +10,9 @@ public class OrderLineDTO implements Serializable {
 
     private long id;
     private int quantity;
-    private String product;
+    private ProductDTO product;
 
-    public OrderLineDTO(long id, int quantity, String product) {
+    public OrderLineDTO(long id, int quantity, ProductDTO product) {
         this.id = id;
         this.quantity = quantity;
         this.product = product;
@@ -37,11 +37,11 @@ public class OrderLineDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getProduct() {
+    public ProductDTO getProduct() {
         return product;
     }
 
-    public void setProduct(String product) {
+    public void setProduct(ProductDTO product) {
         this.product = product;
     }
 
@@ -49,7 +49,7 @@ public class OrderLineDTO implements Serializable {
         return new OrderLineDTO(
                 orderLine.getId(),
                 orderLine.getQuantity(),
-                orderLine.getProduct()
+                ProductDTO.from(orderLine.getProduct())
         );
     }
 
