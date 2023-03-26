@@ -22,12 +22,7 @@ public class Order {
     @Column(name = "tracking_number")
     protected long trackingNumber;
 
-    protected String orderDate;
-
-    protected String client;
-
-    protected String supplier;
-
+    protected String date;
 
     @ManyToOne
     @JoinColumn(name = "simplePackage_id")
@@ -43,11 +38,9 @@ public class Order {
     protected String destination;
 
     protected OrderState state;
-    public Order(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
+    public Order(long trackingNumber, String orderDate, List<String> products, String source, String destination, OrderState state) {
         this.trackingNumber = trackingNumber;
-        this.orderDate = orderDate;
-        this.client = client;
-        this.supplier = supplier;
+        this.date = orderDate;
         this.products = products;
         this.source = source;
         this.destination = destination;
@@ -65,28 +58,12 @@ public class Order {
         this.trackingNumber = trackingNumber;
     }
 
-    public String getOrderDate() {
-        return orderDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<String> getProducts() {

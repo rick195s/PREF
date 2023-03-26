@@ -21,8 +21,8 @@ public class OrderBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public void create(long trackingNumber, String orderDate, String client, String supplier, List<String> products, String source, String destination, OrderState state) {
-        Order order = new Order(trackingNumber, orderDate, client, supplier, products, source, destination, state);
+    public void create(long trackingNumber, String date, List<String> products, String source, String destination, OrderState state) {
+        Order order = new Order(trackingNumber, date, products, source, destination, state);
 
         entityManager.persist(order);
     }
