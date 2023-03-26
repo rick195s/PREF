@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
+import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
@@ -12,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class OrderBean {
@@ -21,10 +24,19 @@ public class OrderBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public void create(long trackingNumber, String date, List<String> products, String source, String destination, OrderState state) {
-        Order order = new Order(trackingNumber, date, products, source, destination, state);
+    public void create(String date, List<Product> products, String source, String destination, OrderState state) {
+        Order order = new Order(date, source, destination, state);
+
+        List<OrderLine> orderLines = products.stream().map(product ->
+                new OrderLine(1, product, order)).collect(Collectors.toList());
+
+        orderLines.forEach(order::addOrderLine);
 
         entityManager.persist(order);
+
+        for (OrderLine orderLine : orderLines) {
+            entityManager.persist(orderLine);
+        }
     }
 
     public Order find(long trackingNumber) {
@@ -34,6 +46,7 @@ public class OrderBean {
     public Order findOrFail(long trackingNumber) {
         Order order = entityManager.getReference(Order.class, trackingNumber);
         Hibernate.initialize(order);
+        Hibernate.initialize(order.getOrderLines());
         return order;
     }
 
@@ -52,10 +65,17 @@ public class OrderBean {
         order.setSimplePackage(simplePackage);
         simplePackage.addOrder(order);
         order.setState(OrderState.IN_TRANSIT);
+
+        Hibernate.initialize(order.getOrderLines());
+
         return order;
     }
 
     public List<Order> getAllOrders() {
-        return (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+        List<Order> orders=  (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+        for (Order order : orders) {
+            Hibernate.initialize(order.getOrderLines());
+        }
+        return orders;
     }
 }

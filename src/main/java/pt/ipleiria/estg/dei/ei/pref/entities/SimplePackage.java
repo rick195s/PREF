@@ -22,10 +22,13 @@ public class SimplePackage implements Serializable {
     @Id
     @NotNull
     private long id;
+
     @NotNull
     private String name;
+
     @NotNull
     private String dimension;
+
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = PackageMaterialType.class, fetch = FetchType.EAGER)
     private List<PackageMaterialType> materialsType;
