@@ -8,11 +8,8 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Path("/orders")
 @Produces({MediaType.APPLICATION_JSON})
