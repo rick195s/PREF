@@ -73,6 +73,41 @@
             {{ ordersData.state }}
           </td>
         </tr>
+        <tr>
+          <th
+            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Weight
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ ordersData.weight }}kg
+          </td>
+        </tr>
+        <tr>
+          <th
+            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Carrier
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ ordersData.carrier }}
+          </td>
+        </tr> <tr>
+          <th
+            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Shipping Methods
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ ordersData.shippingMethods.join(', ') }}
+          </td>
+        </tr>
         </thead>
       </table>
     </div>
@@ -105,6 +140,31 @@
           <th
             class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
+            Vadility Range
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Dimensions
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Weight
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Price
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Category
+          </th>
+          <th
+            class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
             Quantidade
           </th>
           <th
@@ -130,6 +190,31 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
+            {{ orderLine.product.validityRange }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ orderLine.product.length }}x{{ orderLine.product.width }}x{{ orderLine.product.height }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ orderLine.product.weight }}kg
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ orderLine.product_price }}€
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            {{ orderLine.product.category }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
             {{ orderLine.quantity }}
           </td>
 
@@ -138,7 +223,7 @@
           >
             <div class="relative" v-if="!orderLine.simplePackage?.packageType">
               <select v-model="orderLine.simplePackage"
-                      class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                      class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" >
                 <option disabled selected :value="null">Select a package</option>
                 <option v-for="simplePackage in packagesData" :key="simplePackage.id" :value="simplePackage.id">
                   {{ simplePackage.packageType }} - {{ simplePackage.dimension }}
