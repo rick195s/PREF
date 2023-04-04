@@ -54,3 +54,51 @@ Accept: application/json
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
+
+
+#### Get Package Logs from Simple Package
+GET http://localhost:8080/pref/api/package-logs/package/1
+Accept: application/json
+
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+
+
+### Create Package Log
+POST http://localhost:8080/pref/api/package-logs
+Content-Type: application/json
+
+{
+  "simplePackageId": 1,
+  "location": "Madrid",
+  "temperature": 20,
+  "humidity": 50
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Create Package Log Error
+POST http://localhost:8080/pref/api/package-logs
+Content-Type: application/json
+
+{
+  "simplePackageId": 100000,
+  "location": "Madrid",
+  "temperature": 20,
+  "humidity": 50
+}
+
+> {%
+    client.test("Request not executed successfully (excepted)", function() {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
