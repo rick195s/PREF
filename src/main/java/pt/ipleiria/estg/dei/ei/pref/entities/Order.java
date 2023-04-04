@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,19 +34,32 @@ public class Order {
 
     protected String destination;
 
+    // in kg
+    private float weight;
+
+    private String carrier;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "shipping_methods", joinColumns = @JoinColumn(name = "tracking_number"))
+    private List<String> shippingMethods;
+
     @Enumerated(EnumType.STRING)
     protected OrderState state;
 
-    public Order(String date, String source, String destination, OrderState state) {
+    public Order(String date, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) {
         this.date = date;
         this.source = source;
         this.destination = destination;
         this.state = state;
+        this.weight = weight;
+        this.carrier = carrier;
+        this.shippingMethods = shippingMethods;
         this.orderLines = new LinkedList<>();
     }
 
     public Order() {
         this.orderLines = new LinkedList<>();
+        this.shippingMethods = new LinkedList<>();
     }
 
     public long getTrackingNumber() {
@@ -94,5 +108,33 @@ public class Order {
 
     public void setState(OrderState state) {
         this.state = state;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public List<String> getShippingMethods() {
+        return shippingMethods;
+    }
+
+    public void addShippingMethod(String shippingMethod) {
+        this.shippingMethods.add(shippingMethod);
+    }
+
+    public void removeShippingMethod(String shippingMethod) {
+        this.shippingMethods.remove(shippingMethod);
     }
 }
