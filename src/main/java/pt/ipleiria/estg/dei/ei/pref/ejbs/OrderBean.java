@@ -25,7 +25,7 @@ public class OrderBean {
         Order order = new Order(date, source, destination, state);
 
         List<OrderLine> orderLines = products.stream().map(product ->
-                new OrderLine(1, product, order)).collect(Collectors.toList());
+                new OrderLine(1, 10.90,product, order)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 
