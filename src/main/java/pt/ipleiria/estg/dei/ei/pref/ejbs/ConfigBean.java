@@ -13,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -62,7 +63,7 @@ public class ConfigBean {
                     OrderState.PENDING,
                     (float) (Math.random() * 10),
                     faker.company().name(),
-                    List.of(faker.company().name(), faker.company().name()));
+                    List.of("air", "ground"));
         }
     }
 

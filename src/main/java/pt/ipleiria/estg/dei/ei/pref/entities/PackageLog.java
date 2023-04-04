@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPackageLogs",
-                query = "SELECT pl FROM PackageLog pl ORDER BY pl.date" // JPQL
+                query = "SELECT pl FROM PackageLog pl WHERE pl.simplePackage.id = :simplePackageId ORDER BY pl.date" // JPQL
         )})
 public class PackageLog {
 
@@ -25,7 +25,6 @@ public class PackageLog {
     // location where log was created
     private String location;
 
-    private String state;
 
     private float temperature;
 
@@ -35,10 +34,9 @@ public class PackageLog {
     @JoinColumn(name = "simple_package_id")
     private SimplePackage simplePackage;
 
-    public PackageLog(String date, String location, String state, float temperature, float humidity) {
+    public PackageLog(String date, String location, float temperature, float humidity) {
         this.date = date;
         this.location = location;
-        this.state = state;
         this.temperature = temperature;
         this.humidity = humidity;
     }
@@ -68,14 +66,6 @@ public class PackageLog {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public float getTemperature() {
