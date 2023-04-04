@@ -59,7 +59,10 @@ public class ConfigBean {
                     List.of(entityManager.find(Product.class, 1L)),
                     faker.address().cityName(),
                     faker.address().cityName(),
-                    OrderState.PENDING);
+                    OrderState.PENDING,
+                    (float) (Math.random() * 10),
+                    faker.company().name(),
+                    List.of(faker.company().name(), faker.company().name()));
         }
     }
 

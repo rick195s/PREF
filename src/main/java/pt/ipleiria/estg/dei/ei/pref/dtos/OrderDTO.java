@@ -14,14 +14,20 @@ public class OrderDTO implements Serializable {
     private String source;
     private String destination;
     private OrderState state;
+    private float weight;
+    private String carrier;
+    private List<String> shippingMethods;
 
-    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state) {
+    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
         this.source = source;
         this.destination = destination;
         this.state = state;
+        this.weight = weight;
+        this.carrier = carrier;
+        this.shippingMethods = shippingMethods;
     }
 
     public OrderDTO() {
@@ -59,6 +65,30 @@ public class OrderDTO implements Serializable {
         this.source = source;
     }
 
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public List<String> getShippingMethods() {
+        return shippingMethods;
+    }
+
+    public void setShippingMethods(List<String> shippingMethods) {
+        this.shippingMethods = shippingMethods;
+    }
+
     public String getDestination() {
         return destination;
     }
@@ -75,6 +105,8 @@ public class OrderDTO implements Serializable {
         this.state = state;
     }
 
+
+
     public static OrderDTO from(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         return new OrderDTO(
@@ -83,7 +115,10 @@ public class OrderDTO implements Serializable {
                 OrderLineDTO.from(order.getOrderLines()),
                 order.getSource(),
                 order.getDestination(),
-                order.getState()
+                order.getState(),
+                order.getWeight(),
+                order.getCarrier(),
+                order.getShippingMethods()
         );
     }
 

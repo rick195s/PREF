@@ -21,8 +21,8 @@ public class OrderBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String date, List<Product> products, String source, String destination, OrderState state) {
-        Order order = new Order(date, source, destination, state);
+    public void create(String date, List<Product> products, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
+        Order order = new Order(date, source, destination, state, weight, carrier, shippingMethods);
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 new OrderLine(1, 10.90,product, order)).collect(Collectors.toList());
@@ -41,6 +41,7 @@ public class OrderBean {
         Order order = entityManager.getReference(Order.class, trackingNumber);
         Hibernate.initialize(order);
         Hibernate.initialize(order.getOrderLines());
+        Hibernate.initialize(order.getShippingMethods());
         return order;
     }
 
@@ -48,6 +49,7 @@ public class OrderBean {
         List<Order> orders=  (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
         for (Order order : orders) {
             Hibernate.initialize(order.getOrderLines());
+            Hibernate.initialize(order.getShippingMethods());
         }
         return orders;
     }
