@@ -35,6 +35,9 @@ public class SimplePackage implements Serializable {
     @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLine;
 
+    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<PackageLog> packageLogs;
+
     public SimplePackage() {
         materialsType = new LinkedList<>();
     }
@@ -87,8 +90,6 @@ public class SimplePackage implements Serializable {
         this.materialsType.remove(materialType);
     }
 
-
-
     public List<OrderLine> getOrderLine() {
         return orderLine;
     }
@@ -99,5 +100,21 @@ public class SimplePackage implements Serializable {
 
     public void removeOrderLine(OrderLine orderLine) {
         this.orderLine.remove(orderLine);
+    }
+
+    public PackageType getType() {
+        return type;
+    }
+
+    public void setType(PackageType type) {
+        this.type = type;
+    }
+
+    public List<PackageLog> getPackageLogs() {
+        return packageLogs;
+    }
+
+    public void addPackageLog(PackageLog packageLog) {
+        this.packageLogs.add(packageLog);
     }
 }
