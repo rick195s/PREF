@@ -66,7 +66,7 @@ public class ConfigBean {
     private void createProducts(){
         Faker faker = new Faker();
         for (int i = 0; i < 20; i++) {
-            entityManager.persist(new Product(faker.food().dish(), ProductCategory.FOOD));
+            entityManager.persist(new Product(faker.food().dish(), ProductCategory.FOOD, 1, 1, 1, 1, 1));
         }
     }
 }
