@@ -2,10 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +10,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,11 +41,11 @@ public class ConfigBean {
         createOrders();
         System.out.println("Orders created");
 
-        simplePackageBean.create(1, "10x10x10", poliAl, PackageType.DUPLEX);
-        simplePackageBean.create(2, "10x10x10", cartao, PackageType.CARTAO_MICROCANELADO);
-        simplePackageBean.create(3, "10x10x10", polipla, PackageType.DUPLEX);
-        simplePackageBean.create(4, "10x10x10", poliAl, PackageType.DUPLEX);
-        simplePackageBean.create(5, "10x10x10", polipla, PackageType.DUPLEX);
+        simplePackageBean.create(1, 20,"10x10x10", poliAl, PackageType.DUPLEX, PackageCategory.SIMPLE, true, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(2, 10,"10x10x10", cartao, PackageType.CARTAO_MICROCANELADO, PackageCategory.SIMPLE, false, ResistenceType.LOW, false);
+        simplePackageBean.create(3, 40,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, false, ResistenceType.HIGH, true);
+        simplePackageBean.create(4, 20,"10x10x10", poliAl, PackageType.DUPLEX, PackageCategory.SIMPLE, false, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(5, 50,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, true, ResistenceType.HIGH, true);
 
     }
 
@@ -62,7 +60,7 @@ public class ConfigBean {
                     OrderState.PENDING,
                     (float) (Math.random() * 10),
                     faker.company().name(),
-                    List.of(faker.company().name(), faker.company().name()));
+                    List.of("air", "ground"));
         }
     }
 

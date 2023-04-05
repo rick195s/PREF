@@ -2,8 +2,10 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,9 +31,9 @@ public class SimplePackageBean {
         return (List<SimplePackage>) entityManager.createNamedQuery("getAllSimplePackages").getResultList();
     }
 
-    public SimplePackage create(long id,String dimension, List<PackageMaterialType> materialsType, PackageType type) {
+    public SimplePackage create(long id, double cost, String dimension, List<PackageMaterialType> materialsType, PackageType type, PackageCategory category, boolean is_sustainable, ResistenceType resistence, boolean is_smart) {
         // create simple package and persist it
-        SimplePackage simplePackage = new SimplePackage(id, dimension, materialsType, type);
+        SimplePackage simplePackage = new SimplePackage(id, cost,dimension, materialsType, type, category, is_sustainable, resistence, is_smart);
 
         entityManager.persist(simplePackage);
 
