@@ -66,7 +66,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ order.orderDate }}
+              {{ new Date(order.orderDate).toLocaleDateString('pt-pt') }} - {{new Date(order.orderDate).toLocaleTimeString('pt-PT', {hour12: false, hour: 'numeric', minute: 'numeric'})}}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -86,7 +86,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ order.weight }}kg
+              {{ order.weight.toFixed(2) }}kg
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -115,4 +115,6 @@
 const { data } = await useFetch(
   () => `https://pref.azurewebsites.net/pref/api/orders`
 );
+
+
 </script>
