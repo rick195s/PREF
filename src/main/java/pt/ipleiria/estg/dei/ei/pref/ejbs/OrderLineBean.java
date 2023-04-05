@@ -1,7 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
-import org.hibernate.Hibernate;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
@@ -38,7 +36,7 @@ public class OrderLineBean {
             throw new MyEntityNotFoundException("Package not found");
         }
         orderLine.setSimplePackage(simplePackage);
-        simplePackage.addOrderLine(orderLine);
+        // simplePackage.addOrderLine(orderLine);
 
         return orderLine;
     }

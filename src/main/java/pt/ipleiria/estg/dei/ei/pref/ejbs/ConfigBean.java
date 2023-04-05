@@ -10,8 +10,9 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Startup
@@ -26,6 +27,10 @@ public class ConfigBean {
 
     @EJB
     SimplePackageBean simplePackageBean;
+
+    @EJB
+    OrderLineBean orderLineBean;
+
 
     List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
     List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
@@ -46,12 +51,23 @@ public class ConfigBean {
         simplePackageBean.create(3, 40,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, false, ResistenceType.HIGH, true);
         simplePackageBean.create(4, 20,"10x10x10", poliAl, PackageType.DUPLEX, PackageCategory.SIMPLE, false, ResistenceType.MEDIUM, false);
         simplePackageBean.create(5, 50,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, true, ResistenceType.HIGH, true);
+        System.out.println("Packages created");
 
+        dispatchOrders();
+        System.out.println("Orders dispatched");
+
+    }
+
+    private void dispatchOrders() {
+        for (int i = 0; i < 200; i++) {
+            // random number with min 1 and max 5
+            orderLineBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
+        }
     }
 
     private void createOrders() {
         Faker faker = new Faker();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 500; i++) {
             orderBean.create(
                     faker.date().past(2, TimeUnit.DAYS).toString(),
                     List.of(entityManager.find(Product.class, 1L), entityManager.find(Product.class, 2L), entityManager.find(Product.class, 3L)),
@@ -66,8 +82,22 @@ public class ConfigBean {
 
     private void createProducts(){
         Faker faker = new Faker();
-        for (int i = 0; i < 20; i++) {
-            entityManager.persist(new Product(faker.food().dish(), ProductCategory.FOOD, 1, 1, 1, 1, 1));
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        for (int i = 0; i < 50; i++) {
+            entityManager.persist(
+                    new Product(
+                        faker.food().dish(),
+                        ProductCategory.FOOD,
+                        // random price with max 50
+                        Float.parseFloat(df.format(Math.random() * 50)),
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                    )
+            );
         }
     }
 }

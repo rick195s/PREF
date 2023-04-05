@@ -20,6 +20,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
+    private float price;
+
     // in kg
     private float weight;
 
@@ -34,9 +36,10 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLine;
 
-    public Product(String name, ProductCategory category, float weight, int validityRange, float length, float width, float height) {
+    public Product(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height) {
         this.name = name;
         this.category = category;
+        this.price = price;
         this.weight = weight;
         this.validityRange = validityRange;
         this.length = length;
@@ -83,6 +86,14 @@ public class Product {
 
     public void removeOrderLine(OrderLine orderLine) {
         this.orderLine.remove(orderLine);
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public float getWeight() {
