@@ -15,6 +15,8 @@ public class ProductDTO implements Serializable {
 
     private ProductCategory category;
 
+    private float price;
+
     // in kg
     private float weight;
 
@@ -30,10 +32,11 @@ public class ProductDTO implements Serializable {
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, ProductCategory category, float weight, int validityRange, float length, float width, float height) {
+    public ProductDTO(long id, String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height) {
         this.id = id;
         this.name = name;
         this.category = category;
+        this.price = price;
         this.weight = weight;
         this.validityRange = validityRange;
         this.length = length;
@@ -63,6 +66,14 @@ public class ProductDTO implements Serializable {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public float getWeight() {
@@ -110,6 +121,7 @@ public class ProductDTO implements Serializable {
                 product.getId(),
                 product.getName(),
                 product.getCategory(),
+                product.getPrice(),
                 product.getWeight(),
                 product.getValidityRange(),
                 product.getLength(),
