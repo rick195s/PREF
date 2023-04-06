@@ -41,7 +41,7 @@
           </th>
         </tr>
         </thead>
-        <tbody v-if="packageLogs === null">
+        <tbody v-if="packageLogs.length === 0">
         <tr class="w-full">
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto" colspan="6">
             No data found
@@ -90,8 +90,6 @@ const packageLogsUrl =
   runtimeConfig.public.apiUrl + `/package-logs/package/${useRoute().params.id}`;
 
 const { data: packageLogs } = await useFetch(packageLogsUrl);
-
-console.log(packageLogs);
 
 </script>
 
