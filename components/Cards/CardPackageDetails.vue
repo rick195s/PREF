@@ -6,7 +6,7 @@
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
           <h3 class="font-semibold text-base text-blueGray-700">
-            Order Details
+            Package Details
           </h3>
         </div>
       </div>
@@ -19,114 +19,94 @@
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Tracking Number
+            Type
           </th>
           <td
             class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.trackingNumber }}
+            {{ packageData.packageType }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Date
+            Cost
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ new Date(ordersData.orderDate).toLocaleDateString("pt-pt") }}
+            {{ packageData.cost }}€
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Hour
+            Dimensions
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{
-              new Date(ordersData.orderDate).toLocaleTimeString("pt-PT", {
-                hour12: false,
-                hour: "numeric",
-                minute: "numeric"
-              })
-            }}
+            {{ packageData.dimension }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Source
+            Materials
           </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ ordersData.source }}
+          <td class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+            {{ packageData.materialsType.map(item => item.slice(0,1).toUpperCase() + item.slice(1).toLowerCase()).join(", ") }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Destination
+            Resistance
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.destination }}
+            {{ packageData.resistance }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            State
+            Smart
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.state }}
+            {{ packageData.smart ? "Yes" : "No" }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Weight
+            Sustainable
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.weight.toFixed(2) }}kg
+            {{ packageData.sustainable ? "Yes" : "No" }}
           </td>
         </tr>
         <tr>
           <th
             class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Carrier
+            Category
           </th>
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.carrier }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Shipping Methods
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ ordersData.shippingMethods.join(", ") }}
+            {{ packageData.category }}
           </td>
         </tr>
         </thead>
@@ -137,9 +117,11 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig();
 
-const ordersUrl =
-  runtimeConfig.public.apiUrl + `/orders/${useRoute().params.trackingNumber}`;
+const packageUrl =
+  runtimeConfig.public.apiUrl + `/packages/${useRoute().params.id}`;
 
-const { data: ordersData } = await useFetch(ordersUrl);
+const { data: packageData } = await useFetch(packageUrl);
+
+console.log(packageData);
 
 </script>
