@@ -45,12 +45,20 @@ public class OrderBean {
         return order;
     }
 
-    public List<Order> getAllOrders() {
-        List<Order> orders=  (List<Order>) entityManager.createNamedQuery("getAllOrders").getResultList();
+    public List<Order> getAllOrders(int offset, int limit) {
+        List<Order> orders=  (List<Order>) entityManager.createNamedQuery("getAllOrders")
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
         for (Order order : orders) {
             Hibernate.initialize(order.getOrderLines());
             Hibernate.initialize(order.getShippingMethods());
         }
         return orders;
+    }
+
+    public Long count() {
+        return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
     }
 }
