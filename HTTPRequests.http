@@ -25,7 +25,7 @@ Content-Type: application/json
 %}
 
 ### List Orders
-GET http://localhost:8080/pref/api/orders
+GET http://localhost:8080/pref/api/orders?offset=0&limit=10
 Content-Type: application/json
 
 > {%
