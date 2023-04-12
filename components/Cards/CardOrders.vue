@@ -57,7 +57,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in data" :key="order.trackingNumber">
+          <tr v-for="order in orders.data" :key="order.trackingNumber">
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
@@ -116,10 +116,38 @@
         </tbody>
       </table>
     </div>
+    <PaginationComponent
+      :total="orders.metadata.totalCount"
+      :per-page="perPage"
+      :current-page="currentPage"
+      @change-page="offset = ($event - 1) * perPage"
+    />
   </div>
 </template>
 <script setup>
+import PaginationComponent from "@/components/Pagination/PaginationComponent.vue";
+
 const runtimeConfig = useRuntimeConfig();
 
-const { data } = await useFetch(() => runtimeConfig.public.apiUrl + `/orders`);
+const offset = ref(0);
+const perPage = ref(10);
+const currentPage = computed(() =>
+  offset.value == 0 ? 1 : offset.value / perPage.value + 1
+);
+
+const { data: orders } = await useAsyncData(
+  "orders",
+  () =>
+    $fetch(`/orders`, {
+      method: "GET",
+      baseURL: runtimeConfig.public.apiUrl,
+      params: {
+        offset: offset.value,
+        limit: perPage.value
+      }
+    }),
+  {
+    watch: [offset, perPage]
+  }
+);
 </script>
