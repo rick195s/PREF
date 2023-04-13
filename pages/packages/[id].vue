@@ -9,4 +9,5 @@
 </template>
 <script setup>
 import CardHistory from "~/components/Cards/CardPackageLogs.vue";
+//import MapExample from "~/components/Maps/MapContainer.vue";
 </script>
