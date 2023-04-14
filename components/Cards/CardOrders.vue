@@ -56,7 +56,24 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="!orders">
+        <tr class="w-full">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto" colspan="8">
+            <div class="flex justify-center items-center h-full">
+              <div class="animate-spin rounded-full border-t-4 border-gray-500 border-solid h-12 w-12 mr-4"></div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+
+        <tbody v-else-if="orders.data.length === 0">
+        <tr class="w-full">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto" colspan="8">
+            No data found
+          </td>
+        </tr>
+        </tbody>
+        <tbody v-else>
           <tr v-for="order in orders.data" :key="order.trackingNumber">
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
@@ -117,7 +134,7 @@
       </table>
     </div>
     <PaginationComponent
-      :total="orders.metadata.totalCount"
+      :total="orders?.metadata.totalCount"
       :per-page="perPage"
       :current-page="currentPage"
       @change-page="offset = ($event - 1) * perPage"
@@ -150,4 +167,5 @@ const { data: orders } = await useAsyncData(
     watch: [offset, perPage]
   }
 );
+console.log(orders);
 </script>
