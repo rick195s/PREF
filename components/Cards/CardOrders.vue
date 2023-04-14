@@ -57,7 +57,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in orders.data" :key="order.trackingNumber">
+          <tr v-for="order in orders?.data" :key="order.trackingNumber">
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
@@ -117,6 +117,7 @@
       </table>
     </div>
     <PaginationComponent
+      v-if="orders != null"
       :total="orders.metadata.totalCount"
       :per-page="perPage"
       :current-page="currentPage"
