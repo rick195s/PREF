@@ -186,7 +186,7 @@ const choosePackage = async (selectedPackage, orderLine) => {
     body: { simplePackageId: selectedPackage }
   };
   const { data, error } = await useFetch(url, options);
-  // location.reload();
+  location.reload();
 };
 </script>
 
