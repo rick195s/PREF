@@ -5,6 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
+import pt.ipleiria.estg.dei.ei.pref.entities.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +16,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +46,9 @@ public class ConfigBean {
         System.out.println("Hello Java EfE!");
 
         try {
+            createProductPackages();
+            System.out.println("Product Packages created");
+
             createProducts();
             System.out.println("Products created");
         } catch (JsonProcessingException e) {
@@ -87,14 +92,36 @@ public class ConfigBean {
         }
     }
 
+    private void createProductPackages() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<ProductPackage> productPackages = objectMapper.readValue(ProductPackage.getProductPackagesJson(), new TypeReference<List<ProductPackage>>(){});
+
+        for (ProductPackage productPackage : productPackages) {
+            System.out.println(productPackage.getName());
+            entityManager.persist(productPackage);
+        }
+    }
+
     private void createProducts() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Product> products = objectMapper.readValue(Product.getProductsJson(), new TypeReference<List<Product>>(){});
 
+        List<ProductPackage> packages = (List<ProductPackage>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
         for (Product product : products) {
             System.out.println(product.getName());
             entityManager.persist(product);
+
+            ProductPackage productPackage =  packages.get(new Random().nextInt(packages.size()));
+            ProductPackageRelation relation = new ProductPackageRelation(
+                    new ProductPackageRelationPK(productPackage.getId(), product.getId()),
+                    product,
+                    productPackage,
+                    ProductPackageType.PRIMARY
+            );
+
+            entityManager.persist(relation);
         }
+
 
     }
 }
