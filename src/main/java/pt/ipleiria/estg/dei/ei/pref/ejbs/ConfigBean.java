@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
@@ -40,8 +43,12 @@ public class ConfigBean {
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
-        createProducts();
-        System.out.println("Products created");
+        try {
+            createProducts();
+            System.out.println("Products created");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         createOrders();
         System.out.println("Orders created");
@@ -80,24 +87,14 @@ public class ConfigBean {
         }
     }
 
-    private void createProducts(){
-        Faker faker = new Faker();
-        DecimalFormat df = new DecimalFormat("#.##");
+    private void createProducts() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Product> products = objectMapper.readValue(Product.getProductsJson(), new TypeReference<List<Product>>(){});
 
-        for (int i = 0; i < 50; i++) {
-            entityManager.persist(
-                    new Product(
-                        faker.food().dish(),
-                        ProductCategory.FOOD,
-                        // random price with max 50
-                        Float.parseFloat(df.format(Math.random() * 50)),
-                    1,
-                    1,
-                    1,
-                    1,
-                    1
-                    )
-            );
+        for (Product product : products) {
+            System.out.println(product.getName());
+            entityManager.persist(product);
         }
+
     }
 }
