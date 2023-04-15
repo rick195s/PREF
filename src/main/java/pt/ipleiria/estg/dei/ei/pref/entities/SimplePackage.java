@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
@@ -32,10 +30,6 @@ public class SimplePackage implements Serializable {
     @ElementCollection(targetClass = PackageMaterialType.class, fetch = FetchType.EAGER)
     private List<PackageMaterialType> materialsType;
     @NotNull
-    private PackageType type;
-    @NotNull
-    private PackageCategory category;
-    @NotNull
     private boolean is_sustainable;
     @NotNull
     private ResistenceType resistance;
@@ -52,14 +46,12 @@ public class SimplePackage implements Serializable {
         materialsType = new LinkedList<>();
     }
 
-    public SimplePackage(long id, double cost, String dimension, List<PackageMaterialType> materialsType, PackageType type, PackageCategory category, boolean is_sustainable, ResistenceType resistance, boolean is_smart) {
+    public SimplePackage(long id, double cost, String dimension, List<PackageMaterialType> materialsType, boolean is_sustainable, ResistenceType resistance, boolean is_smart) {
         this.id = id;
         this.cost = cost;
         this.dimension = dimension;
         this.materialsType = new LinkedList<>();
         this.materialsType.addAll(materialsType);
-        this.type = type;
-        this.category = category;
         this.is_sustainable = is_sustainable;
         this.resistance = resistance;
         this.is_smart = is_smart;
@@ -89,14 +81,6 @@ public class SimplePackage implements Serializable {
         this.materialsType = materialsType;
     }
 
-    public PackageType getPackageType() {
-        return type;
-    }
-
-    public void setPackageType(PackageType type) {
-        this.type = type;
-    }
-
     public void addMaterialType(PackageMaterialType materialType) {
         this.materialsType.add(materialType);
     }
@@ -111,13 +95,6 @@ public class SimplePackage implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-    public PackageCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(PackageCategory category) {
-        this.category = category;
     }
 
     public boolean is_sustainable() {
@@ -154,14 +131,6 @@ public class SimplePackage implements Serializable {
 
     public void removeOrderLine(OrderLine orderLine) {
         this.orderLine.remove(orderLine);
-    }
-
-    public PackageType getType() {
-        return type;
-    }
-
-    public void setType(PackageType type) {
-        this.type = type;
     }
 
     public List<PackageLog> getPackageLogs() {

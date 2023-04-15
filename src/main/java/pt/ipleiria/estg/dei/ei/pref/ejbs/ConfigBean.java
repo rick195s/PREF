@@ -52,11 +52,11 @@ public class ConfigBean {
         createOrders();
         System.out.println("Orders created");
 
-        simplePackageBean.create(1, 20,"10x10x10", poliAl, PackageType.DUPLEX, PackageCategory.SIMPLE, true, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(2, 10,"10x10x10", cartao, PackageType.CARTAO_MICROCANELADO, PackageCategory.SIMPLE, false, ResistenceType.LOW, false);
-        simplePackageBean.create(3, 40,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, false, ResistenceType.HIGH, true);
-        simplePackageBean.create(4, 20,"10x10x10", poliAl, PackageType.DUPLEX, PackageCategory.SIMPLE, false, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(5, 50,"10x10x10", polipla, PackageType.DUPLEX, PackageCategory.COMPLEX, true, ResistenceType.HIGH, true);
+        simplePackageBean.create(1, 20,"10x10x10", poliAl, true, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(2, 10,"10x10x10", cartao, false, ResistenceType.LOW, false);
+        simplePackageBean.create(3, 40,"10x10x10", polipla, false, ResistenceType.HIGH, true);
+        simplePackageBean.create(4, 20,"10x10x10", poliAl, false, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(5, 50,"10x10x10", polipla, true, ResistenceType.HIGH, true);
         System.out.println("Packages created");
 
         dispatchOrders();

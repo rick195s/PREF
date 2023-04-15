@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageCategory;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
@@ -16,8 +14,6 @@ public class SimplePackageDTO implements Serializable {
     private double cost;
     private String dimension;
     private List<PackageMaterialType> materialsType;
-    private PackageType type;
-    private PackageCategory category;
     private boolean is_sustainable;
     private ResistenceType resistance;
     private boolean is_smart;
@@ -25,14 +21,12 @@ public class SimplePackageDTO implements Serializable {
         materialsType = new LinkedList<>();
     }
 
-    public SimplePackageDTO(long id, double cost, String dimension, List<PackageMaterialType> materialsType, PackageType type, PackageCategory category, boolean is_sustainable, ResistenceType resistance, boolean is_smart) {
+    public SimplePackageDTO(long id, double cost, String dimension, List<PackageMaterialType> materialsType, boolean is_sustainable, ResistenceType resistance, boolean is_smart) {
         this.id = id;
         this.cost = cost;
         this.dimension = dimension;
         this.materialsType = new LinkedList<>();
         this.materialsType.addAll(materialsType);
-        this.type = type;
-        this.category = category;
         this.is_sustainable = is_sustainable;
         this.resistance = resistance;
         this.is_smart = is_smart;
@@ -62,28 +56,12 @@ public class SimplePackageDTO implements Serializable {
         this.materialsType = materialsType;
     }
 
-    public PackageType getPackageType() {
-        return type;
-    }
-
-    public void setPackageType(PackageType type) {
-        this.type = type;
-    }
-
     public double getCost() {
         return cost;
     }
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public PackageCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(PackageCategory category) {
-        this.category = category;
     }
 
     public boolean is_sustainable() {
@@ -116,8 +94,6 @@ public class SimplePackageDTO implements Serializable {
                 simplePackage.getCost(),
                 simplePackage.getDimension(),
                 simplePackage.getMaterialsType(),
-                simplePackage.getPackageType(),
-                simplePackage.getCategory(),
                 simplePackage.is_sustainable(),
                 simplePackage.getResistance(),
                 simplePackage.is_smart());

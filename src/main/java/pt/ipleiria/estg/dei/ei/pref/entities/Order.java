@@ -46,6 +46,11 @@ public class Order {
     @Enumerated(EnumType.STRING)
     protected OrderState state;
 
+    @ManyToOne
+    @JoinColumn(name = "simplePackage_id")
+    private SimplePackage simplePackage;
+
+
     public Order(String date, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) {
         this.date = date;
         this.source = source;
