@@ -122,6 +122,10 @@ public class ProductDTO implements Serializable {
         this.productPackages.add(productPackage);
     }
 
+    public List<ProductPackageDTO> getProductPackages() {
+        return productPackages;
+    }
+
     public static ProductDTO from(Product product) {
         return new ProductDTO(
                 product.getId(),
