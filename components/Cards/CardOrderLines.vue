@@ -115,6 +115,13 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
+              <p v-for="productPackage in orderLine.product.productPackages">
+                {{ productPackage.name }} - {{ productPackage.packageType }}
+              </p>
+            </td>
+            <!-- <td
+              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
               <div
                 v-if="!orderLine.simplePackage?.packageType"
                 class="flex items-center"
@@ -150,7 +157,7 @@
               <div v-else>
                 {{ orderLine.simplePackage.packageType }}
               </div>
-            </td>
+            </td> -->
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
