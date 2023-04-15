@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -48,22 +50,34 @@ public class ConfigBean {
         createOrders();
         System.out.println("Orders created");
 
-        simplePackageBean.create(1, "", 20,"10x10x10",  true, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(2, "", 10,"10x10x10",  false, ResistenceType.LOW, false);
-        simplePackageBean.create(3, "", 40,"10x10x10",  false, ResistenceType.HIGH, true);
-        simplePackageBean.create(4, "",20,"10x10x10",  false, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(5, "", 50,"10x10x10", true, ResistenceType.HIGH, true);
-        System.out.println("Packages created");
+        createOrderPackages();
+        System.out.println("OrderPackages created");
 
         dispatchOrders();
         System.out.println("Orders dispatched");
 
     }
 
+    private void createOrderPackages() {
+        List<OrderPackage> packages = new LinkedList<>();
+
+        packages.add(new OrderPackage("Cartao",  20,"10x10x10",  true, ResistenceType.MEDIUM, false));
+        packages.add(new OrderPackage( "Palete", 10,"10x10x10",  false, ResistenceType.LOW, false));
+        packages.add(new OrderPackage( "CAIXA ISOMÉTRICA EPS", 40,"10x10x10",  false, ResistenceType.HIGH, true));
+
+        for (OrderPackage orderPackage : packages) {
+            entityManager.persist(orderPackage);
+        }
+
+    }
+
     private void dispatchOrders() {
+        // get all orderPackages
+        List<OrderPackage> orderPackages = entityManager.createNamedQuery("getAllOrderPackages").getResultList();
+
         for (int i = 0; i < 200; i++) {
-            // random number with min 1 and max 5
-            orderBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
+            // random number with min 1 and max 3
+            orderBean.dispatchOrder(i+1, orderPackages.get(new Random().nextInt(orderPackages.size())).getId());
         }
     }
 

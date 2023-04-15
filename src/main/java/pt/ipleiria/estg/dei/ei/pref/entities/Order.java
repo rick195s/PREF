@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
@@ -23,16 +23,16 @@ public class Order {
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tracking_number")
-    protected long trackingNumber;
+    private long trackingNumber;
 
-    protected String date;
+    private String date;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    protected List<OrderLine> orderLines;
+    private List<OrderLine> orderLines;
 
-    protected String source;
+    private String source;
 
-    protected String destination;
+    private String destination;
 
     // in kg
     private float weight;
@@ -44,27 +44,26 @@ public class Order {
     private List<String> shippingMethods;
 
     @Enumerated(EnumType.STRING)
-    protected OrderState state;
+    private OrderState state;
 
     @ManyToOne
-    @JoinColumn(name = "simplePackage_id")
-    private SimplePackage simplePackage;
-
-
-    public Order(String date, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) {
-        this.date = date;
-        this.source = source;
-        this.destination = destination;
-        this.state = state;
-        this.weight = weight;
-        this.carrier = carrier;
-        this.shippingMethods = shippingMethods;
-        this.orderLines = new LinkedList<>();
-    }
+    @JoinColumn(name = "order_package_id")
+    private OrderPackage orderPackage;
 
     public Order() {
         this.orderLines = new LinkedList<>();
         this.shippingMethods = new LinkedList<>();
+    }
+
+    public Order(String date, String source, String destination, float weight, String carrier, List<String> shippingMethods, OrderState state) {
+        this();
+        this.date = date;
+        this.source = source;
+        this.destination = destination;
+        this.weight = weight;
+        this.carrier = carrier;
+        this.state = state;
+        this.shippingMethods = shippingMethods;
     }
 
     public long getTrackingNumber() {
@@ -129,6 +128,14 @@ public class Order {
 
     public void setCarrier(String carrier) {
         this.carrier = carrier;
+    }
+
+    public OrderPackage getOrderPackage() {
+        return orderPackage;
+    }
+
+    public void setOrderPackage(OrderPackage orderPackage) {
+        this.orderPackage = orderPackage;
     }
 
     public List<String> getShippingMethods() {

@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
@@ -19,9 +18,11 @@ import java.util.List;
                 name = "getAllSimplePackages",
                 query = "SELECT s FROM SimplePackage s ORDER BY s.id" // JPQL
         )})
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class SimplePackage implements Serializable {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     private String name;
@@ -29,27 +30,27 @@ public class SimplePackage implements Serializable {
     private double cost;
     @NotNull
     private String dimension;
+
     @NotNull
+    @Column(name = "is_sustainable")
     private boolean isSustainable;
+
     @NotNull
     private ResistenceType resistance;
-    @NotNull
-    private boolean isSmart;
 
-    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<OrderLine> orderLine;
+    @NotNull
+    @Column(name = "is_smart")
+    private boolean isSmart;
 
     @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PackageLog> packageLogs;
 
     public SimplePackage() {
         packageLogs = new LinkedList<>();
-        orderLine = new LinkedList<>();
     }
 
-    public SimplePackage(long id, String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+    public SimplePackage( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
         this();
-        this.id = id;
         this.name = name;
         this.cost = cost;
         this.dimension = dimension;
@@ -112,18 +113,6 @@ public class SimplePackage implements Serializable {
 
     public void setResistance(ResistenceType resistance) {
         this.resistance = resistance;
-    }
-
-    public List<OrderLine> getOrderLine() {
-        return orderLine;
-    }
-
-    public void addOrderLine(OrderLine orderLine) {
-        this.orderLine.add(orderLine);
-    }
-
-    public void removeOrderLine(OrderLine orderLine) {
-        this.orderLine.remove(orderLine);
     }
 
     public List<PackageLog> getPackageLogs() {
