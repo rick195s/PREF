@@ -12,6 +12,9 @@ public class ProductPackageRelationPK implements Serializable {
     @Column(name = "product_id")
     private long productId;
 
+    public ProductPackageRelationPK() {
+    }
+
     public ProductPackageRelationPK(long productPackageId, long productId) {
         this.productPackageId = productPackageId;
         this.productId = productId;

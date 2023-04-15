@@ -42,6 +42,10 @@ public class OrderBean {
         Hibernate.initialize(order);
         Hibernate.initialize(order.getOrderLines());
         Hibernate.initialize(order.getShippingMethods());
+
+        for (OrderLine orderLine : order.getOrderLines()) {
+            Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+        }
         return order;
     }
 
@@ -54,6 +58,9 @@ public class OrderBean {
         for (Order order : orders) {
             Hibernate.initialize(order.getOrderLines());
             Hibernate.initialize(order.getShippingMethods());
+            for (OrderLine orderLine : order.getOrderLines()) {
+                Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+            }
         }
         return orders;
     }

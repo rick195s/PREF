@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,10 @@ public class ProductPackage implements Serializable {
 
     @NotNull
     private String name;
+
+    @Transient
+    // Aux property, real type is in ProductPackageRelation
+    private ProductPackageType type;
 
     @OneToMany(mappedBy = "productPackage")
     private List<ProductPackageRelation> productPackageRelations;
@@ -51,5 +56,11 @@ public class ProductPackage implements Serializable {
         this.name = name;
     }
 
-    public static String getProductPackagesJson(){return "[{\"name\": \"duplex PE+AL\"}, {\"name\": \"cartão microcanelado\"}, {\"name\": \"Papel conformado/ cup cake wrappers\"}, {\"name\": \"Cartolina 300g\"}, {\"name\": \"PE cristal\"}, {\"name\": \"Frasco PET sleeve\"}, {\"name\": \"Tampa PP\"}, {\"name\": \"DOYPACK\"}, {\"name\": \"PP + AL/ PE + AL\"}, {\"name\": \"DOYPACK POUCH\"}, {\"name\": \"Frasco PET\"}, {\"name\": \"Saco PE + AL\"}, {\"name\": \"PEFC\"}, {\"name\": \"PE laminado\"}, {\"name\": \"tetrapak\"}, {\"name\": \"Filme PE\"}, {\"name\": \"opérculo filme PE\"}, {\"name\": \"colher doseadora 70ml PP\"}]";}
+    public ProductPackageType getType() {
+        return type;
+    }
+
+    public void setType(ProductPackageType type) {
+        this.type = type;
+    }
 }

@@ -36,6 +36,8 @@ public class ConfigBean {
     @EJB
     OrderLineBean orderLineBean;
 
+    @EJB
+    ProductBean productBean;
 
     List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
     List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
@@ -46,10 +48,10 @@ public class ConfigBean {
         System.out.println("Hello Java EfE!");
 
         try {
-            createProductPackages();
+            productBean.populateProductPackages();
             System.out.println("Product Packages created");
 
-            createProducts();
+            productBean.populateProducts();
             System.out.println("Products created");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -92,36 +94,4 @@ public class ConfigBean {
         }
     }
 
-    private void createProductPackages() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<ProductPackage> productPackages = objectMapper.readValue(ProductPackage.getProductPackagesJson(), new TypeReference<List<ProductPackage>>(){});
-
-        for (ProductPackage productPackage : productPackages) {
-            System.out.println(productPackage.getName());
-            entityManager.persist(productPackage);
-        }
-    }
-
-    private void createProducts() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Product> products = objectMapper.readValue(Product.getProductsJson(), new TypeReference<List<Product>>(){});
-
-        List<ProductPackage> packages = (List<ProductPackage>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
-        for (Product product : products) {
-            System.out.println(product.getName());
-            entityManager.persist(product);
-
-            ProductPackage productPackage =  packages.get(new Random().nextInt(packages.size()));
-            ProductPackageRelation relation = new ProductPackageRelation(
-                    new ProductPackageRelationPK(productPackage.getId(), product.getId()),
-                    product,
-                    productPackage,
-                    ProductPackageType.PRIMARY
-            );
-
-            entityManager.persist(relation);
-        }
-
-
-    }
 }
