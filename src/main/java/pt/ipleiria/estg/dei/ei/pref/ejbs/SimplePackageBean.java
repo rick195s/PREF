@@ -13,12 +13,8 @@ public class SimplePackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SimplePackage find(long id) {
-        return entityManager.find(SimplePackage.class, id);
-    }
-
     public SimplePackage findOrFail(long code) {
-        return entityManager.getReference(SimplePackage.class, code);
+        return entityManager.find(SimplePackage.class, code);
     }
 
     public List<SimplePackage> getAllSimplePackages() {

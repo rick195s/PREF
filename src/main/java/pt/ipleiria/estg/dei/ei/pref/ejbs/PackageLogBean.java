@@ -27,7 +27,7 @@ public class PackageLogBean {
                 humidity
         );
 
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
+        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
         if (simplePackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }
@@ -40,7 +40,7 @@ public class PackageLogBean {
     }
 
     public List<PackageLog> getAllPackageLogs(long simplePackageId) throws MyEntityNotFoundException {
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
+        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
         if (simplePackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }

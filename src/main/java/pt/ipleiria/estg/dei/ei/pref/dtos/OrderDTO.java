@@ -17,8 +17,9 @@ public class OrderDTO implements Serializable {
     private float weight;
     private String carrier;
     private List<String> shippingMethods;
+    private OrderPackageDTO orderPackage;
 
-    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) {
+    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, OrderPackageDTO orderPackage) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
@@ -28,6 +29,7 @@ public class OrderDTO implements Serializable {
         this.weight = weight;
         this.carrier = carrier;
         this.shippingMethods = shippingMethods;
+        this.orderPackage = orderPackage;
     }
 
     public OrderDTO() {
@@ -106,6 +108,13 @@ public class OrderDTO implements Serializable {
     }
 
 
+    public OrderPackageDTO getOrderPackage() {
+        return orderPackage;
+    }
+
+    public void setOrderPackage(OrderPackageDTO orderPackage) {
+        this.orderPackage = orderPackage;
+    }
 
     public static OrderDTO from(Order order) {
         OrderDTO orderDTO = new OrderDTO();
@@ -118,7 +127,8 @@ public class OrderDTO implements Serializable {
                 order.getState(),
                 order.getWeight(),
                 order.getCarrier(),
-                order.getShippingMethods()
+                order.getShippingMethods(),
+                OrderPackageDTO.from(order.getOrderPackage())
         );
     }
 
