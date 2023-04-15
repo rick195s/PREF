@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.*;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;

@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
-import org.hibernate.Hibernate;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 

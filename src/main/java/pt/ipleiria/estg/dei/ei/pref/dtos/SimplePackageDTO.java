@@ -1,10 +1,9 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 

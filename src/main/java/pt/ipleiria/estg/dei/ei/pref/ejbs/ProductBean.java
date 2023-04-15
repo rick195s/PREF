@@ -3,25 +3,17 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.Hibernate;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
-import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
-import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Stateless
 public class ProductBean {

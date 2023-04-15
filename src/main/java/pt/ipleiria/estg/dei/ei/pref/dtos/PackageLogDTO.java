@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,5 +1,7 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
+import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;

@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;

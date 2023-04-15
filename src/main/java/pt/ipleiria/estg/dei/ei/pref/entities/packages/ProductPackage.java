@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
