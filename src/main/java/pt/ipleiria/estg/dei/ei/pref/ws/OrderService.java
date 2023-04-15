@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
@@ -52,6 +55,21 @@ public class OrderService {
         return Response.ok(paginatedDTO).build();
     }
 
+    @PATCH
+    @Path("/{trackingNumber}")
+    public Response dispatchOrder(String jsonObject, @PathParam("trackingNumber") long trackingNumber) {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = null;
+
+        try {
+            rootNode = objectMapper.readTree(jsonObject);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        long simplePackageId = rootNode.get("simplePackageId").asLong();
+        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, simplePackageId))).build();
+    }
 
 }

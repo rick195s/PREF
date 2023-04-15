@@ -1,13 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
@@ -32,9 +27,6 @@ public class ConfigBean {
 
     @EJB
     SimplePackageBean simplePackageBean;
-
-    @EJB
-    OrderLineBean orderLineBean;
 
     @EJB
     ProductBean productBean;
@@ -75,7 +67,7 @@ public class ConfigBean {
     private void dispatchOrders() {
         for (int i = 0; i < 200; i++) {
             // random number with min 1 and max 5
-            orderLineBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
+            orderBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
         }
     }
 
