@@ -21,6 +21,9 @@ public class OrderBean {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @EJB
+    private SimplePackageBean simplePackageBean;
+
     public void create(String date, List<Product> products, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
         Order order = new Order(date, source, destination, state, weight, carrier, shippingMethods);
 
@@ -42,6 +45,10 @@ public class OrderBean {
         Hibernate.initialize(order);
         Hibernate.initialize(order.getOrderLines());
         Hibernate.initialize(order.getShippingMethods());
+
+        for (OrderLine orderLine : order.getOrderLines()) {
+            Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+        }
         return order;
     }
 
@@ -54,11 +61,36 @@ public class OrderBean {
         for (Order order : orders) {
             Hibernate.initialize(order.getOrderLines());
             Hibernate.initialize(order.getShippingMethods());
+            for (OrderLine orderLine : order.getOrderLines()) {
+                Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+            }
         }
         return orders;
     }
 
     public Long count() {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
+    }
+
+
+    public Order dispatchOrder(long id, long simplePackageId) {
+          Order order = findOrFail(id);
+          return order;
+          /*
+        if (order == null) {
+            throw new MyEntityNotFoundException("OrderLine not found");
+        }
+        if (order.getState() != OrderState.PENDING) {
+            throw new MyIllegalArgumentException("Order is not waiting for dispatch");
+        }
+        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
+        if (simplePackage == null) {
+            throw new MyEntityNotFoundException("Package not found");
+        }
+        order.setSimplePackage(simplePackage);
+        // simplePackage.addOrderLine(orderLine);
+
+        return order;*/
+
     }
 }

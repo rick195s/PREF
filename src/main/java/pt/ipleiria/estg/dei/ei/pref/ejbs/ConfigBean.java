@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
@@ -13,7 +11,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +29,7 @@ public class ConfigBean {
     SimplePackageBean simplePackageBean;
 
     @EJB
-    OrderLineBean orderLineBean;
-
+    ProductBean productBean;
 
     List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
     List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
@@ -44,7 +40,10 @@ public class ConfigBean {
         System.out.println("Hello Java EfE!");
 
         try {
-            createProducts();
+            productBean.populateProductPackages();
+            System.out.println("Product Packages created");
+
+            productBean.populateProducts();
             System.out.println("Products created");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -68,7 +67,7 @@ public class ConfigBean {
     private void dispatchOrders() {
         for (int i = 0; i < 200; i++) {
             // random number with min 1 and max 5
-            orderLineBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
+            orderBean.dispatchOrder(i+1, new Random().nextInt(5)+1);
         }
     }
 
@@ -87,14 +86,4 @@ public class ConfigBean {
         }
     }
 
-    private void createProducts() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Product> products = objectMapper.readValue(Product.getProductsJson(), new TypeReference<List<Product>>(){});
-
-        for (Product product : products) {
-            System.out.println(product.getName());
-            entityManager.persist(product);
-        }
-
-    }
 }

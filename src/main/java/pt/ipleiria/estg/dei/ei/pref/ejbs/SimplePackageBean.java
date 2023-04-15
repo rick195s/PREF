@@ -23,7 +23,8 @@ public class SimplePackageBean {
 
     public SimplePackage findOrFail(long code) {
         SimplePackage simplePackage = entityManager.getReference(SimplePackage.class, code);
-        Hibernate.initialize(simplePackage);
+        Hibernate.initialize(simplePackage.getMaterialsType());
+
         return simplePackage;
     }
 
