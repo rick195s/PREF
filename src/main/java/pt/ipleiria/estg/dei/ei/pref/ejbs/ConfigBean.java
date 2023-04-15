@@ -31,10 +31,6 @@ public class ConfigBean {
     @EJB
     ProductBean productBean;
 
-    List<PackageMaterialType> poliAl = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.ALUMINIO);
-    List<PackageMaterialType> cartao = List.of(PackageMaterialType.CARTAO);
-    List<PackageMaterialType> polipla = List.of(PackageMaterialType.POLIETILENO, PackageMaterialType.PLASTICO);
-
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
@@ -52,11 +48,11 @@ public class ConfigBean {
         createOrders();
         System.out.println("Orders created");
 
-        simplePackageBean.create(1, 20,"10x10x10", poliAl, true, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(2, 10,"10x10x10", cartao, false, ResistenceType.LOW, false);
-        simplePackageBean.create(3, 40,"10x10x10", polipla, false, ResistenceType.HIGH, true);
-        simplePackageBean.create(4, 20,"10x10x10", poliAl, false, ResistenceType.MEDIUM, false);
-        simplePackageBean.create(5, 50,"10x10x10", polipla, true, ResistenceType.HIGH, true);
+        simplePackageBean.create(1, "", 20,"10x10x10",  true, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(2, "", 10,"10x10x10",  false, ResistenceType.LOW, false);
+        simplePackageBean.create(3, "", 40,"10x10x10",  false, ResistenceType.HIGH, true);
+        simplePackageBean.create(4, "",20,"10x10x10",  false, ResistenceType.MEDIUM, false);
+        simplePackageBean.create(5, "", 50,"10x10x10", true, ResistenceType.HIGH, true);
         System.out.println("Packages created");
 
         dispatchOrders();

@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
-import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
@@ -20,19 +18,16 @@ public class SimplePackageBean {
     }
 
     public SimplePackage findOrFail(long code) {
-        SimplePackage simplePackage = entityManager.getReference(SimplePackage.class, code);
-        Hibernate.initialize(simplePackage.getMaterialsType());
-
-        return simplePackage;
+        return entityManager.getReference(SimplePackage.class, code);
     }
 
     public List<SimplePackage> getAllSimplePackages() {
         return (List<SimplePackage>) entityManager.createNamedQuery("getAllSimplePackages").getResultList();
     }
 
-    public SimplePackage create(long id, double cost, String dimension, List<PackageMaterialType> materialsType, boolean is_sustainable, ResistenceType resistence, boolean is_smart) {
+    public SimplePackage create(long id, String name, double cost, String dimension, boolean isSustainable, ResistenceType resistence, boolean isSmart) {
         // create simple package and persist it
-        SimplePackage simplePackage = new SimplePackage(id, cost,dimension, materialsType, is_sustainable, resistence, is_smart);
+        SimplePackage simplePackage = new SimplePackage(id, name, cost, dimension, isSustainable, resistence, isSmart);
 
         entityManager.persist(simplePackage);
 
