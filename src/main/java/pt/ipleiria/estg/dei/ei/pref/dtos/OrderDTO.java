@@ -128,7 +128,7 @@ public class OrderDTO implements Serializable {
                 order.getWeight(),
                 order.getCarrier(),
                 order.getShippingMethods(),
-                OrderPackageDTO.from(order.getOrderPackage())
+                order.getOrderPackage() != null ? OrderPackageDTO.from(order.getOrderPackage()) : null
         );
     }
 
