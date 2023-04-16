@@ -41,9 +41,20 @@
           </th>
         </tr>
         </thead>
-        <tbody v-if="packageLogs.length === 0">
+        <tbody v-if="!packageLogs">
         <tr class="w-full">
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto" colspan="6">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
+              colspan="8">
+            <div class="flex justify-center items-center h-full">
+              <div class="animate-spin rounded-full border-t-4 border-gray-500 border-solid h-12 w-12 mr-4"></div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+        <tbody v-else-if="packageLogs.length === 0">
+        <tr class="w-full">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
+              colspan="6">
             No data found
           </td>
         </tr>
@@ -75,7 +86,7 @@
           <td
             class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
           >
-            {{ log.humidity ? log.humidity : "-"}}kg/m³
+            {{ log.humidity ? log.humidity : "-" }}kg/m³
           </td>
         </tr>
         </tbody>
