@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.*;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -26,7 +27,7 @@ public class PackageLogBean {
                 humidity
         );
 
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
+        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
         if (simplePackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }
@@ -39,7 +40,7 @@ public class PackageLogBean {
     }
 
     public List<PackageLog> getAllPackageLogs(long simplePackageId) throws MyEntityNotFoundException {
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
+        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
         if (simplePackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }

@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 
 import java.util.List;
 import java.util.stream.Collectors;

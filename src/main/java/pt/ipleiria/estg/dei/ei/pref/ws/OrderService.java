@@ -68,8 +68,8 @@ public class OrderService {
             throw new RuntimeException(e);
         }
 
-        long simplePackageId = rootNode.get("simplePackageId").asLong();
-        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, simplePackageId))).build();
+        long orderPackageId = rootNode.get("orderPackageId").asLong();
+        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, orderPackageId))).build();
     }
 
 }

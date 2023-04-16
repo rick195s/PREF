@@ -1,56 +1,128 @@
 [
   {
-    "name": "duplex PE+AL"
+    "name": "duplex PE+AL",
+    "cost": 2.99,
+    "dimension": "10x10x5cm",
+    "sustainable": true,
+    "smart": false
   },
   {
-    "name": "cartão microcanelado"
+    "name": "cartão microcanelado",
+    "cost": 1.49,
+    "dimension": "15x15x7cm",
+    "sustainable": true,
+    "smart": true
   },
   {
-    "name": "Papel conformado/ cup cake wrappers"
+    "name": "Papel conformado/ cup cake wrappers",
+    "cost": 0.99,
+    "dimension": "6x6x3cm",
+    "sustainable": true,
+    "smart": false
   },
   {
-    "name": "Cartolina 300g"
+    "name": "Cartolina 300g",
+    "cost": 0.75,
+    "dimension": "20x20x5cm",
+    "sustainable": true,
+    "smart": true
   },
   {
-    "name": "PE cristal"
+    "name": "PE cristal",
+    "cost": 1.25,
+    "dimension": "12x12x8cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "Frasco PET sleeve"
+    "name": "Frasco PET sleeve",
+    "cost": 3.99,
+    "dimension": "15x10x10cm",
+    "sustainable": false,
+    "smart": true
   },
   {
-    "name": "Tampa PP"
+    "name": "Tampa PP",
+    "cost": 0.5,
+    "dimension": "5x5x2cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "DOYPACK"
+    "name": "DOYPACK",
+    "cost": 1.99,
+    "dimension": "10x15x3cm",
+    "sustainable": false,
+    "smart": true
   },
   {
-    "name": "PP + AL/ PE + AL"
+    "name": "PP + AL/ PE + AL",
+    "cost": 2.49,
+    "dimension": "8x8x8cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "DOYPACK POUCH"
+    "name": "DOYPACK POUCH",
+    "cost": 2.99,
+    "dimension": "12x18x5cm",
+    "sustainable": false,
+    "smart": true
   },
   {
-    "name": "Frasco PET"
+    "name": "Frasco PET",
+    "cost": 2.25,
+    "dimension": "10x15x10cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "Saco PE + AL"
+    "name": "Saco PE + AL",
+    "cost": 0.99,
+    "dimension": "20x30x5cm",
+    "sustainable": false,
+    "smart": true
   },
   {
-    "name": "PEFC"
+    "name": "PEFC",
+    "cost": 0.25,
+    "dimension": "10x10x1cm",
+    "sustainable": true,
+    "smart": false
   },
   {
-    "name": "PE laminado"
+    "name": "PE laminado",
+    "cost": 1.75,
+    "dimension": "10x15x5cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "tetrapak"
+    "name": "tetrapak",
+    "cost": 1.99,
+    "dimension": "15x20x10cm",
+    "sustainable": true,
+    "smart": true
   },
   {
-    "name": "Filme PE"
+    "name": "Filme PE",
+    "cost": 0.5,
+    "dimension": "10x10x1cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "opérculo filme PE"
+    "name": "opérculo filme PE",
+    "cost": 0.25,
+    "dimension": "5x5x1cm",
+    "sustainable": false,
+    "smart": false
   },
   {
-    "name": "colher doseadora 70ml PP"
+    "name": "colher doseadora 70ml PP",
+    "cost": 0.15,
+    "dimension": "10x5x1cm",
+    "sustainable": false,
+    "smart": false
   }
 ]

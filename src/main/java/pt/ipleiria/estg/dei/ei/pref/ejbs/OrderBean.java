@@ -4,7 +4,7 @@ import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
@@ -25,7 +25,7 @@ public class OrderBean {
     private SimplePackageBean simplePackageBean;
 
     public void create(String date, List<Product> products, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
-        Order order = new Order(date, source, destination, state, weight, carrier, shippingMethods);
+        Order order = new Order(date, source, destination, weight,carrier, shippingMethods, state);
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 new OrderLine(1, product.getPrice(),product, order)).collect(Collectors.toList());
@@ -73,24 +73,22 @@ public class OrderBean {
     }
 
 
-    public Order dispatchOrder(long id, long simplePackageId) {
+    public Order dispatchOrder(long id, long orderPackageId) {
           Order order = findOrFail(id);
-          return order;
-          /*
+
         if (order == null) {
             throw new MyEntityNotFoundException("OrderLine not found");
         }
         if (order.getState() != OrderState.PENDING) {
             throw new MyIllegalArgumentException("Order is not waiting for dispatch");
         }
-        SimplePackage simplePackage = simplePackageBean.find(simplePackageId);
-        if (simplePackage == null) {
+        OrderPackage orderPackage = entityManager.find(OrderPackage.class, orderPackageId);
+        if (orderPackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }
-        order.setSimplePackage(simplePackage);
-        // simplePackage.addOrderLine(orderLine);
+        order.setOrderPackage(orderPackage);
 
-        return order;*/
+        return order;
 
     }
 }

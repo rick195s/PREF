@@ -15,7 +15,7 @@ PATCH http://localhost:8080/pref/api/orders/1
 Content-Type: application/json
 
 {
-  "simplePackageId": 1
+  "orderPackageId": 21
 }
 
 > {%
