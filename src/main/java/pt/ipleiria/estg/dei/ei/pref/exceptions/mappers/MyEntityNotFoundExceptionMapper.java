@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.exceptions.mappers;
 
 
+import pt.ipleiria.estg.dei.ei.pref.dtos.error.ErrorDTO;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 
 import javax.ws.rs.core.Response;
@@ -18,7 +19,7 @@ public class MyEntityNotFoundExceptionMapper implements ExceptionMapper<MyEntity
         String errorMsg = e.getMessage();
         logger.warning("ERROR: " + errorMsg);
         return Response.status(Response.Status.NOT_FOUND)
-            .entity(errorMsg)
+            .entity(new ErrorDTO(errorMsg))
             .build();
     }
 }

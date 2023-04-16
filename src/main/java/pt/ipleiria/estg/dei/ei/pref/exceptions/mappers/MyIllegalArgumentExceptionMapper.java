@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.exceptions.mappers;
 
+import pt.ipleiria.estg.dei.ei.pref.dtos.error.ErrorDTO;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
 
 import javax.ws.rs.core.Response;
@@ -17,7 +18,7 @@ public class MyIllegalArgumentExceptionMapper implements ExceptionMapper<MyIlleg
         String errorMsg = e.getMessage();
         logger.warning("ERROR: " + errorMsg);
         return Response.status(Response.Status.BAD_REQUEST)
-            .entity(errorMsg)
+            .entity(new ErrorDTO(errorMsg))
             .build();
     }
 }
