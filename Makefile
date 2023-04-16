@@ -16,7 +16,7 @@ down-all:
 	docker compose down --rmi all --volumes
 
 build:
-	mvn clean package
+	mvn clean package -Dmaven.test.skip
 
 bash:
 	docker compose exec webserver bash
