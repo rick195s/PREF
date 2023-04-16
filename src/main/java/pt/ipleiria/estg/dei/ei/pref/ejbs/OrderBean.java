@@ -87,6 +87,7 @@ public class OrderBean {
             throw new MyEntityNotFoundException("Package not found");
         }
         order.setOrderPackage(orderPackage);
+        order.setState(OrderState.PACKED);
 
         return order;
 
