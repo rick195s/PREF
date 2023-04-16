@@ -24,7 +24,7 @@
           <td
             class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.trackingNumber }}
+            {{ orderData.trackingNumber }}
           </td>
         </tr>
         <tr>
@@ -36,7 +36,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ new Date(ordersData.orderDate).toLocaleDateString("pt-pt") }}
+            {{ new Date(orderData.orderDate).toLocaleDateString("pt-pt") }}
           </td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
             {{
-              new Date(ordersData.orderDate).toLocaleTimeString("pt-PT", {
+              new Date(orderData.orderDate).toLocaleTimeString("pt-PT", {
                 hour12: false,
                 hour: "numeric",
                 minute: "numeric"
@@ -66,7 +66,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.source }}
+            {{ orderData.source }}
           </td>
         </tr>
         <tr>
@@ -78,7 +78,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.destination }}
+            {{ orderData.destination }}
           </td>
         </tr>
         <tr>
@@ -90,7 +90,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.state }}
+            {{ orderData.state }}
           </td>
         </tr>
         <tr>
@@ -102,7 +102,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.weight.toFixed(2) }}kg
+            {{ orderData.weight.toFixed(2) }}kg
           </td>
         </tr>
         <tr>
@@ -114,7 +114,7 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.carrier }}
+            {{ orderData.carrier }}
           </td>
         </tr>
         <tr>
@@ -126,7 +126,68 @@
           <td
             class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
           >
-            {{ ordersData.shippingMethods.join(", ") }}
+            {{ orderData.shippingMethods.join(", ") }}
+          </td>
+        </tr>
+        <tr>
+          <th
+            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Package
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+          >
+            <div
+              v-if="!orderData.orderPackage?.name"
+              class="flex items-center"
+            >
+              <select
+                v-model="orderData.orderPackage"
+                class="form-select block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-2 md:mb-0 mr-2"
+              >
+                <option v-if="!orderPackages || orderPackages.length === 0" disabled selected :value="null">
+                  No packages available
+                </option>
+                <option v-else disabled selected :value="null">
+                  Select a package
+                </option>
+                <option
+                  v-for="orderPackage in orderPackages"
+                  :key="orderPackage?.id"
+                  :value="orderPackage?.id"
+                >
+                  {{ orderPackage?.name }} -
+                  {{ orderPackage?.dimension }}
+                </option>
+              </select>
+              <svg v-if="isPackageSelected(orderData.orderPackage)"
+                   class="fill-current h-4 w-4 md:ml-2 svg-icon"
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 20 20"
+                   @click="choosePackage(orderData.orderPackage, orderData.trackingNumber)"
+              >
+                <path
+                  d="M17.5 0h-15C1.675 0 1.07.605 1.07 1.346v17.308c0 .741.604 1.346 1.346 1.346h15c.742 0 1.346-.605 1.346-1.346V1.346c0-.741-.604-1.346-1.346-1.346zM15.4 4.038H4.6c-.17 0-.308-.138-.308-.308s.138-.308.308-.308h10.8c.17 0 .308.138.308.308s-.138.308-.308.308zm-5.4 5.192h-5c-.17 0-.308-.138-.308-.308s.138-.308.308-.308h5c.17 0 .308.138.308.308s-.138.308-.308.308zm0 3.077h-5c-.17 0-.308-.138-.308-.308s.138-.308.308-.308h5c.17 0 .308.138.308.308s-.138.308-.308.308zm5.4-8.846H4.6c-.17 0-.308-.138-.308-.308s.138-.308.308-.308h10.8c.17 0 .308.138.308.308s-.138.308-.308.308z"
+                />
+              </svg>
+            </div>
+            <div v-if="errorMessage" class="text-red-500 mb-2 md:mb-0">
+              {{ errorMessage }}
+            </div>
+            <div v-if="orderData.orderPackage?.name">
+              <div style="display: flex; align-items: center;">
+                <span style="margin-right: 30px;">{{ orderData.orderPackage?.name }}</span>
+                <NuxtLink :to="'/packages/' + orderData.orderPackage?.id">
+                  <button
+                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none"
+                    type="button"
+                  >
+                    Track Package
+                  </button>
+                </NuxtLink>
+              </div>
+            </div>
           </td>
         </tr>
         </thead>
@@ -137,9 +198,39 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig();
 
-const ordersUrl =
+const orderUrl =
   runtimeConfig.public.apiUrl + `/orders/${useRoute().params.trackingNumber}`;
+const orderPackagesUrl =  runtimeConfig.public.apiUrl + `/orderPackages`;
 
-const { data: ordersData } = await useFetch(ordersUrl);
+const { data: orderData } = await useFetch(orderUrl);
+const { data: orderPackages } = await useFetch(orderPackagesUrl);
+
+const orderWithError = ref("");
+const errorMessage = ref(null);
+
+const isPackageSelected = (order) => {
+  return order !== null;
+};
+
+const choosePackage = async (selectedPackage, orderId) => {
+const url =  runtimeConfig.public.apiUrl + `/orders/${orderId}`;
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      orderPackageId: selectedPackage
+    })
+  });
+  if (response.status === 200) {
+    orderWithError.value = "";
+    errorMessage.value = null;
+    location.reload();
+  } else {
+    orderWithError.value = orderId;
+    errorMessage.value = "An error occurred while choosing the package";
+  }
+};
 
 </script>
