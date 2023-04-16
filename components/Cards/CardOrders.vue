@@ -74,7 +74,7 @@
         </tr>
         </tbody>
         <tbody v-else>
-          <tr v-for="order in orders.data" :key="order.trackingNumber">
+          <tr v-for="order in orders?.data" :key="order.trackingNumber">
             <th
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
@@ -134,7 +134,8 @@
       </table>
     </div>
     <PaginationComponent
-      :total="orders?.metadata.totalCount"
+      v-if="orders != null"
+      :total="orders.metadata.totalCount"
       :per-page="perPage"
       :current-page="currentPage"
       @change-page="offset = ($event - 1) * perPage"
@@ -167,5 +168,4 @@ const { data: orders } = await useAsyncData(
     watch: [offset, perPage]
   }
 );
-console.log(orders);
 </script>
