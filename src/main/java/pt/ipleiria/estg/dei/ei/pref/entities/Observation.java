@@ -26,13 +26,17 @@ public class Observation implements Serializable {
     @NotNull
     private PhenomenonType phenomenonType;
 
+    @NotNull
+    private Author author;
+
     public Observation() {
     }
 
-    public Observation(long id, PhenomenonType phenomenonType) {
+    public Observation(long id, PhenomenonType phenomenonType, Author author) {
         this();
         this.id = id;
         this.phenomenonType = phenomenonType;
+        this.author = author;
     }
 
     public long getId() {
@@ -49,5 +53,13 @@ public class Observation implements Serializable {
 
     public void setPhenomenonType(PhenomenonType phenomenonType) {
         this.phenomenonType = phenomenonType;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }
