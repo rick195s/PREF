@@ -54,6 +54,7 @@ public class SimplePackage implements Serializable {
     private List<PhenomenonType> phenomenonTypes;
     public SimplePackage() {
         packageLogs = new LinkedList<>();
+        phenomenonTypes = new LinkedList<>();
     }
 
     public SimplePackage( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
@@ -64,6 +65,7 @@ public class SimplePackage implements Serializable {
         this.isSustainable = isSustainable;
         this.resistance = resistance;
         this.isSmart = isSmart;
+        this.phenomenonTypes = new LinkedList<>();
     }
 
     public long getId() {

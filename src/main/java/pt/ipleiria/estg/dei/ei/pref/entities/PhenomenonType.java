@@ -21,21 +21,29 @@ public class PhenomenonType implements Serializable {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @NotNull
     private String name;
     @ManyToMany(mappedBy = "phenomenonTypes")
     private List<SimplePackage> simplePackages;
 
+    @OneToMany(mappedBy = "phenomenonType")
+    private List<Observation> observations;
+
+
     public PhenomenonType() {
+        this.simplePackages = new LinkedList<>();
+        this.observations = new LinkedList<>();
     }
 
     public PhenomenonType(int id, String name) {
         this.id = id;
         this.name = name;
+        this.simplePackages = new LinkedList<>();
+        this.observations = new LinkedList<>();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -47,7 +55,7 @@ public class PhenomenonType implements Serializable {
         return simplePackages;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -63,5 +71,13 @@ public class PhenomenonType implements Serializable {
         if (!simplePackages.contains(simplePackage)) {
             simplePackages.add(simplePackage);
         }
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void addObservation(Observation observation) {
+        this.observations.add(observation);
     }
 }
