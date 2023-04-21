@@ -13,6 +13,7 @@ import java.io.Serializable;
                 name = "getAllObservations",
                 query = "SELECT o FROM Observation o ORDER BY o.id" // JPQL
         )})
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Observation implements Serializable {
 
     @Id
@@ -28,6 +29,7 @@ public class Observation implements Serializable {
     }
 
     public Observation(long id, PhenomenonType phenomenonType) {
+        this();
         this.id = id;
         this.phenomenonType = phenomenonType;
     }
