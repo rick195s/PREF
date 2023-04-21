@@ -16,20 +16,20 @@ import java.io.Serializable;
                 query = "SELECT m FROM Measurement m ORDER BY m.id" // JPQL
         )})
 public class Measurement extends Observation implements Serializable {
-    private double measure;
+    private Quantity quantity;
 
     public Measurement() {
     }
-    public Measurement(double measure) {
+    public Measurement(Quantity quantity) {
         super();
-        this.measure = measure;
+        this.quantity = quantity;
     }
 
-    public double getMeasure() {
-        return measure;
+    public Quantity getQuantity() {
+        return quantity;
     }
 
-    public void setMeasure(double measure) {
-        this.measure = measure;
+    public void setQuantity(Quantity quantity) {
+        this.quantity = quantity;
     }
 }
