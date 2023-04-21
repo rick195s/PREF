@@ -19,7 +19,7 @@ public class PackageLogBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public PackageLog create(long simplePackageId, String location, float temperature, float humidity) throws MyEntityNotFoundException {
+    public PackageLog create(/*long simplePackageId, */String location, float temperature, float humidity) throws MyEntityNotFoundException {
         PackageLog packageLog = new PackageLog(
                 Calendar.getInstance().getTime().toString(),
                 location,
@@ -27,12 +27,12 @@ public class PackageLogBean {
                 humidity
         );
 
-        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
+        /*SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
         if (simplePackage == null) {
             throw new MyEntityNotFoundException("Package not found");
         }
 
-        packageLog.setSimplePackage(simplePackage);
+        packageLog.setSimplePackage(simplePackage);*/
 
         entityManager.persist(packageLog);
 

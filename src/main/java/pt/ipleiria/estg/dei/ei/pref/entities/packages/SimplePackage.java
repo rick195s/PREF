@@ -43,14 +43,14 @@ public class SimplePackage implements Serializable {
     @Column(name = "is_smart")
     private boolean isSmart;
 
-    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<PackageLog> packageLogs;
+  /*  @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<PackageLog> packageLogs;*/
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = PhenomenonType.class, fetch = FetchType.EAGER)
     private List<PhenomenonType> phenomenonTypes;
     public SimplePackage() {
-        packageLogs = new LinkedList<>();
+        //packageLogs = new LinkedList<>();
         phenomenonTypes = new LinkedList<>();
     }
 
@@ -121,20 +121,16 @@ public class SimplePackage implements Serializable {
         this.resistance = resistance;
     }
 
-    public List<PackageLog> getPackageLogs() {
+   /* public List<PackageLog> getPackageLogs() {
         return packageLogs;
     }
 
     public void addPackageLog(PackageLog packageLog) {
         this.packageLogs.add(packageLog);
-    }
+    }*/
 
     public List<PhenomenonType> getPhenomenonTypes() {
         return phenomenonTypes;
-    }
-
-    public void setPhenomenonTypes(List<PhenomenonType> phenomenonTypes) {
-        this.phenomenonTypes = phenomenonTypes;
     }
 
     public void addPhenomenonType(PhenomenonType phenomenonType) {

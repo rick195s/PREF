@@ -21,15 +21,15 @@ public class PackageLogDTO implements Serializable {
 
     private SimplePackageDTO simplePackage;
 
-    private long simplePackageId;
+  //  private long simplePackageId;
 
-    public PackageLogDTO(long id, String date, String location, float temperature, float humidity, SimplePackageDTO simplePackage) {
+    public PackageLogDTO(long id, String date, String location, float temperature, float humidity/*, SimplePackageDTO simplePackage*/) {
         this.id = id;
         this.date = date;
         this.location = location;
         this.temperature = temperature;
         this.humidity = humidity;
-        this.simplePackage = simplePackage;
+       // this.simplePackage = simplePackage;
     }
 
     public PackageLogDTO() {
@@ -79,7 +79,7 @@ public class PackageLogDTO implements Serializable {
         return simplePackage;
     }
 
-    public void setSimplePackage(SimplePackageDTO simplePackage) {
+   /* public void setSimplePackage(SimplePackageDTO simplePackage) {
         this.simplePackage = simplePackage;
     }
 
@@ -89,7 +89,7 @@ public class PackageLogDTO implements Serializable {
 
     public void setSimplePackageId(long simplePackageId) {
         this.simplePackageId = simplePackageId;
-    }
+    }*/
 
     public static PackageLogDTO from(PackageLog packageLog) {
         return new PackageLogDTO(
@@ -97,8 +97,8 @@ public class PackageLogDTO implements Serializable {
                 packageLog.getDate(),
                 packageLog.getLocation(),
                 packageLog.getTemperature(),
-                packageLog.getHumidity(),
-                SimplePackageDTO.from(packageLog.getSimplePackage())
+                packageLog.getHumidity()/*,
+                SimplePackageDTO.from(packageLog.getSimplePackage())*/
         );
     }
 
