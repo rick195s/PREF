@@ -1,5 +1,6 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -16,20 +16,20 @@ import java.io.Serializable;
                 query = "SELECT c FROM CategoryObservation c ORDER BY c.id" // JPQL
         )})
 public class CategoryObservation extends Observation implements Serializable {
-    private String category;
+    private Category category;
 
     public CategoryObservation() {
     }
-    public CategoryObservation(String category) {
+    public CategoryObservation(Category category) {
         super();
         this.category = category;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }

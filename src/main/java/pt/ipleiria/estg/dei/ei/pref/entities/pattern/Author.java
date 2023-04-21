@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.entities;
+package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
