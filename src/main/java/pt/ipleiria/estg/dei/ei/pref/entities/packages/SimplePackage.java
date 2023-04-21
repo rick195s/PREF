@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
+import pt.ipleiria.estg.dei.ei.pref.entities.PhenomenonType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
@@ -44,7 +45,13 @@ public class SimplePackage implements Serializable {
 
     @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PackageLog> packageLogs;
-
+    @ManyToMany
+    @JoinTable(
+            name = "simple_package_phenomenon_type",
+            joinColumns = @JoinColumn(name = "simple_package_id"),
+            inverseJoinColumns = @JoinColumn(name = "phenomenon_type_id")
+    )
+    private List<PhenomenonType> phenomenonTypes;
     public SimplePackage() {
         packageLogs = new LinkedList<>();
     }
@@ -121,5 +128,17 @@ public class SimplePackage implements Serializable {
 
     public void addPackageLog(PackageLog packageLog) {
         this.packageLogs.add(packageLog);
+    }
+
+    public List<PhenomenonType> getPhenomenonTypes() {
+        return phenomenonTypes;
+    }
+
+    public void setPhenomenonTypes(List<PhenomenonType> phenomenonTypes) {
+        this.phenomenonTypes = phenomenonTypes;
+    }
+
+    public void addPhenomenonType(PhenomenonType phenomenonType) {
+        this.phenomenonTypes.add(phenomenonType);
     }
 }
