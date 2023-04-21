@@ -20,8 +20,8 @@ public class Measurement extends Observation implements Serializable {
 
     public Measurement() {
     }
-    public Measurement(long id, PhenomenonType phenomenonType, double measure) {
-        super(id, phenomenonType);
+    public Measurement(double measure) {
+        super();
         this.measure = measure;
     }
 

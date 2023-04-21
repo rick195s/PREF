@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -18,11 +20,10 @@ public class Observation implements Serializable {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "phenomenon_type_id")
+    @NotNull
     private PhenomenonType phenomenonType;
 
     public Observation() {
