@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,12 @@ public class OrderBean {
     @EJB
     private ProductBean productBean;
 
-    public void create(String date, List<Long> productIds, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
-        Order order = new Order(date, source, destination, weight,carrier, shippingMethods, state);
-
+    public Order create(String date, List<Long> productIds, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productIds.stream().map(productBean::findOrFail).collect(Collectors.toList());
+
+        float weight = (float) products.stream().mapToDouble(Product::getWeight).sum();
+
+        Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 new OrderLine(1, product.getPrice(),product, order)).collect(Collectors.toList());
@@ -42,6 +45,8 @@ public class OrderBean {
         for (OrderLine orderLine : orderLines) {
             entityManager.persist(orderLine);
         }
+
+        return order;
     }
 
 

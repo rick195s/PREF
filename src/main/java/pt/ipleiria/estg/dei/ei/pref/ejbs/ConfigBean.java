@@ -89,8 +89,6 @@ public class ConfigBean {
                     List.of(1L,2L,3L),
                     faker.address().cityName(),
                     faker.address().cityName(),
-                    OrderState.PENDING,
-                    (float) (Math.random() * 10),
                     faker.company().name(),
                     List.of("air", "ground"));
         }

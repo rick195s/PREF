@@ -1,62 +1,33 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OrderDTO implements Serializable {
-    private long trackingNumber;
-    private String orderDate;
-    private List<OrderLineDTO> orderLines;
+
+    private List<Long> productIds;
     private String source;
     private String destination;
-    private OrderState state;
-    private float weight;
     private String carrier;
     private List<String> shippingMethods;
-    private OrderPackageDTO orderPackage;
-
-    public OrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, OrderPackageDTO orderPackage) {
-        this.trackingNumber = trackingNumber;
-        this.orderDate = orderDate;
-        this.orderLines = orderLines;
-        this.source = source;
-        this.destination = destination;
-        this.state = state;
-        this.weight = weight;
-        this.carrier = carrier;
-        this.shippingMethods = shippingMethods;
-        this.orderPackage = orderPackage;
-    }
 
     public OrderDTO() {
     }
 
-    public long getTrackingNumber() {
-        return trackingNumber;
+    public OrderDTO(List<Long> productIds, String source, String destination, String carrier, List<String> shippingMethods) {
+        this.productIds = productIds;
+        this.source = source;
+        this.destination = destination;
+        this.carrier = carrier;
+        this.shippingMethods = shippingMethods;
     }
 
-    public void setTrackingNumber(long trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public List<Long> getProductIds() {
+        return productIds;
     }
 
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public List<OrderLineDTO> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(List<OrderLineDTO> orderLines) {
-        this.orderLines = orderLines;
+    public void setProductIds(List<Long> productIds) {
+        this.productIds = productIds;
     }
 
     public String getSource() {
@@ -67,12 +38,12 @@ public class OrderDTO implements Serializable {
         this.source = source;
     }
 
-    public float getWeight() {
-        return weight;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setWeight(float weight) {
-        this.weight = weight;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public String getCarrier() {
@@ -89,50 +60,5 @@ public class OrderDTO implements Serializable {
 
     public void setShippingMethods(List<String> shippingMethods) {
         this.shippingMethods = shippingMethods;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public OrderState getState() {
-        return state;
-    }
-
-    public void setState(OrderState state) {
-        this.state = state;
-    }
-
-
-    public OrderPackageDTO getOrderPackage() {
-        return orderPackage;
-    }
-
-    public void setOrderPackage(OrderPackageDTO orderPackage) {
-        this.orderPackage = orderPackage;
-    }
-
-    public static OrderDTO from(Order order) {
-        OrderDTO orderDTO = new OrderDTO();
-        return new OrderDTO(
-                order.getTrackingNumber(),
-                order.getDate(),
-                OrderLineDTO.from(order.getOrderLines()),
-                order.getSource(),
-                order.getDestination(),
-                order.getState(),
-                order.getWeight(),
-                order.getCarrier(),
-                order.getShippingMethods(),
-                order.getOrderPackage() != null ? OrderPackageDTO.from(order.getOrderPackage()) : null
-        );
-    }
-
-    public static List<OrderDTO> from(List<Order> orders) {
-        return orders.stream().map(OrderDTO::from).collect(Collectors.toList());
     }
 }

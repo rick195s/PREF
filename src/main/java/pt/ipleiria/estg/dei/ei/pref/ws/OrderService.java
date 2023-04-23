@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
@@ -14,6 +15,9 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Path("/orders")
@@ -26,7 +30,7 @@ public class OrderService {
     @GET
     @Path("/{trackingNumber}")
     public Response get(@PathParam("trackingNumber") long trackingNumber) {
-        return Response.ok(OrderDTO.from(orderBean.findOrFail(trackingNumber))).build();
+        return Response.ok(DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber))).build();
     }
 
     @GET
@@ -50,9 +54,20 @@ public class OrderService {
             count = 0L;
         }
 
-        var paginatedDTO = new PaginatedDTO<>(OrderDTO.from(orders), count, pageRequest.getOffset());
+        var paginatedDTO = new PaginatedDTO<>(DetailedOrderDTO.from(orders), count, pageRequest.getOffset());
 
         return Response.ok(paginatedDTO).build();
+    }
+
+    @POST
+    @Path("/")
+    public Response createOrder(OrderDTO orderDTO){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Order order = orderBean.create(dateFormat.format(new Date()), orderDTO.getProductIds(), orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethods());
+
+        return Response
+                .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getTrackingNumber())))
+                .status(Response.Status.CREATED).build();
     }
 
     @PATCH
@@ -69,7 +84,7 @@ public class OrderService {
         }
 
         long orderPackageId = rootNode.get("orderPackageId").asLong();
-        return Response.ok(OrderDTO.from(orderBean.dispatchOrder(trackingNumber, orderPackageId))).build();
+        return Response.ok(DetailedOrderDTO.from(orderBean.dispatchOrder(trackingNumber, orderPackageId))).build();
     }
 
 }
