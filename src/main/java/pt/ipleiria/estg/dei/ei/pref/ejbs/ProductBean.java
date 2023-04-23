@@ -39,6 +39,14 @@ public class ProductBean {
         return product;
     }
 
+    public Product findOrFail(long id){
+        Product product = entityManager.find(Product.class, id);
+        if(product == null){
+            throw new RuntimeException("Product with id " + id + " not found");
+        }
+        return product;
+    }
+
 
     public List<ProductPackage> getAllProductPackages() {
         return (List<ProductPackage>) entityManager.createNamedQuery("getAllProductPackages").getResultList();

@@ -24,8 +24,13 @@ public class OrderBean {
     @EJB
     private SimplePackageBean simplePackageBean;
 
-    public void create(String date, List<Product> products, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
+    @EJB
+    private ProductBean productBean;
+
+    public void create(String date, List<Long> productIds, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
         Order order = new Order(date, source, destination, weight,carrier, shippingMethods, state);
+
+        List<Product> products = productIds.stream().map(productBean::findOrFail).collect(Collectors.toList());
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 new OrderLine(1, product.getPrice(),product, order)).collect(Collectors.toList());
