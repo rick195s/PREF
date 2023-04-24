@@ -1,11 +1,14 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -30,14 +33,21 @@ public class Observation implements Serializable {
     @NotNull
     private Author author;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "observation_simple_package",
+            joinColumns = @JoinColumn(name = "observation_id"),
+            inverseJoinColumns = @JoinColumn(name = "simple_package_id"))
+    private List<SimplePackage> simplePackages;
+
     public Observation() {
+        simplePackages = new LinkedList<>();
     }
 
-    public Observation(long id, PhenomenonType phenomenonType, Author author) {
+    public Observation(PhenomenonType phenomenonType, Author author) {
         this();
-        this.id = id;
         this.phenomenonType = phenomenonType;
         this.author = author;
+        simplePackages = new LinkedList<>();
     }
 
     public long getId() {
@@ -62,5 +72,13 @@ public class Observation implements Serializable {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public List<SimplePackage> getSimplePackages() {
+        return simplePackages;
+    }
+
+    public void addSimplePackage(SimplePackage simplePackage) {
+        simplePackages.add(simplePackage);
     }
 }

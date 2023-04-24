@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,8 +22,8 @@ public class Measurement extends Observation implements Serializable {
 
     public Measurement() {
     }
-    public Measurement(Quantity quantity) {
-        super();
+    public Measurement(PhenomenonType phenomenonType, Author author, Quantity quantity) {
+        super(phenomenonType, author);
         this.quantity = quantity;
     }
 

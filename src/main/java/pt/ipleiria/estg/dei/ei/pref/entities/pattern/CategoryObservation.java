@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,8 +22,8 @@ public class CategoryObservation extends Observation implements Serializable {
 
     public CategoryObservation() {
     }
-    public CategoryObservation(Category category) {
-        super();
+    public CategoryObservation(PhenomenonType phenomenonType, Author author, Category category) {
+        super(phenomenonType, author);
         this.category = category;
     }
 

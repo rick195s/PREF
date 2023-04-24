@@ -51,4 +51,12 @@ public class Author implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void addObservation(Observation observation) {
+        this.observations.add(observation);
+    }
 }

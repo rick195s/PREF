@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
@@ -49,9 +50,14 @@ public class SimplePackage implements Serializable {
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = PhenomenonType.class, fetch = FetchType.EAGER)
     private List<PhenomenonType> phenomenonTypes;
+
+    @ManyToMany(mappedBy = "simplePackages")
+    private List<Observation> observations;
+
     public SimplePackage() {
         //packageLogs = new LinkedList<>();
         phenomenonTypes = new LinkedList<>();
+        observations = new LinkedList<>();
     }
 
     public SimplePackage( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
@@ -63,6 +69,7 @@ public class SimplePackage implements Serializable {
         this.resistance = resistance;
         this.isSmart = isSmart;
         this.phenomenonTypes = new LinkedList<>();
+        this.observations = new LinkedList<>();
     }
 
     public long getId() {
@@ -135,5 +142,13 @@ public class SimplePackage implements Serializable {
 
     public void addPhenomenonType(PhenomenonType phenomenonType) {
         this.phenomenonTypes.add(phenomenonType);
+    }
+
+    public List<Observation> getObservations() {
+        return observations;
+    }
+
+    public void addObservation(Observation observation) {
+        this.observations.add(observation);
     }
 }
