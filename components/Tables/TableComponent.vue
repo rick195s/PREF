@@ -13,39 +13,11 @@
         <thead>
           <tr>
             <th
+              v-for="arrayKey in props.keys"
+              :key="arrayKey.key"
               class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Tracking Number
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Date
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Source
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Destination
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              State
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Weight
-            </th>
-            <th
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Carrier
+              {{ arrayKey.label }}
             </th>
             <th
               class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -80,58 +52,28 @@
           </tr>
         </tbody>
         <tbody v-else>
-          <tr v-for="order in props.data" :key="order.trackingNumber">
-            <th
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-            >
-              {{ order.trackingNumber }}
-            </th>
+          <tr v-for="record in props.data" :key="record">
             <td
+              v-for="arrayKey in props.keys"
+              :key="arrayKey.key"
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ new Date(order.orderDate).toLocaleDateString("pt-pt") }} -
-              {{
-                new Date(order.orderDate).toLocaleTimeString("pt-PT", {
-                  hour12: false,
-                  hour: "numeric",
-                  minute: "numeric"
-                })
-              }}
+              {{ record[arrayKey.key] }}
             </td>
+
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ order.source }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ order.destination }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ order.state }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ order.weight.toFixed(2) }}kg
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ order.carrier }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <NuxtLink :to="'/orders/' + order.trackingNumber">
+              <NuxtLink
+                v-for="action in record.actions"
+                :key="action.to"
+                :to="action.to"
+              >
                 <button
                   class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                 >
-                  <i class="fa-regular fa-pen-to-square"></i>
+                  <i :class="action.icon"></i>
                 </button>
               </NuxtLink>
             </td>
@@ -158,6 +100,11 @@ const props = defineProps({
     type: Object,
     default: null
   },
+  keys: {
+    type: Array,
+    default: () => []
+  },
+
   perPage: {
     type: Number,
     default: 10
