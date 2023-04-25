@@ -56,7 +56,7 @@ const props = defineProps({
 
 const emit = defineEmits(["changePage"]);
 
-const totalPages = ref(props.total / props.perPage);
+const totalPages = ref(Math.ceil(props.total / props.perPage));
 const hasPrev = ref(props.currentPage != 1);
 const hasNext = ref(props.currentPage != totalPages.value);
 
