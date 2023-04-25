@@ -83,7 +83,7 @@
                   />
                   <span class="ml-2 text-sm font-semibold text-blueGray-600">
                     I agree with the
-                    <a href="javascript:void(0)" class="text-emerald-500">
+                    <a href="javascript:void(0)" class="text-red-500">
                       Privacy Policy
                     </a>
                   </span>

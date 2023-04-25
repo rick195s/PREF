@@ -80,24 +80,27 @@
         <!-- Navigation -->
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <li class="items-center">
+          <li v-for="page in pages" :key="page.name" class="items-center">
             <nuxt-link
               v-slot="{ isActive }"
-              to="/"
+              :to="page.route"
               class="text-xs uppercase py-3 font-bold block"
             >
               <span
                 :class="[
                   isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
+                    ? 'text-red-500 hover:text-red-600'
                     : 'text-blueGray-700 hover:text-blueGray-500'
                 ]"
               >
                 <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                  class="mr-2 text-sm"
+                  :class="[
+                    isActive ? 'opacity-75' : 'text-blueGray-300',
+                    page.icon
+                  ]"
                 ></i>
-                Dashboard
+                {{ page.name }}
               </span>
             </nuxt-link>
           </li>
@@ -111,7 +114,7 @@
               <span
                 :class="[
                   isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
+                    ? 'text-red-500 hover:text-red-600'
                     : 'text-blueGray-700 hover:text-blueGray-500'
                 ]"
               >
@@ -188,24 +191,25 @@
   </nav>
 </template>
 
-<script>
+<script setup>
 import NotificationDropdown from "@/components/Dropdowns/NotificationDropdown.vue";
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
 
-export default {
-  components: {
-    NotificationDropdown,
-    UserDropdown
+const pages = ref([
+  {
+    name: "Dashboard",
+    route: "/",
+    icon: "fas fa-tv"
   },
-  data() {
-    return {
-      collapseShow: "hidden"
-    };
-  },
-  methods: {
-    toggleCollapseShow: function (classes) {
-      this.collapseShow = classes;
-    }
+  {
+    name: "Create Order",
+    route: "/orders/create",
+    icon: "fas fa-tools"
   }
+]);
+const collapseShow = ref("hidden");
+
+const toggleCollapseShow = (classes) => {
+  collapseShow.value = classes;
 };
 </script>

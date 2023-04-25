@@ -72,7 +72,7 @@
               records all of his own music, giving it a warm, intimate feel with
               a solid groove structure. An artist of considerable range.
             </p>
-            <a href="javascript:void(0);" class="font-normal text-emerald-500">
+            <a href="javascript:void(0);" class="font-normal text-red-500">
               Show more
             </a>
           </div>
@@ -87,8 +87,8 @@ import team2 from "@/assets/img/team-2-800x800.jpg";
 export default {
   data() {
     return {
-      team2,
+      team2
     };
-  },
+  }
 };
 </script>

@@ -4,7 +4,7 @@
       <ul class="flex pl-0 rounded list-none flex-wrap justify-center">
         <li v-if="hasPrev">
           <a
-            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-emerald-500 bg-white text-emerald-500"
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
             @click="changePage(props.currentPage - 1)"
           >
             <i class="fas fa-chevron-left -ml-px"></i>
@@ -12,11 +12,11 @@
         </li>
         <li v-for="page in pages()" :key="page" @click="changePage(page)">
           <a
-            class="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-emerald-500"
+            class="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500"
             :class="
               page === props.currentPage
-                ? 'bg-emerald-500 text-white'
-                : 'bg-white text-emerald-500 cursor-pointer'
+                ? 'bg-red-500 text-white'
+                : 'bg-white text-red-500 cursor-pointer'
             "
           >
             {{ page }}
@@ -26,7 +26,7 @@
         <li>
           <a
             v-if="hasNext"
-            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-emerald-500 bg-white text-emerald-500"
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
             @click="changePage(props.currentPage + 1)"
           >
             <i class="fas fa-chevron-right -mr-px"></i>

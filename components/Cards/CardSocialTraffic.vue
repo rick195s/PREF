@@ -63,7 +63,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 60%;"
+                      style="width: 60%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
@@ -89,11 +89,11 @@
                 <span class="mr-2">70%</span>
                 <div class="relative w-full">
                   <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
+                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 70%;"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
+                      style="width: 70%"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-purple-200"
                   >
                     <div
-                      style="width: 80%;"
+                      style="width: 80%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
                     ></div>
                   </div>
@@ -150,7 +150,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-lightBlue-200"
                   >
                     <div
-                      style="width: 75%;"
+                      style="width: 75%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500"
                     ></div>
                   </div>
@@ -179,8 +179,8 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-orange-200"
                   >
                     <div
-                      style="width: 30%;"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
+                      style="width: 30%"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
                 </div>
