@@ -61,8 +61,10 @@ public class ConfigBean {
         dispatchOrders();
         System.out.println("Orders dispatched");
 
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        observationBean.create(PhenomenonType.TEMPERATURE, "Joao", 1, "20");
+        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "21");
+        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "23");
+        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "25");
+        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "19");
 
     }
 

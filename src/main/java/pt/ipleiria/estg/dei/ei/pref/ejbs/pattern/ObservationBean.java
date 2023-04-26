@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
@@ -34,14 +35,7 @@ public class ObservationBean {
     private SimplePackageBean simplePackageBean;
 
     public Observation findOrFail(long id) {
-
-        Observation observation = entityManager.find(Observation.class, id);
-
-        Hibernate.initialize(observation.getPhenomenonType());
-        Hibernate.initialize(observation.getAuthor());
-        Hibernate.initialize(observation.getSimplePackage());
-
-        return observation;
+        return entityManager.find(Observation.class, id);
     }
 
     public List<Observation> getAllObservations() {
@@ -69,5 +63,9 @@ public class ObservationBean {
             CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, author, simplePackage, category);
             entityManager.persist(categoryObservation);
             return categoryObservation;
+    }
+
+    public List<Observation> getAllPackageObservations(long simplePackageId) {
+        return (List<Observation>) entityManager.createNamedQuery("getAllPackageObservations").setParameter("simplePackageId", simplePackageId).getResultList();
     }
 }

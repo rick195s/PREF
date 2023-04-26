@@ -44,9 +44,6 @@ public class SimplePackage implements Serializable {
     @NotNull
     @Column(name = "is_smart")
     private boolean isSmart;
-
-  /*  @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<PackageLog> packageLogs;*/
     @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Observation> observations;
 

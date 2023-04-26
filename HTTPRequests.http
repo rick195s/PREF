@@ -131,7 +131,7 @@ Content-Type: application/json
   "phenomenonType": "TEMPERATURE",
   "author": "Scan",
   "simplePackageId": 20,
-  "value": 21
+  "value": 30
 }
 
 > {%
@@ -142,6 +142,16 @@ Content-Type: application/json
 
 ### List Observations
 GET http://localhost:8080/pref/api/observations
+Content-Type: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### List Observations from Package
+GET http://localhost:8080/pref/api/observations/package/20
 Content-Type: application/json
 
 > {%
