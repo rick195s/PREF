@@ -96,11 +96,9 @@ public class ConfigBean {
         for (int i = 0; i < 500; i++) {
             orderBean.create(
                     faker.date().past(2, TimeUnit.DAYS).toString(),
-                    List.of(entityManager.find(Product.class, 1L), entityManager.find(Product.class, 2L), entityManager.find(Product.class, 3L)),
+                    List.of(1L,2L,3L),
                     faker.address().cityName(),
                     faker.address().cityName(),
-                    OrderState.PENDING,
-                    (float) (Math.random() * 10),
                     faker.company().name(),
                     List.of("air", "ground"));
         }
