@@ -1,10 +1,12 @@
 <template>
   <TableComponent
-    :data="orders.data"
+    :data="orders?.data"
     :per-page="perPage"
-    :total="orders.metadata.totalCount"
+    :loading="pending"
+    :total="orders?.metadata.totalCount"
     :current-page="currentPage"
     :keys="keys"
+    title="Orders"
     @change-page="offset = ($event - 1) * perPage"
   ></TableComponent>
 </template>
@@ -50,7 +52,7 @@ const keys = [
   }
 ];
 
-const { data: orders } = await useAsyncData(
+const { data: orders, pending } = await useAsyncData(
   "orders",
   () =>
     $fetch(`/orders`, {
@@ -62,6 +64,7 @@ const { data: orders } = await useAsyncData(
       }
     }),
   {
+    lazy: true,
     transform: (data) => {
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";

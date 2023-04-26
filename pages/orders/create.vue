@@ -1,12 +1,14 @@
 <template>
-  <div
-    class="relative min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
-  >
-    <div class="flex flex-wrap mt-4">
-      <div class="w-full mb-12 xl:mb-0 px-4">
-        <div>dwqdwdwqq</div>
-      </div>
+  <div class="flex flex-wrap">
+    <div class="w-full">
+      <CardCreateOrder />
+    </div>
+    <div class="w-full">
+      <CardProducts />
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import CardCreateOrder from "@/components/Cards/CardCreateOrder.vue";
+import CardProducts from "@/components/Cards/CardPRoducts.vue";
+</script>

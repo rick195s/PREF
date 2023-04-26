@@ -179,6 +179,4 @@ const ordersUrl =
   runtimeConfig.public.apiUrl + `/orders/${useRoute().params.trackingNumber}`;
 
 const { data: ordersData } = await useFetch(ordersUrl);
-
-console.log(ordersData);
 </script>
