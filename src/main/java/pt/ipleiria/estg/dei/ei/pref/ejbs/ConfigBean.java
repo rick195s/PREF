@@ -12,9 +12,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Startup
@@ -83,10 +81,17 @@ public class ConfigBean {
 
     private void createOrders() {
         Faker faker = new Faker();
+
+        Map<Long, Integer> productsQuantities = new HashMap<>();
+        productsQuantities.put(1L, 1);
+        productsQuantities.put(2L, 2);
+        productsQuantities.put(3L, 3);
+        productsQuantities.put(4L, 4);
+
         for (int i = 0; i < 500; i++) {
             orderBean.create(
                     faker.date().past(2, TimeUnit.DAYS).toString(),
-                    List.of(1L,2L,3L),
+                    productsQuantities,
                     faker.address().cityName(),
                     faker.address().cityName(),
                     faker.company().name(),

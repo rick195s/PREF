@@ -14,7 +14,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -28,15 +30,15 @@ public class OrderBean {
     @EJB
     private ProductBean productBean;
 
-    public Order create(String date, List<Long> productIds, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
-        List<Product> products = productIds.stream().map(productBean::findOrFail).collect(Collectors.toList());
+    public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
+        List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
         float weight = (float) products.stream().mapToDouble(Product::getWeight).sum();
 
         Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
 
         List<OrderLine> orderLines = products.stream().map(product ->
-                new OrderLine(1, product.getPrice(),product, order)).collect(Collectors.toList());
+                new OrderLine(productsQuantities.get(product.getId()), product.getPrice(),product, order)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 
