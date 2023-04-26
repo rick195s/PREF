@@ -10,5 +10,5 @@
 </template>
 <script setup>
 import CardCreateOrder from "@/components/Cards/CardCreateOrder.vue";
-import CardProducts from "@/components/Cards/CardPRoducts.vue";
+import CardProducts from "@/components/Cards/CardProducts.vue";
 </script>

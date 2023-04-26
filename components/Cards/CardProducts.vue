@@ -8,6 +8,7 @@
     :loading="pending"
     title="Products"
     @change-page="offset = ($event - 1) * perPage"
+    @addProduct="addProduct($event)"
   ></TableComponent>
 </template>
 <script setup>
@@ -61,7 +62,24 @@ const { data: products, pending } = await useAsyncData(
     }),
   {
     lazy: true,
-    watch: [offset, perPage]
+    watch: [offset, perPage],
+    transform: (data) => {
+      data.data.forEach((element) => {
+        element.actions = [
+          {
+            emit: { name: "addProduct", value: element.id },
+            icon: "fa-regular fa-plus"
+          }
+        ];
+        console.log(element);
+      });
+
+      return data;
+    }
   }
 );
+
+const addProduct = (id) => {
+  console.log("add product", id);
+};
 </script>

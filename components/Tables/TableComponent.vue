@@ -67,18 +67,24 @@
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
-                <NuxtLink
-                  v-for="action in record.actions"
-                  :key="action.to"
-                  :to="action.to"
-                >
+                <span v-for="action in record.actions" :key="action">
+                  <NuxtLink v-if="action.to" :to="action.to">
+                    <button
+                      class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                    >
+                      <i :class="action.icon"></i>
+                    </button>
+                  </NuxtLink>
                   <button
+                    v-else-if="action.emit"
                     class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
+                    @click="$emit(action.emit.name, action.emit.value)"
                   >
                     <i :class="action.icon"></i>
                   </button>
-                </NuxtLink>
+                </span>
               </td>
             </tr>
           </tbody>
@@ -96,8 +102,6 @@
 </template>
 <script setup>
 import PaginationComponent from "@/components/Pagination/PaginationComponent.vue";
-
-const emit = defineEmits(["changePage"]);
 
 const props = defineProps({
   data: {
