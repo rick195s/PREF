@@ -26,7 +26,7 @@ public class PackageLogService {
     @Path("/")
     public Response createPackageLog(PackageLogDTO packageLogDTO) {
         PackageLog packageLog = packageLogBean.create(
-                packageLogDTO.getSimplePackageId(),
+                //packageLogDTO.getSimplePackageId(),
                 packageLogDTO.getLocation(),
                 packageLogDTO.getTemperature(),
                 packageLogDTO.getHumidity()

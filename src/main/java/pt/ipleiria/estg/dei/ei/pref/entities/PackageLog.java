@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPackageLogs",
-                query = "SELECT pl FROM PackageLog pl WHERE pl.simplePackage.id = :simplePackageId ORDER BY pl.date" // JPQL
+                query = "SELECT pl FROM PackageLog pl ORDER BY pl.date" // JPQL
         )})
 public class PackageLog {
 
@@ -32,9 +32,9 @@ public class PackageLog {
 
     private float humidity;
 
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn(name = "simple_package_id")
-    private SimplePackage simplePackage;
+    private SimplePackage simplePackage;*/
 
     public PackageLog(String date, String location, float temperature, float humidity) {
         this.date = date;
@@ -86,12 +86,12 @@ public class PackageLog {
         this.humidity = humidity;
     }
 
-    public SimplePackage getSimplePackage() {
+   /* public SimplePackage getSimplePackage() {
         return simplePackage;
     }
 
     public void setSimplePackage(SimplePackage simplePackage) {
         this.simplePackage = simplePackage;
-    }
+    }*/
 }
 
