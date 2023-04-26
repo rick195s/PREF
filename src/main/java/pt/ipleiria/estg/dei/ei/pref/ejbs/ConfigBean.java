@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
+import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
@@ -33,6 +35,9 @@ public class ConfigBean {
     @EJB
     ProductBean productBean;
 
+    @EJB
+    ObservationBean observationBean;
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
@@ -55,6 +60,9 @@ public class ConfigBean {
 
         dispatchOrders();
         System.out.println("Orders dispatched");
+
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        observationBean.create(PhenomenonType.TEMPERATURE, "Joao", 1, "20");
 
     }
 

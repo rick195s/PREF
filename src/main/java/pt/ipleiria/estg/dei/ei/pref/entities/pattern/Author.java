@@ -18,7 +18,7 @@ import java.util.List;
 public class Author implements Serializable {
 
     @Id
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     private String type;
@@ -30,8 +30,7 @@ public class Author implements Serializable {
         observations = new LinkedList<>();
     }
 
-    public Author(long id, String type) {
-        this.id = id;
+    public Author(String type) {
         this.type = type;
         observations = new LinkedList<>();
     }

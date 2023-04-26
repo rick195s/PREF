@@ -18,6 +18,7 @@ import java.util.List;
 public class Category implements Serializable {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     private String value;
@@ -27,8 +28,7 @@ public class Category implements Serializable {
     public Category() {
         categoryObservations = new LinkedList<>();
     }
-    public Category(long id, String value) {
-        this.id = id;
+    public Category(String value) {
         this.value = value;
         categoryObservations = new LinkedList<>();
     }

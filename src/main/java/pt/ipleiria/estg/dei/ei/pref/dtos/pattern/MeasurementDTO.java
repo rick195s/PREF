@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Measurement;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
@@ -17,8 +18,8 @@ public class MeasurementDTO extends ObservationDTO implements Serializable {
     public MeasurementDTO() {
     }
 
-    public MeasurementDTO(long id, PhenomenonType phenomenonType, Author author, Quantity quantity) {
-        super(id, phenomenonType, author);
+    public MeasurementDTO(long id, PhenomenonType phenomenonType, Author author, long simplePackageId, Quantity quantity) {
+        super(id, phenomenonType, author, simplePackageId);
         this.quantity = quantity;
     }
 
@@ -35,6 +36,7 @@ public class MeasurementDTO extends ObservationDTO implements Serializable {
                 measurement.getId(),
                 measurement.getPhenomenonType(),
                 measurement.getAuthor(),
+                measurement.getSimplePackage().getId(),
                 measurement.getQuantity()
         );
     }

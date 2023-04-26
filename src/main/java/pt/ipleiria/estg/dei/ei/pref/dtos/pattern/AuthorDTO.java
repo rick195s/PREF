@@ -13,15 +13,13 @@ public class AuthorDTO implements Serializable {
 
     private long id;
     private String type;
-    private List<Observation> observations;
 
     public AuthorDTO() {
     }
 
-    public AuthorDTO(long id, String type, List<Observation> observations) {
+    public AuthorDTO(long id, String type) {
         this.id = id;
         this.type = type;
-        this.observations = observations;
     }
 
     public long getId() {
@@ -40,23 +38,10 @@ public class AuthorDTO implements Serializable {
         this.type = type;
     }
 
-    public List<Observation> getObservations() {
-        return observations;
-    }
-
-    public void setObservations(List<Observation> observations) {
-        this.observations = observations;
-    }
-
-    public void addObservation(Observation observation) {
-        this.observations.add(observation);
-    }
-
     public static AuthorDTO from(Author author) {
         return new AuthorDTO(
                 author.getId(),
-                author.getType(),
-                author.getObservations()
+                author.getType()
         );
     }
 

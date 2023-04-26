@@ -20,6 +20,7 @@ import java.util.List;
 public class Quantity implements Serializable {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     private double value;
@@ -29,8 +30,7 @@ public class Quantity implements Serializable {
     public Quantity() {
         measurements = new LinkedList<>();
     }
-    public Quantity(long id, double value) {
-        this.id = id;
+    public Quantity(double value) {
         this.value = value;
         measurements = new LinkedList<>();
     }

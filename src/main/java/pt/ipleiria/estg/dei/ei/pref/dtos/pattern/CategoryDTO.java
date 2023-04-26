@@ -13,15 +13,13 @@ public class CategoryDTO implements Serializable {
 
     private long id;
     private String value;
-    private List<CategoryObservation> categoryObservations;
 
     public CategoryDTO() {
     }
 
-    public CategoryDTO(long id, String value, List<CategoryObservation> categoryObservations) {
+    public CategoryDTO(long id, String value) {
         this.id = id;
         this.value = value;
-        this.categoryObservations = categoryObservations;
     }
 
     public long getId() {
@@ -40,19 +38,10 @@ public class CategoryDTO implements Serializable {
         this.value = value;
     }
 
-    public List<CategoryObservation> getCategoryObservations() {
-        return categoryObservations;
-    }
-
-    public void addCategoryObservation(CategoryObservation categoryObservation) {
-        categoryObservations.add(categoryObservation);
-    }
-
     public static CategoryDTO from(Category category) {
         return new CategoryDTO(
                 category.getId(),
-                category.getValue(),
-                category.getCategoryObservations()
+                category.getValue()
         );
     }
 

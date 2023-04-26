@@ -11,15 +11,13 @@ public class QuantityDTO implements Serializable {
 
     private long id;
     private double value;
-    private List<Measurement> measurements;
 
     public QuantityDTO() {
     }
 
-    public QuantityDTO(long id, double value, List<Measurement> measurements) {
+    public QuantityDTO(long id, double value) {
         this.id = id;
         this.value = value;
-        this.measurements = measurements;
     }
 
     public long getId() {
@@ -37,19 +35,10 @@ public class QuantityDTO implements Serializable {
     public void setValue(double value) {
         this.value = value;
     }
-
-    public List<Measurement> getMeasurements() {
-        return measurements;
-    }
-
-    public void addMeasurement(Measurement measurement) {
-        measurements.add(measurement);
-    }
     public static QuantityDTO from(Quantity quantity) {
         return new QuantityDTO(
                 quantity.getId(),
-                quantity.getValue(),
-                quantity.getMeasurements()
+                quantity.getValue()
         );
     }
 
