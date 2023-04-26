@@ -3,9 +3,10 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pt.ipleiria.estg.dei.ei.pref.dtos.OrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
@@ -16,9 +17,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/orders")
 @Produces({MediaType.APPLICATION_JSON})
@@ -63,7 +65,13 @@ public class OrderService {
     @Path("/")
     public Response createOrder(OrderDTO orderDTO){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Order order = orderBean.create(dateFormat.format(new Date()), orderDTO.getProductIds(), orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethods());
+
+        Map<Long, Integer> map = new HashMap<>();
+        for (ProductQuantityDTO productQuantityDTO : orderDTO.getProductsQuantities()) {
+            map.put(productQuantityDTO.getProductId(), productQuantityDTO.getQuantity());
+        }
+
+        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethods());
 
         return Response
                 .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getTrackingNumber())))

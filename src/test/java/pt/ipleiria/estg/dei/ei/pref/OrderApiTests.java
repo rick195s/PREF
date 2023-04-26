@@ -75,18 +75,7 @@ public class OrderApiTests {
 
     @Test
     public void testCreateOrder() throws IOException {
-        String jsonBody = "{\n" +
-                "  \"productIds\":[\n" +
-                "      1,\n" +
-                "      2,\n" +
-                "      3\n" +
-                "    ],\n" +
-                "    \"source\": \"Lisbon\",\n" +
-                "    \"destination\": \"Porto\",\n" +
-                "    \"carrier\": \"DHL\",\n" +
-                "    \"shippingMethods\": [\"ground\"]\n" +
-                "    \n" +
-                "}";
+        String jsonBody = "{\"productsQuantities\":[{\"productId\":2,\"quantity\":2},{\"productId\":1,\"quantity\":4},{\"productId\":5,\"quantity\":2}],\"source\":\"Lisbon\",\"destination\":\"Porto\",\"carrier\":\"DHL\",\"shippingMethods\":[\"ground\"]}\n";
 
         RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 

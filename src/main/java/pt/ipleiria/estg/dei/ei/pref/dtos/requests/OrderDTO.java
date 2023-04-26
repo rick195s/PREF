@@ -1,11 +1,11 @@
-package pt.ipleiria.estg.dei.ei.pref.dtos;
+package pt.ipleiria.estg.dei.ei.pref.dtos.requests;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class OrderDTO implements Serializable {
 
-    private List<Long> productIds;
+    private List<ProductQuantityDTO> productsQuantities;
     private String source;
     private String destination;
     private String carrier;
@@ -14,20 +14,20 @@ public class OrderDTO implements Serializable {
     public OrderDTO() {
     }
 
-    public OrderDTO(List<Long> productIds, String source, String destination, String carrier, List<String> shippingMethods) {
-        this.productIds = productIds;
+    public OrderDTO(List<ProductQuantityDTO> productsQuantities, String source, String destination, String carrier, List<String> shippingMethods) {
+        this.productsQuantities = productsQuantities;
         this.source = source;
         this.destination = destination;
         this.carrier = carrier;
         this.shippingMethods = shippingMethods;
     }
 
-    public List<Long> getProductIds() {
-        return productIds;
+    public List<ProductQuantityDTO> getProductsQuantities() {
+        return productsQuantities;
     }
 
-    public void setProductIds(List<Long> productIds) {
-        this.productIds = productIds;
+    public void setProductsQuantities(List<ProductQuantityDTO> productsQuantities) {
+        this.productsQuantities = productsQuantities;
     }
 
     public String getSource() {
