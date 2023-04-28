@@ -125,10 +125,11 @@
   </div>
 </template>
 <script setup>
-const runtimeConfig = useRuntimeConfig();
-
-const packageUrl =
-  runtimeConfig.public.apiUrl + `/packages/${useRoute().params.id}`;
-
-const { data: packageData } = await useFetch(packageUrl);
+const { data: packageData } = await useLazyAsyncData(
+  "orderLines",
+  () => $fetch(`/api/packages/${useRoute().params.id}`, {}),
+  {
+    server: false
+  }
+);
 </script>
