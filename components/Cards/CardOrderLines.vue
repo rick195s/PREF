@@ -173,10 +173,11 @@
   </div>
 </template>
 <script setup>
-const runtimeConfig = useRuntimeConfig();
-
-const ordersUrl =
-  runtimeConfig.public.apiUrl + `/orders/${useRoute().params.trackingNumber}`;
-
-const { data: ordersData } = await useFetch(ordersUrl);
+const { data: ordersData } = await useLazyAsyncData(
+  "orderLines",
+  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
+  {
+    server: false
+  }
+);
 </script>

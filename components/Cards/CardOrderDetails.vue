@@ -24,7 +24,7 @@
             <td
               class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.trackingNumber }}
+              {{ orderData?.trackingNumber }}
             </td>
           </tr>
           <tr>
@@ -36,7 +36,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ new Date(orderData.orderDate).toLocaleDateString("pt-pt") }}
+              {{ new Date(orderData?.orderDate).toLocaleDateString("pt-pt") }}
             </td>
           </tr>
           <tr>
@@ -49,7 +49,7 @@
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               {{
-                new Date(orderData.orderDate).toLocaleTimeString("pt-PT", {
+                new Date(orderData?.orderDate).toLocaleTimeString("pt-PT", {
                   hour12: false,
                   hour: "numeric",
                   minute: "numeric"
@@ -66,7 +66,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.source }}
+              {{ orderData?.source }}
             </td>
           </tr>
           <tr>
@@ -78,7 +78,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.destination }}
+              {{ orderData?.destination }}
             </td>
           </tr>
           <tr>
@@ -90,7 +90,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.state }}
+              {{ orderData?.state }}
             </td>
           </tr>
           <tr>
@@ -102,7 +102,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.weight.toFixed(2) }}kg
+              {{ orderData?.weight.toFixed(2) }}kg
             </td>
           </tr>
           <tr>
@@ -114,7 +114,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.carrier }}
+              {{ orderData?.carrier }}
             </td>
           </tr>
           <tr>
@@ -126,7 +126,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData.shippingMethods.join(", ") }}
+              {{ orderData?.shippingMethods.join(", ") }}
             </td>
           </tr>
           <tr>
@@ -139,7 +139,7 @@
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               <div
-                v-if="!orderData.orderPackage?.name"
+                v-if="orderData != null && !orderData?.orderPackage?.name"
                 class="flex items-center"
               >
                 <select
@@ -167,14 +167,14 @@
                   </option>
                 </select>
                 <svg
-                  v-if="isPackageSelected(orderData.orderPackage)"
+                  v-if="isPackageSelected(orderData?.orderPackage)"
                   class="fill-current h-4 w-4 md:ml-2 svg-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   @click="
                     choosePackage(
-                      orderData.orderPackage,
-                      orderData.trackingNumber
+                      orderData?.orderPackage,
+                      orderData?.trackingNumber
                     )
                   "
                 >
@@ -186,12 +186,12 @@
               <div v-if="errorMessage" class="text-red-500 mb-2 md:mb-0">
                 {{ errorMessage }}
               </div>
-              <div v-if="orderData.orderPackage?.name">
+              <div v-if="orderData?.orderPackage?.name">
                 <div style="display: flex; align-items: center">
                   <span style="margin-right: 30px">{{
-                    orderData.orderPackage?.name
+                    orderData?.orderPackage?.name
                   }}</span>
-                  <NuxtLink :to="'/packages/' + orderData.orderPackage?.id">
+                  <NuxtLink :to="'/packages/' + orderData?.orderPackage?.id">
                     <button
                       class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none"
                       type="button"
@@ -209,14 +209,21 @@
   </div>
 </template>
 <script setup>
-const runtimeConfig = useRuntimeConfig();
+const { data: orderData } = await useLazyAsyncData(
+  "orderData",
+  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
+  {
+    server: false
+  }
+);
 
-const orderUrl =
-  runtimeConfig.public.apiUrl + `/orders/${useRoute().params.trackingNumber}`;
-const orderPackagesUrl = runtimeConfig.public.apiUrl + `/orderPackages`;
-
-const { data: orderData } = await useFetch(orderUrl);
-const { data: orderPackages } = await useFetch(orderPackagesUrl);
+const { data: orderPackages } = await useLazyAsyncData(
+  "orderPackages",
+  () => $fetch(`/api/orderPackages`, {}),
+  {
+    server: false
+  }
+);
 
 const orderWithError = ref("");
 const errorMessage = ref(null);
@@ -226,23 +233,27 @@ const isPackageSelected = (order) => {
 };
 
 const choosePackage = async (selectedPackage, orderId) => {
-  const url = runtimeConfig.public.apiUrl + `/orders/${orderId}`;
-  const response = await fetch(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      orderPackageId: selectedPackage
-    })
-  });
-  if (response.status === 200) {
-    orderWithError.value = "";
-    errorMessage.value = null;
-    location.reload();
-  } else {
-    orderWithError.value = orderId;
-    errorMessage.value = "An error occurred while choosing the package";
-  }
+  await useLazyAsyncData(
+    "orderLines",
+    () =>
+      $fetch(`/api/orders/${orderId}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          orderPackageId: selectedPackage
+        }),
+        onResponse: () => {
+          orderWithError.value = "";
+          errorMessage.value = null;
+          location.reload();
+        },
+        onResponseError: () => {
+          orderWithError.value = orderId;
+          errorMessage.value = "An error occurred while choosing the package";
+        }
+      }),
+    {
+      server: false
+    }
+  );
 };
 </script>
