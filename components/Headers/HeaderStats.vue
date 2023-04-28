@@ -1,6 +1,6 @@
 <template>
   <!-- Header -->
-  <div class="relative bg-emerald-600 md:pt-32 pb-32 pt-12">
+  <div class="relative md:pt-32 pb-32 pt-12">
     <!--
     <div class="px-4 md:px-10 mx-auto w-full">
       <div>
@@ -11,7 +11,7 @@
               stat-title="350,897"
               stat-arrow="up"
               stat-percent="3.48"
-              stat-percent-color="text-emerald-500"
+              stat-percent-color="text-red-500"
               stat-descripiron="Since last month"
               stat-icon-name="far fa-chart-bar"
               stat-icon-color="bg-red-500"
@@ -47,10 +47,10 @@
               stat-title="49,65%"
               stat-arrow="up"
               stat-percent="12"
-              stat-percent-color="text-emerald-500"
+              stat-percent-color="text-red-500"
               stat-descripiron="Since last month"
               stat-icon-name="fas fa-percent"
-              stat-icon-color="bg-emerald-500"
+              stat-icon-color="bg-red-500"
             />
           </div>
         </div> 

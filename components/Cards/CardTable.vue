@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
-    :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']"
+    :class="[color === 'light' ? 'bg-white' : 'bg-red-900 text-white']"
   >
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
@@ -25,7 +25,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             >
               Project
@@ -35,7 +35,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             >
               Budget
@@ -45,7 +45,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             >
               Status
@@ -55,7 +55,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             >
               Users
@@ -65,7 +65,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             >
               Completion
@@ -75,7 +75,7 @@
               :class="[
                 color === 'light'
                   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                  : 'bg-red-800 text-red-300 border-red-700'
               ]"
             ></th>
           </tr>
@@ -93,7 +93,7 @@
               <span
                 class="ml-3 font-bold"
                 :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
+                  color === 'light' ? 'text-blueGray-600' : 'text-white'
                 ]"
               >
                 Argon Design System
@@ -145,7 +145,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 60%;"
+                      style="width: 60%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
@@ -155,7 +155,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
-              <table-dropdown />
+              <TableDropdown />
             </td>
           </tr>
           <tr>
@@ -170,7 +170,7 @@
               <span
                 class="ml-3 font-bold"
                 :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
+                  color === 'light' ? 'text-blueGray-600' : 'text-white'
                 ]"
               >
                 Angular Now UI Kit PRO
@@ -184,7 +184,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              <i class="fas fa-circle text-emerald-500 mr-2"></i>
+              <i class="fas fa-circle text-red-500 mr-2"></i>
               completed
             </td>
             <td
@@ -220,11 +220,11 @@
                 <span class="mr-2">100%</span>
                 <div class="relative w-full">
                   <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
+                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 100%;"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
+                      style="width: 100%"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
-              <table-dropdown />
+              <TableDropdown />
             </td>
           </tr>
           <tr>
@@ -248,7 +248,7 @@
               <span
                 class="ml-3 font-bold"
                 :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
+                  color === 'light' ? 'text-blueGray-600' : 'text-white'
                 ]"
               >
                 Black Dashboard Sketch
@@ -300,7 +300,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 73%;"
+                      style="width: 73%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
@@ -310,7 +310,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
-              <table-dropdown />
+              <TableDropdown />
             </td>
           </tr>
           <tr>
@@ -325,7 +325,7 @@
               <span
                 class="ml-3 font-bold"
                 :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
+                  color === 'light' ? 'text-blueGray-600' : 'text-white'
                 ]"
               >
                 React Material Dashboard
@@ -377,7 +377,7 @@
                     class="overflow-hidden h-2 text-xs flex rounded bg-teal-200"
                   >
                     <div
-                      style="width: 90%;"
+                      style="width: 90%"
                       class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
                     ></div>
                   </div>
@@ -387,7 +387,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
-              <table-dropdown />
+              <TableDropdown />
             </td>
           </tr>
           <tr>
@@ -402,7 +402,7 @@
               <span
                 class="ml-3 font-bold"
                 :class="[
-                  color === 'light' ? 'text-blueGray-600' : 'text-white',
+                  color === 'light' ? 'text-blueGray-600' : 'text-white'
                 ]"
               >
                 React Material Dashboard
@@ -416,7 +416,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              <i class="fas fa-circle text-emerald-500 mr-2"></i>
+              <i class="fas fa-circle text-red-500 mr-2"></i>
               completed
             </td>
             <td
@@ -452,11 +452,11 @@
                 <span class="mr-2">100%</span>
                 <div class="relative w-full">
                   <div
-                    class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
+                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                   >
                     <div
-                      style="width: 100%;"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
+                      style="width: 100%"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
                     ></div>
                   </div>
                 </div>
@@ -465,7 +465,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
             >
-              <table-dropdown />
+              <TableDropdown />
             </td>
           </tr>
         </tbody>
@@ -488,6 +488,18 @@ import team3 from "@/assets/img/team-3-800x800.jpg";
 import team4 from "@/assets/img/team-4-470x470.png";
 
 export default {
+  components: {
+    TableDropdown
+  },
+  props: {
+    color: {
+      default: "light",
+      validator: function (value) {
+        // The value must match one of these strings
+        return ["light", "dark"].indexOf(value) !== -1;
+      }
+    }
+  },
   data() {
     return {
       bootstrap,
@@ -498,20 +510,8 @@ export default {
       team1,
       team2,
       team3,
-      team4,
+      team4
     };
-  },
-  components: {
-    TableDropdown,
-  },
-  props: {
-    color: {
-      default: "light",
-      validator: function (value) {
-        // The value must match one of these strings
-        return ["light", "dark"].indexOf(value) !== -1;
-      },
-    },
-  },
+  }
 };
 </script>
