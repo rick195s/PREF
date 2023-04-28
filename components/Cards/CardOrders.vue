@@ -7,13 +7,12 @@
     :current-page="currentPage"
     :keys="keys"
     title="Orders"
+    paginated
     @change-page="offset = ($event - 1) * perPage"
   ></TableComponent>
 </template>
 <script setup>
 import TableComponent from "@/components/Tables/TableComponent.vue";
-
-const runtimeConfig = useRuntimeConfig();
 
 const offset = ref(0);
 const perPage = ref(10);
@@ -52,19 +51,17 @@ const keys = [
   }
 ];
 
-const { data: orders, pending } = await useAsyncData(
+const { data: orders, pending } = await useLazyAsyncData(
   "orders",
   () =>
-    $fetch(`/orders`, {
-      method: "GET",
-      baseURL: runtimeConfig.public.apiUrl,
+    $fetch(`/api/orders`, {
       params: {
         offset: offset.value,
         limit: perPage.value
       }
     }),
   {
-    lazy: true,
+    server: false,
     transform: (data) => {
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";
