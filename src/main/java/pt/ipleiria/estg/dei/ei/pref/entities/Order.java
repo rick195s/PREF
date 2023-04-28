@@ -15,7 +15,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrders",
-                query = "SELECT o FROM Order o ORDER BY o.trackingNumber" // JPQL
+                query = "SELECT o FROM Order o ORDER BY o.date DESC " // JPQL
         )})
 public class Order {
 
