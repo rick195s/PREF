@@ -23,6 +23,7 @@
                 {{ arrayKey.label }}
               </th>
               <th
+                v-if="hasActions()"
                 class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
               >
                 Actions
@@ -35,11 +36,7 @@
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
                 colspan="8"
               >
-                <div class="flex justify-center items-center h-full">
-                  <div
-                    class="animate-spin rounded-full border-t-4 border-gray-500 border-solid h-12 w-12 mr-4"
-                  ></div>
-                </div>
+                <SpinnerComponent></SpinnerComponent>
               </td>
             </tr>
           </tbody>
@@ -91,7 +88,7 @@
         </table>
       </div>
       <PaginationComponent
-        v-if="props.data != null"
+        v-if="paginated && props.data != null"
         :total="props.total"
         :per-page="props.perPage"
         :current-page="currentPage"
@@ -102,8 +99,13 @@
 </template>
 <script setup>
 import PaginationComponent from "@/components/Pagination/PaginationComponent.vue";
+import SpinnerComponent from "@/components/Spinner/SpinnerComponent.vue";
 
 const props = defineProps({
+  paginated: {
+    type: Boolean,
+    default: false
+  },
   data: {
     type: Object,
     default: null
@@ -133,4 +135,14 @@ const props = defineProps({
     default: false
   }
 });
+
+const hasActions = () => {
+  for (var index in props.data) {
+    if (props.data[index]?.actions) {
+      return true;
+    }
+  }
+
+  return false;
+};
 </script>

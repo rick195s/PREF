@@ -6,15 +6,16 @@
     :current-page="currentPage"
     :keys="keys"
     :loading="pending"
+    paginated
     title="Products"
     @change-page="offset = ($event - 1) * perPage"
-    @addProduct="addProduct($event)"
+    @add-product="addProduct($event)"
   ></TableComponent>
 </template>
 <script setup>
 import TableComponent from "@/components/Tables/TableComponent.vue";
 
-const runtimeConfig = useRuntimeConfig();
+const emit = defineEmits(["addProduct"]);
 
 const offset = ref(0);
 const perPage = ref(10);
@@ -49,29 +50,26 @@ const keys = ref([
   }
 ]);
 
-const { data: products, pending } = await useAsyncData(
+const { data: products, pending } = await useLazyAsyncData(
   "products",
   () =>
-    $fetch(`/products`, {
-      method: "GET",
-      baseURL: runtimeConfig.public.apiUrl,
+    $fetch(`/api/products`, {
       params: {
         offset: offset.value,
         limit: perPage.value
       }
     }),
   {
-    lazy: true,
+    server: false,
     watch: [offset, perPage],
     transform: (data) => {
       data.data.forEach((element) => {
         element.actions = [
           {
-            emit: { name: "addProduct", value: element.id },
+            emit: { name: "addProduct", value: element },
             icon: "fa-regular fa-plus"
           }
         ];
-        console.log(element);
       });
 
       return data;
@@ -79,7 +77,9 @@ const { data: products, pending } = await useAsyncData(
   }
 );
 
-const addProduct = (id) => {
-  console.log("add product", id);
+const addProduct = (product) => {
+  const cleanedProduct = { ...product };
+  delete cleanedProduct.actions;
+  emit("addProduct", cleanedProduct);
 };
 </script>
