@@ -7,7 +7,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "nuxt build",
+        "build": "NITRO_DEV_PROXY=true nuxt build",
         "dev": "nuxt dev",
         "start": "NODE_ENV=production node .output/server/index.mjs",
         "generate": "nuxt generate",
