@@ -6,11 +6,15 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    nitro:{
-        devProxy: {
+    modules: ['@nuxtjs-alt/proxy'],
+
+    proxy: {
+        enableProxy: true,
+        proxies: {
             '/api': {
                 target: process.env.API_BASE_URL || 'https://pref.azurewebsites.net/pref/api',
                 changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
             },
         },
     },
