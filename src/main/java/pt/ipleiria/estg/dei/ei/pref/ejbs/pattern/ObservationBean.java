@@ -17,6 +17,8 @@ public class ObservationBean {
     private EntityManager entityManager;
 
     @EJB
+    private ObserverBean observerBean;
+    @EJB
     private SimplePackageBean simplePackageBean;
 
     public Observation findOrFail(long id) {
@@ -27,11 +29,9 @@ public class ObservationBean {
         return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
     }
 
-    public Observation create(PhenomenonType phenomenonType, String observerString, String date, long simplePackageId, String value) {
+    public Observation create(PhenomenonType phenomenonType, long observerId, String date, long simplePackageId, String value) {
 
-        Observer observer = new Observer(observerString);
-
-        entityManager.persist(observer);
+        Observer observer = observerBean.findOrFail(observerId);
 
         SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
 

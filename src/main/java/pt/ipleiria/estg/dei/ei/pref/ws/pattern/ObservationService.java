@@ -40,7 +40,7 @@ public class ObservationService {
 
     @GET
     @Path("/package/{simplePackageId}")
-    public Response getAllPackageLogs(@PathParam("simplePackageId") long simplePackageId) {
+    public Response getAllObservationsFromPackage(@PathParam("simplePackageId") long simplePackageId) {
         List<Observation> observations = observationBean.getAllPackageObservations(simplePackageId);
 
         List<Object> results = new ArrayList<>();
@@ -69,11 +69,12 @@ public class ObservationService {
         }
 
         PhenomenonType phenomenonType = PhenomenonType.valueOf(rootNode.get("phenomenonType").asText());
-        String observerString = rootNode.get("observer").asText();
+        long observerId = rootNode.get("observerId").asLong();
         String date = rootNode.get("date").asText();
         long simplePackageId = rootNode.get("simplePackageId").asLong();
         String value = rootNode.get("value").asText();
-        Observation observation = observationBean.create(phenomenonType, observerString, date, simplePackageId, value);
+
+        Observation observation = observationBean.create(phenomenonType, observerId, date, simplePackageId, value);
 
         if (observation instanceof CategoryObservation) {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();
