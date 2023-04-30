@@ -1,9 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Category;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 
 import java.io.Serializable;
 import java.util.List;

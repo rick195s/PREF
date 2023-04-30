@@ -1,30 +1,15 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.Hibernate;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.PackageLog;
-import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Random;
 
 @Stateless
 public class ObservationBean {
@@ -42,11 +27,11 @@ public class ObservationBean {
         return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
     }
 
-    public Observation create(PhenomenonType phenomenonType, String authorString, String date, long simplePackageId, String value) {
+    public Observation create(PhenomenonType phenomenonType, String observerString, String date, long simplePackageId, String value) {
 
-        Author author = new Author(authorString);
+        Observer observer = new Observer(observerString);
 
-        entityManager.persist(author);
+        entityManager.persist(observer);
 
         SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
 
@@ -54,13 +39,13 @@ public class ObservationBean {
             double measurementValue = Double.parseDouble(value);
             Quantity quantity = new Quantity(measurementValue);
             entityManager.persist(quantity);
-            Measurement measurement = new Measurement(phenomenonType, author, date, simplePackage, quantity);
+            Measurement measurement = new Measurement(phenomenonType, observer, date, simplePackage, quantity);
             entityManager.persist(measurement);
             return measurement;
         }
             Category category = new Category(value);
             entityManager.persist(category);
-            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, author, date, simplePackage, category);
+            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, simplePackage, category);
             entityManager.persist(categoryObservation);
             return categoryObservation;
     }

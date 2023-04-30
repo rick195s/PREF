@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -12,16 +11,16 @@ import java.util.stream.Collectors;
 public class ObservationDTO implements Serializable {
     private long id;
     private PhenomenonType phenomenonType;
-    private Author author;
+    private Observer observer;
     private String date;
     private long simplePackageId;
 
     public ObservationDTO() {
     }
-    public ObservationDTO(long id, PhenomenonType phenomenonType, Author author, String date, long simplePackageId) {
+    public ObservationDTO(long id, PhenomenonType phenomenonType, Observer observer, String date, long simplePackageId) {
         this.id = id;
         this.phenomenonType = phenomenonType;
-        this.author = author;
+        this.observer = observer;
         this.date = date;
         this.simplePackageId = simplePackageId;
     }
@@ -42,12 +41,12 @@ public class ObservationDTO implements Serializable {
         this.phenomenonType = phenomenonType;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Observer getObserver() {
+        return observer;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setObserver(Observer observer) {
+        this.observer = observer;
     }
 
     public String getDate() {
@@ -70,7 +69,7 @@ public class ObservationDTO implements Serializable {
         return new ObservationDTO(
                 observation.getId(),
                 observation.getPhenomenonType(),
-                observation.getAuthor(),
+                observation.getObserver(),
                 observation.getDate(),
                 observation.getSimplePackage().getId()
         );

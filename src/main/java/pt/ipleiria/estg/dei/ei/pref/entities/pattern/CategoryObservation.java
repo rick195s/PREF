@@ -23,8 +23,8 @@ public class CategoryObservation extends Observation implements Serializable {
 
     public CategoryObservation() {
     }
-    public CategoryObservation(PhenomenonType phenomenonType, Author author, String date, SimplePackage simplePackage, Category category) {
-        super(phenomenonType, author, date, simplePackage);
+    public CategoryObservation(PhenomenonType phenomenonType, Observer observer, String date, SimplePackage simplePackage, Category category) {
+        super(phenomenonType, observer, date, simplePackage);
         this.category = category;
     }
 

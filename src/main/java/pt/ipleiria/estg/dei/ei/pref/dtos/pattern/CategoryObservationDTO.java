@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -15,8 +14,8 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
     public CategoryObservationDTO() {
     }
 
-    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, Author author, String date, long simplePackageId, Category category) {
-        super(id, phenomenonType, author, date, simplePackageId);
+    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, Observer observer, String date, long simplePackageId, Category category) {
+        super(id, phenomenonType, observer, date, simplePackageId);
         this.category = category;
     }
 
@@ -32,7 +31,7 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
         return new CategoryObservationDTO(
                 categoryObservation.getId(),
                 categoryObservation.getPhenomenonType(),
-                categoryObservation.getAuthor(),
+                categoryObservation.getObserver(),
                 categoryObservation.getDate(),
                 categoryObservation.getSimplePackage().getId(),
                 categoryObservation.getCategory()
