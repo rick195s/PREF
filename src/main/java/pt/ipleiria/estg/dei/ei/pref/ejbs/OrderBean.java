@@ -33,7 +33,10 @@ public class OrderBean {
     public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
-        float weight = (float) products.stream().mapToDouble(Product::getWeight).sum();
+        float weight = 0;
+        for (Product product : products) {
+            weight += product.getWeight() * productsQuantities.get(product.getId());
+        }
 
         Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
 
