@@ -29,7 +29,7 @@ public class ObservationBean {
         return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
     }
 
-    public Observation create(PhenomenonType phenomenonType, long observerId, String date, long simplePackageId, String value) {
+    public Observation create(PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, String value) {
 
         Observer observer = observerBean.findOrFail(observerId);
 
@@ -39,13 +39,13 @@ public class ObservationBean {
             double measurementValue = Double.parseDouble(value);
             Quantity quantity = new Quantity(measurementValue);
             entityManager.persist(quantity);
-            Measurement measurement = new Measurement(phenomenonType, observer, date, simplePackage, quantity);
+            Measurement measurement = new Measurement(phenomenonType, observer, date, details, simplePackage, quantity);
             entityManager.persist(measurement);
             return measurement;
         }
             Category category = new Category(value);
             entityManager.persist(category);
-            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, simplePackage, category);
+            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, details, simplePackage, category);
             entityManager.persist(categoryObservation);
             return categoryObservation;
     }

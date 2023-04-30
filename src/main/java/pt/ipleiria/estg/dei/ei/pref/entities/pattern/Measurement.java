@@ -23,8 +23,8 @@ public class Measurement extends Observation implements Serializable {
 
     public Measurement() {
     }
-    public Measurement(PhenomenonType phenomenonType, Observer observer, String date, SimplePackage simplePackage, Quantity quantity) {
-        super(phenomenonType, observer, date, simplePackage);
+    public Measurement(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage, Quantity quantity) {
+        super(phenomenonType, observer, date, details, simplePackage);
         this.quantity = quantity;
     }
 

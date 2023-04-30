@@ -84,10 +84,10 @@ public class ConfigBean {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = date.format(formatter);
 
-        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, 1, "21");
-        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, 1, "23");
-        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, 2, "18");
-        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, 2, "19");
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,"{\"key1\": \"value1\", \"key2\": \"value2\"}", 1, "21");
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 1, "23");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 2, "18");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 2, "19");
     }
 
     private void createOrderPackages() {

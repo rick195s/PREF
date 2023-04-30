@@ -13,15 +13,17 @@ public class ObservationDTO implements Serializable {
     private PhenomenonType phenomenonType;
     private long observerId;
     private String date;
+    private String details;
     private long simplePackageId;
 
     public ObservationDTO() {
     }
-    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, long simplePackageId) {
+    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId) {
         this.id = id;
         this.phenomenonType = phenomenonType;
         this.observerId = observerId;
         this.date = date;
+        this.details = details;
         this.simplePackageId = simplePackageId;
     }
 
@@ -57,6 +59,14 @@ public class ObservationDTO implements Serializable {
         this.date = date;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     public long getSimplePackageId() {
         return simplePackageId;
     }
@@ -71,6 +81,7 @@ public class ObservationDTO implements Serializable {
                 observation.getPhenomenonType(),
                 observation.getObserver().getId(),
                 observation.getDate(),
+                observation.getDetails(),
                 observation.getSimplePackage().getId()
         );
     }
