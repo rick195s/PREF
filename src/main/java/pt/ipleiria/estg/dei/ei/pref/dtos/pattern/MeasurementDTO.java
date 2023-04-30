@@ -16,8 +16,8 @@ public class MeasurementDTO extends ObservationDTO implements Serializable {
     public MeasurementDTO() {
     }
 
-    public MeasurementDTO(long id, PhenomenonType phenomenonType, Observer observer, String date, long simplePackageId, Quantity quantity) {
-        super(id, phenomenonType, observer, date, simplePackageId);
+    public MeasurementDTO(long id, PhenomenonType phenomenonType, long observerId, String date, long simplePackageId, Quantity quantity) {
+        super(id, phenomenonType, observerId, date, simplePackageId);
         this.quantity = quantity;
     }
 
@@ -33,7 +33,7 @@ public class MeasurementDTO extends ObservationDTO implements Serializable {
         return new MeasurementDTO(
                 measurement.getId(),
                 measurement.getPhenomenonType(),
-                measurement.getObserver(),
+                measurement.getObserver().getId(),
                 measurement.getDate(),
                 measurement.getSimplePackage().getId(),
                 measurement.getQuantity()

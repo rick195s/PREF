@@ -129,7 +129,7 @@ Content-Type: application/json
 
 {
   "phenomenonType": "TEMPERATURE",
-  "observer": "Scan",
+  "observerId": 1,
   "date": "2018-01-01T00:00:00.000Z",
   "simplePackageId": 20,
   "value": 30

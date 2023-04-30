@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 public class ObservationDTO implements Serializable {
     private long id;
     private PhenomenonType phenomenonType;
-    private Observer observer;
+    private long observerId;
     private String date;
     private long simplePackageId;
 
     public ObservationDTO() {
     }
-    public ObservationDTO(long id, PhenomenonType phenomenonType, Observer observer, String date, long simplePackageId) {
+    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, long simplePackageId) {
         this.id = id;
         this.phenomenonType = phenomenonType;
-        this.observer = observer;
+        this.observerId = observerId;
         this.date = date;
         this.simplePackageId = simplePackageId;
     }
@@ -41,12 +41,12 @@ public class ObservationDTO implements Serializable {
         this.phenomenonType = phenomenonType;
     }
 
-    public Observer getObserver() {
-        return observer;
+    public long getObserverId() {
+        return observerId;
     }
 
-    public void setObserver(Observer observer) {
-        this.observer = observer;
+    public void setObserverId(long observerId) {
+        this.observerId = observerId;
     }
 
     public String getDate() {
@@ -69,7 +69,7 @@ public class ObservationDTO implements Serializable {
         return new ObservationDTO(
                 observation.getId(),
                 observation.getPhenomenonType(),
-                observation.getObserver(),
+                observation.getObserver().getId(),
                 observation.getDate(),
                 observation.getSimplePackage().getId()
         );

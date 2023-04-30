@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
@@ -38,6 +39,9 @@ public class ConfigBean {
     @EJB
     ObservationBean observationBean;
 
+    @EJB
+    ObserverBean observerBean;
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
@@ -61,9 +65,18 @@ public class ConfigBean {
         dispatchOrders();
         System.out.println("Orders dispatched");
 
+        createObservers();
+        System.out.println("Observers created");
+
         createObservation();
         System.out.println("Observations created");
 
+    }
+
+    private void createObservers(){
+        observerBean.create("Sensor Temperatura");
+        observerBean.create("Sensor Humidade");
+        observerBean.create("Sensor Localizacao");
     }
 
     private void createObservation(){
@@ -71,10 +84,10 @@ public class ConfigBean {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = date.format(formatter);
 
-        observationBean.create(PhenomenonType.TEMPERATURE, "Sensor Temperatura", dateString, 1, "21");
-        observationBean.create(PhenomenonType.TEMPERATURE, "Sensor Temperatura", dateString, 1, "23");
-        observationBean.create(PhenomenonType.HUMIDITY, "Sensor Humidade", dateString, 2, "18");
-        observationBean.create(PhenomenonType.HUMIDITY, "Sensor Humidade", dateString, 2, "19");
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, 1, "21");
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, 1, "23");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, 2, "18");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, 2, "19");
     }
 
     private void createOrderPackages() {
