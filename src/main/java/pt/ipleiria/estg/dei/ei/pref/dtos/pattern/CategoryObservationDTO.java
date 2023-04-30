@@ -15,8 +15,8 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
     public CategoryObservationDTO() {
     }
 
-    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, Author author, long simplePackageId, Category category) {
-        super(id, phenomenonType, author, simplePackageId);
+    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, Author author, String date, long simplePackageId, Category category) {
+        super(id, phenomenonType, author, date, simplePackageId);
         this.category = category;
     }
 
@@ -33,6 +33,7 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
                 categoryObservation.getId(),
                 categoryObservation.getPhenomenonType(),
                 categoryObservation.getAuthor(),
+                categoryObservation.getDate(),
                 categoryObservation.getSimplePackage().getId(),
                 categoryObservation.getCategory()
         );

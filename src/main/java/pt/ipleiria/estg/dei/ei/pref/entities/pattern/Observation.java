@@ -38,6 +38,9 @@ public class Observation implements Serializable {
     @NotNull
     private Author author;
 
+    @NotNull
+    private String date;
+
     @ManyToOne
     @JoinColumn(name = "simple_package_id")
     private SimplePackage simplePackage;
@@ -46,10 +49,11 @@ public class Observation implements Serializable {
 
     }
 
-    public Observation(PhenomenonType phenomenonType, Author author, SimplePackage simplePackage) {
+    public Observation(PhenomenonType phenomenonType, Author author, String date, SimplePackage simplePackage) {
         this();
         this.phenomenonType = phenomenonType;
         this.author = author;
+        this.date = date;
         this.simplePackage = simplePackage;
     }
 
@@ -75,6 +79,14 @@ public class Observation implements Serializable {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public SimplePackage getSimplePackage() {

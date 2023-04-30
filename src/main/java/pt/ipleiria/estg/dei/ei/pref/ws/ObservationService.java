@@ -70,9 +70,10 @@ public class ObservationService {
 
         PhenomenonType phenomenonType = PhenomenonType.valueOf(rootNode.get("phenomenonType").asText());
         String authorString = rootNode.get("author").asText();
+        String date = rootNode.get("date").asText();
         long simplePackageId = rootNode.get("simplePackageId").asLong();
         String value = rootNode.get("value").asText();
-        Observation observation = observationBean.create(phenomenonType, authorString, simplePackageId, value);
+        Observation observation = observationBean.create(phenomenonType, authorString, date, simplePackageId, value);
 
         if (observation instanceof CategoryObservation) {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();

@@ -14,6 +14,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -59,11 +61,20 @@ public class ConfigBean {
         dispatchOrders();
         System.out.println("Orders dispatched");
 
-        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "21");
-        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "23");
-        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "25");
-        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "19");
+        createObservation();
+        System.out.println("Observations created");
 
+    }
+
+    private void createObservation(){
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateString = date.format(formatter);
+
+        observationBean.create(PhenomenonType.TEMPERATURE, "Sensor Temperatura", dateString, 1, "21");
+        observationBean.create(PhenomenonType.TEMPERATURE, "Sensor Temperatura", dateString, 1, "23");
+        observationBean.create(PhenomenonType.HUMIDITY, "Sensor Humidade", dateString, 2, "18");
+        observationBean.create(PhenomenonType.HUMIDITY, "Sensor Humidade", dateString, 2, "19");
     }
 
     private void createOrderPackages() {
