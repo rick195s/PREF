@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,12 +12,12 @@ public class ProductPackageDTO {
     private String name;
 
     // filled with the ProductPackageRelation.type
-    private String packageType;
+    private ProductPackageType packageType;
 
     public ProductPackageDTO() {
     }
 
-    public ProductPackageDTO(long id, String name, String packageType) {
+    public ProductPackageDTO(long id, String name, ProductPackageType packageType) {
         this.id = id;
         this.name = name;
         this.packageType = packageType;
@@ -38,11 +39,11 @@ public class ProductPackageDTO {
         this.name = name;
     }
 
-    public String getPackageType() {
+    public ProductPackageType getPackageType() {
         return packageType;
     }
 
-    public void setPackageType(String packageType) {
+    public void setPackageType(ProductPackageType packageType) {
         this.packageType = packageType;
     }
 
@@ -50,7 +51,7 @@ public class ProductPackageDTO {
         return new ProductPackageDTO(
                 productPackage.getId(),
                 productPackage.getName(),
-                productPackage.getType().toString()
+                productPackage.getType()
         );
     }
 

@@ -10,12 +10,14 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -24,20 +26,37 @@ public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Product create(Product product){
-        entityManager.persist(product);
-
-        List<ProductPackage> packages = getAllProductPackages();
-
-        ProductPackage productPackage =  packages.get(new Random().nextInt(packages.size()));
-        ProductPackageRelation relation = new ProductPackageRelation(
-                new ProductPackageRelationPK(productPackage.getId(), product.getId()),
-                product,
-                productPackage,
-                ProductPackageType.PRIMARY
+    public Product create(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, List<ProductPackage> productPackages){
+        Product product = new Product(
+                name,
+                category,
+                price,
+                weight,
+                validityRange,
+                length,
+                width,
+                height
         );
 
-        entityManager.persist(relation);
+        entityManager.persist(product);
+
+        // packages order influence in the type of package (primary, secondary, etc-)
+        int i = 0;
+        for (ProductPackage productPackage : productPackages) {
+            if (i>=ProductPackageType.values().length){
+                break;
+            }
+
+            ProductPackageRelation relation = new ProductPackageRelation(
+                    new ProductPackageRelationPK(productPackage.getId(), product.getId()),
+                    product,
+                    productPackage,
+                    ProductPackageType.values()[i]
+            );
+            entityManager.persist(relation);
+
+            i++;
+        }
 
         return product;
     }
@@ -71,10 +90,21 @@ public class ProductBean {
 
     public void populateProducts() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Product> products = objectMapper.readValue(getProductsJson(), new TypeReference<List<Product>>(){});
+        List<Product> products = objectMapper.readValue(getProductsJson(), new TypeReference<>(){});
 
+        List<ProductPackage> productPackages = getAllProductPackages();
+        List<ProductPackage> productPackagesByType = new LinkedList<>();
+
+        // choose just a max of x packages for each product
+        // none of the package type will be repeated
+        int max = ProductPackageType.values().length;
+        int min = 1;
         for (Product product : products) {
-            create(product);
+            productPackagesByType.clear();
+            for (int i = 0; i < new Random().nextInt(max-min+1)+min; i++) {
+                productPackagesByType.add(productPackages.get(new Random().nextInt(productPackages.size())));
+            }
+            create(product.getName(), product.getCategory(), product.getPrice(), product.getWeight(), product.getValidityRange(), product.getLength(), product.getWidth(), product.getHeight(), productPackagesByType);
         }
     }
 

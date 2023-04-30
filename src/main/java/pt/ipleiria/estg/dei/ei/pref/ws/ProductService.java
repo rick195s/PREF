@@ -2,10 +2,14 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.ProductPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.ProductBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
@@ -13,7 +17,8 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Path("/products")
 @Produces({MediaType.APPLICATION_JSON})
@@ -46,5 +51,34 @@ public class ProductService {
         var paginatedDTO = new PaginatedDTO<>(ProductDTO.from(products), count, pageRequest.getOffset());
 
         return Response.ok(paginatedDTO).build();
+    }
+
+    @POST
+    @Path("/")
+    public Response createOrder(ProductDTO productDTO){
+
+        List<ProductPackage> productPackages = new LinkedList<>();
+        for (ProductPackageDTO productPackageDTO : productDTO.getProductPackages()) {
+            ProductPackage productPackage = new ProductPackage();
+            productPackage.setId(productPackageDTO.getId());
+            productPackages.add(productPackage);
+        }
+
+
+        Product product = productBean.create(
+                productDTO.getName(),
+                productDTO.getCategory(),
+                productDTO.getPrice(),
+                productDTO.getWeight(),
+                productDTO.getValidityRange(),
+                productDTO.getLength(),
+                productDTO.getWidth(),
+                productDTO.getHeight(),
+                productPackages
+        );
+
+        return Response
+                .ok(ProductDTO.from(productBean.findOrFail(product.getId())))
+                .status(Response.Status.CREATED).build();
     }
 }
