@@ -74,9 +74,9 @@ public class ConfigBean {
     }
 
     private void createObservers(){
-        observerBean.create("Sensor Temperatura");
-        observerBean.create("Sensor Humidade");
-        observerBean.create("Sensor Localizacao");
+        observerBean.create("Temperature Sensor");
+        observerBean.create("Humidity Sensor");
+        observerBean.create("Location Sensor");
     }
 
     private void createObservation(){
