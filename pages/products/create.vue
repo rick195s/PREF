@@ -3,21 +3,13 @@
     <div class="w-full">
       <CardCreate
         :loading="loading"
-        title="Create Order"
+        title="Create Product"
         :fields="fields"
-        @create="createOrder($event)"
+        @create="createProduct($event)"
       />
     </div>
-    <div class="w-full lg:w-8/12 px-4">
-      <CardProducts @add-product="addProduct($event)" />
-    </div>
-    <div class="w-full lg:w-4/12 px-4">
-      <CardSelectedProducts
-        ref="selectedProductsComponent"
-        :products="selectedProducts"
-        @remove-product="removeProduct($event)"
-      />
-    </div>
+
+    <CardProductPackages />
     <NotificationToast
       v-show="toastMessage"
       :message="toastMessage"
@@ -28,56 +20,51 @@
 </template>
 <script setup>
 import CardCreate from "@/components/Cards/CardCreate.vue";
-import CardProducts from "@/components/Cards/CardProducts.vue";
-import CardSelectedProducts from "@/components/Cards/CardSelectedProducts.vue";
+import CardProductPackages from "@/components/Cards/CardProductPackages.vue";
 import NotificationToast from "@/components/Toasts/NotificationToast.vue";
 
 const selectedProducts = ref([]);
 const toastMessage = ref("");
 const toastType = ref("success");
 const loading = ref(false);
-const selectedProductsComponent = ref(null);
 const fields = ref([
   {
-    label: "Source",
-    name: "source",
+    label: "Name",
+    name: "name",
     type: "text"
   },
   {
-    label: "Destination",
-    name: "destination",
+    label: "Category",
+    name: "category",
     type: "text"
   },
   {
-    label: "Carrier",
-    name: "carrier",
+    label: "Price",
+    name: "price",
     type: "text"
   },
   {
-    label: "Shipping Methods",
-    name: "shippingMethods",
+    label: "Weight",
+    name: "weight",
+    type: "text"
+  },
+  {
+    label: "Validity Range",
+    name: "validityRange",
+    type: "text"
+  },
+  {
+    label: "Dimensions",
+    name: "dimensions",
     type: "text"
   }
 ]);
 
-const addProduct = (product) => {
-  selectedProducts.value.push(product);
-};
-
-const removeProduct = (id) => {
-  const index = selectedProducts.value.findIndex(
-    (product) => product.id === id
-  );
-  if (index !== -1) {
-    selectedProducts.value.splice(index, 1);
-  }
-};
-
-const createOrder = async (formData) => {
+const createProduct = async (formData) => {
   if (!hasErrors(formData)) {
-    const newOrder = { ...formData };
-    newOrder.shippingMethods = newOrder.shippingMethods.split(" ");
-    newOrder.productsQuantities =
+    const newProduct = { ...formData };
+    newProduct.shippingMethods = newProduct.shippingMethods.split(" ");
+    newProduct.productsQuantities =
       selectedProductsComponent.value.productsByQuantity.map(
         ({ id, quantity }) => ({
           productId: id,
@@ -87,17 +74,17 @@ const createOrder = async (formData) => {
 
     loading.value = true;
     const { pending } = await useLazyAsyncData(
-      "createOrder",
+      "createProduct",
       () =>
-        $fetch(`/api/orders`, {
+        $fetch(`/api/products`, {
           method: "POST",
-          body: JSON.stringify(newOrder),
+          body: JSON.stringify(newProduct),
           onResponseError: ({ request, options, response }) => {
             toastMessage.value = response._data?.reason;
             toastType.value = "error";
           },
           onResponse: ({ request, response, options }) => {
-            toastMessage.value = "Order created successfully";
+            toastMessage.value = "Product created successfully";
             toastType.value = "success";
           }
         }),
