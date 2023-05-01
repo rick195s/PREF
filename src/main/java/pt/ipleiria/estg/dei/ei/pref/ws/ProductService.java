@@ -3,13 +3,8 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductPackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.ProductBean;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
@@ -17,7 +12,6 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Path("/products")
@@ -57,11 +51,9 @@ public class ProductService {
     @Path("/")
     public Response createOrder(ProductDTO productDTO){
 
-        List<ProductPackage> productPackages = new LinkedList<>();
+        HashSet<Long> productPackagesIds = new HashSet<>();
         for (ProductPackageDTO productPackageDTO : productDTO.getProductPackages()) {
-            ProductPackage productPackage = new ProductPackage();
-            productPackage.setId(productPackageDTO.getId());
-            productPackages.add(productPackage);
+            productPackagesIds.add(productPackageDTO.getId());
         }
 
 
@@ -74,7 +66,7 @@ public class ProductService {
                 productDTO.getLength(),
                 productDTO.getWidth(),
                 productDTO.getHeight(),
-                productPackages
+                productPackagesIds
         );
 
         return Response
