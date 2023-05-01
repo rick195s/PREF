@@ -118,7 +118,7 @@ const hasErrors = (formData) => {
     return true;
   }
 
-  for (const field in formData) {
+  for (const field in fields) {
     if (!formData[field]) {
       toastMessage.value = "Please fill all the fields";
       toastType.value = "error";

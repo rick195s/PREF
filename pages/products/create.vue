@@ -9,7 +9,16 @@
       />
     </div>
 
-    <CardProductPackages />
+    <div class="w-full lg:w-8/12 px-4">
+      <CardProductPackages
+        :actions-enabled="selectedPackages.length < 3"
+        @add-package="addPackage($event)"
+      />
+    </div>
+
+    <div class="w-full lg:w-4/12 px-4">
+      <CardSelectedProductPackages v-model="selectedPackages" />
+    </div>
     <NotificationToast
       v-show="toastMessage"
       :message="toastMessage"
@@ -21,9 +30,10 @@
 <script setup>
 import CardCreate from "@/components/Cards/CardCreate.vue";
 import CardProductPackages from "@/components/Cards/CardProductPackages.vue";
+import CardSelectedProductPackages from "@/components/Cards/CardSelectedProductPackages.vue";
 import NotificationToast from "@/components/Toasts/NotificationToast.vue";
 
-const selectedProducts = ref([]);
+const selectedPackages = ref([]);
 const toastMessage = ref("");
 const toastType = ref("success");
 const loading = ref(false);
@@ -63,14 +73,7 @@ const fields = ref([
 const createProduct = async (formData) => {
   if (!hasErrors(formData)) {
     const newProduct = { ...formData };
-    newProduct.shippingMethods = newProduct.shippingMethods.split(" ");
-    newProduct.productsQuantities =
-      selectedProductsComponent.value.productsByQuantity.map(
-        ({ id, quantity }) => ({
-          productId: id,
-          quantity
-        })
-      );
+    newProduct.productPackages = { ...selectedPackages };
 
     loading.value = true;
     const { pending } = await useLazyAsyncData(
@@ -99,13 +102,13 @@ const createProduct = async (formData) => {
 };
 
 const hasErrors = (formData) => {
-  if (selectedProducts.value.length === 0) {
-    toastMessage.value = "Please add products to the order";
+  if (selectedPackages.value.length === 0) {
+    toastMessage.value = "Please add packages to the product";
     toastType.value = "error";
     return true;
   }
 
-  for (const field in formData) {
+  for (const field in fields) {
     if (!formData[field]) {
       toastMessage.value = "Please fill all the fields";
       toastType.value = "error";
@@ -114,5 +117,13 @@ const hasErrors = (formData) => {
   }
 
   return false;
+};
+
+const addPackage = (selectedPackage) => {
+  if (
+    !selectedPackages.value.find((object) => object.id === selectedPackage.id)
+  ) {
+    selectedPackages.value.push(selectedPackage);
+  }
 };
 </script>
