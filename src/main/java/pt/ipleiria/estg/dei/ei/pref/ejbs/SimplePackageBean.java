@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
@@ -29,5 +30,9 @@ public class SimplePackageBean {
         entityManager.persist(simplePackage);
 
         return simplePackage;
+    }
+
+    public List<ProductPackage> getAllProductPackages() {
+        return (List<ProductPackage>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
     }
 }

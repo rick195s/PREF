@@ -2,9 +2,8 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.ProductPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.ProductBean;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
@@ -13,7 +12,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.util.*;
 
 @Path("/products")
 @Produces({MediaType.APPLICATION_JSON})
@@ -46,5 +45,34 @@ public class ProductService {
         var paginatedDTO = new PaginatedDTO<>(ProductDTO.from(products), count, pageRequest.getOffset());
 
         return Response.ok(paginatedDTO).build();
+    }
+
+    @POST
+    @Path("/")
+    public Response createProduct(ProductDTO productDTO){
+        System.out.println("Product created");
+
+        HashSet<Long> productPackagesIds = new HashSet<>();
+        for (ProductPackageDTO productPackageDTO : productDTO.getProductPackages()) {
+            productPackagesIds.add(productPackageDTO.getId());
+        }
+
+
+        Product product = productBean.create(
+                productDTO.getName(),
+                productDTO.getCategory(),
+                productDTO.getPrice(),
+                productDTO.getWeight(),
+                productDTO.getValidityRange(),
+                productDTO.getLength(),
+                productDTO.getWidth(),
+                productDTO.getHeight(),
+                productPackagesIds
+        );
+
+
+        return Response
+                .ok(ProductDTO.from(productBean.findOrFail(product.getId())))
+                .status(Response.Status.CREATED).build();
     }
 }
