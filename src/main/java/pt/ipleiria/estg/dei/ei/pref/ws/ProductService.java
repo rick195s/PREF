@@ -49,7 +49,8 @@ public class ProductService {
 
     @POST
     @Path("/")
-    public Response createOrder(ProductDTO productDTO){
+    public Response createProduct(ProductDTO productDTO){
+        System.out.println("Product created");
 
         HashSet<Long> productPackagesIds = new HashSet<>();
         for (ProductPackageDTO productPackageDTO : productDTO.getProductPackages()) {
@@ -68,6 +69,7 @@ public class ProductService {
                 productDTO.getHeight(),
                 productPackagesIds
         );
+
 
         return Response
                 .ok(ProductDTO.from(productBean.findOrFail(product.getId())))
