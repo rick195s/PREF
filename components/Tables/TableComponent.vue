@@ -62,6 +62,7 @@
               </td>
 
               <td
+                v-if="hasActions()"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <span v-for="action in record.actions" :key="action">
@@ -133,13 +134,17 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  actions: {
+    type: Boolean,
+    default: true
   }
 });
 
 const hasActions = () => {
   for (var index in props.data) {
     if (props.data[index]?.actions) {
-      return true;
+      return true && props.actions;
     }
   }
 

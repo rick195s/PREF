@@ -1,7 +1,12 @@
 <template>
   <div class="flex flex-wrap">
     <div class="w-full">
-      <CardCreateOrder :loading="loading" @create-order="createOrder($event)" />
+      <CardCreate
+        :loading="loading"
+        title="Create Order"
+        :fields="fields"
+        @create="createOrder($event)"
+      />
     </div>
     <div class="w-full lg:w-8/12 px-4">
       <CardProducts @add-product="addProduct($event)" />
@@ -22,7 +27,7 @@
   </div>
 </template>
 <script setup>
-import CardCreateOrder from "@/components/Cards/CardCreateOrder.vue";
+import CardCreate from "@/components/Cards/CardCreate.vue";
 import CardProducts from "@/components/Cards/CardProducts.vue";
 import CardSelectedProducts from "@/components/Cards/CardSelectedProducts.vue";
 import NotificationToast from "@/components/Toasts/NotificationToast.vue";
@@ -31,8 +36,29 @@ const selectedProducts = ref([]);
 const toastMessage = ref("");
 const toastType = ref("success");
 const loading = ref(false);
-
 const selectedProductsComponent = ref(null);
+const fields = ref([
+  {
+    label: "Source",
+    name: "source",
+    type: "text"
+  },
+  {
+    label: "Destination",
+    name: "destination",
+    type: "text"
+  },
+  {
+    label: "Carrier",
+    name: "carrier",
+    type: "text"
+  },
+  {
+    label: "Shipping Methods",
+    name: "shippingMethods",
+    type: "text"
+  }
+]);
 
 const addProduct = (product) => {
   selectedProducts.value.push(product);
@@ -92,8 +118,8 @@ const hasErrors = (formData) => {
     return true;
   }
 
-  for (const field in formData) {
-    if (!formData[field]) {
+  for (const field of fields.value) {
+    if (!formData[field.name]) {
       toastMessage.value = "Please fill all the fields";
       toastType.value = "error";
       return true;
