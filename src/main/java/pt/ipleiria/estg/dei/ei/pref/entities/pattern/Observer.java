@@ -8,29 +8,29 @@ import java.util.List;
 
 @Entity
 @Table(
-        name = "authors"
+        name = "observers"
 )
 @NamedQueries({
         @NamedQuery(
-                name = "getAllAuthors",
-                query = "SELECT a FROM Author a ORDER BY a.id" // JPQL
+                name = "getAllObservers",
+                query = "SELECT o FROM Observer o ORDER BY o.id" // JPQL
         )})
-public class Author implements Serializable {
+public class Observer implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     private String type;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "observer")
     private List<Observation> observations;
 
-    public Author() {
+    public Observer() {
         observations = new LinkedList<>();
     }
 
-    public Author(String type) {
+    public Observer(String type) {
         this.type = type;
         observations = new LinkedList<>();
     }

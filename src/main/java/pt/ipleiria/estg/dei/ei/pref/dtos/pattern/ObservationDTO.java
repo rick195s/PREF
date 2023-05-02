@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -12,15 +11,19 @@ import java.util.stream.Collectors;
 public class ObservationDTO implements Serializable {
     private long id;
     private PhenomenonType phenomenonType;
-    private Author author;
+    private long observerId;
+    private String date;
+    private String details;
     private long simplePackageId;
 
     public ObservationDTO() {
     }
-    public ObservationDTO(long id, PhenomenonType phenomenonType, Author author, long simplePackageId) {
+    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId) {
         this.id = id;
         this.phenomenonType = phenomenonType;
-        this.author = author;
+        this.observerId = observerId;
+        this.date = date;
+        this.details = details;
         this.simplePackageId = simplePackageId;
     }
 
@@ -40,12 +43,28 @@ public class ObservationDTO implements Serializable {
         this.phenomenonType = phenomenonType;
     }
 
-    public Author getAuthor() {
-        return author;
+    public long getObserverId() {
+        return observerId;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setObserverId(long observerId) {
+        this.observerId = observerId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public long getSimplePackageId() {
@@ -60,7 +79,9 @@ public class ObservationDTO implements Serializable {
         return new ObservationDTO(
                 observation.getId(),
                 observation.getPhenomenonType(),
-                observation.getAuthor(),
+                observation.getObserver().getId(),
+                observation.getDate(),
+                observation.getDetails(),
                 observation.getSimplePackage().getId()
         );
     }

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.ws;
+package pt.ipleiria.estg.dei.ei.pref.ws.pattern;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,7 +40,7 @@ public class ObservationService {
 
     @GET
     @Path("/package/{simplePackageId}")
-    public Response getAllPackageLogs(@PathParam("simplePackageId") long simplePackageId) {
+    public Response getAllObservationsFromPackage(@PathParam("simplePackageId") long simplePackageId) {
         List<Observation> observations = observationBean.getAllPackageObservations(simplePackageId);
 
         List<Object> results = new ArrayList<>();
@@ -69,10 +69,13 @@ public class ObservationService {
         }
 
         PhenomenonType phenomenonType = PhenomenonType.valueOf(rootNode.get("phenomenonType").asText());
-        String authorString = rootNode.get("author").asText();
+        long observerId = rootNode.get("observerId").asLong();
+        String date = rootNode.get("date").asText();
+        String details = rootNode.get("details").asText();
         long simplePackageId = rootNode.get("simplePackageId").asLong();
         String value = rootNode.get("value").asText();
-        Observation observation = observationBean.create(phenomenonType, authorString, simplePackageId, value);
+
+        Observation observation = observationBean.create(phenomenonType, observerId, date, details,simplePackageId, value);
 
         if (observation instanceof CategoryObservation) {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();

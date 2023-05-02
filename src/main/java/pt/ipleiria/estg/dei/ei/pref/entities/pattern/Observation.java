@@ -1,15 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Author;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Table(
@@ -36,7 +32,12 @@ public class Observation implements Serializable {
     private PhenomenonType phenomenonType;
 
     @NotNull
-    private Author author;
+    private Observer observer;
+
+    @NotNull
+    private String date;
+
+    private String details;
 
     @ManyToOne
     @JoinColumn(name = "simple_package_id")
@@ -46,10 +47,12 @@ public class Observation implements Serializable {
 
     }
 
-    public Observation(PhenomenonType phenomenonType, Author author, SimplePackage simplePackage) {
+    public Observation(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage) {
         this();
         this.phenomenonType = phenomenonType;
-        this.author = author;
+        this.observer = observer;
+        this.date = date;
+        this.details = details;
         this.simplePackage = simplePackage;
     }
 
@@ -69,12 +72,28 @@ public class Observation implements Serializable {
         this.phenomenonType = phenomenonType;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Observer getObserver() {
+        return observer;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public SimplePackage getSimplePackage() {

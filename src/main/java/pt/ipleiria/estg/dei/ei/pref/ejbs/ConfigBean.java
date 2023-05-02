@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
@@ -14,6 +15,8 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +38,9 @@ public class ConfigBean {
 
     @EJB
     ObservationBean observationBean;
+
+    @EJB
+    ObserverBean observerBean;
 
     @PostConstruct
     public void populateDB() {
@@ -59,11 +65,29 @@ public class ConfigBean {
         dispatchOrders();
         System.out.println("Orders dispatched");
 
-        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "21");
-        observationBean.create(PhenomenonType.TEMPERATURE, "Scan", 1, "23");
-        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "25");
-        observationBean.create(PhenomenonType.HUMIDITY, "Scan", 2, "19");
+        createObservers();
+        System.out.println("Observers created");
 
+        createObservation();
+        System.out.println("Observations created");
+
+    }
+
+    private void createObservers(){
+        observerBean.create("Temperature Sensor");
+        observerBean.create("Humidity Sensor");
+        observerBean.create("Location Sensor");
+    }
+
+    private void createObservation(){
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateString = date.format(formatter);
+
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,"{\"key1\": \"value1\", \"key2\": \"value2\"}", 1, "21");
+        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 1, "23");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 2, "18");
+        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, "{\"key1\": \"value1\", \"key2\": \"value2\"}", 2, "19");
     }
 
     private void createOrderPackages() {

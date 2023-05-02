@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pt.ipleiria.estg.dei.ei.pref.ApiIntegrationTests.baseUrl;
 import static pt.ipleiria.estg.dei.ei.pref.ApiIntegrationTests.printJsonResponse;
 
-public class PackageLogApiTest {
+public class ObservationApiTest {
 
     private final OkHttpClient client = new OkHttpClient();
 
     @Test
-    public void testGetPackageLogsFromSimplePackage() throws IOException {
+    public void testGetObservationsFromSimplePackage() throws IOException {
         Request request = new Request.Builder()
-                .url(baseUrl + "package-logs/package/1")
+                .url(baseUrl + "observations/package/1")
                 .addHeader("Accept", "application/json")
                 .build();
 
@@ -34,19 +34,21 @@ public class PackageLogApiTest {
     }
 
     @Test
-    public void testCreatePackageLogError() throws IOException {
+    public void testCreateObservationError() throws IOException {
         // Create JSON request body
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("simplePackageId", 100000);
-        requestBody.put("location", "Madrid");
-        requestBody.put("temperature", 20);
-        requestBody.put("humidity", 50);
+        requestBody.put("phenomenonType", "TEMPERATURE");
+        requestBody.put("observerId", 1);
+        requestBody.put("date", "2023-01-01T00:00:00.000Z");
+        requestBody.put("details", "{\"key1\": \"value1\", \"key2\": \"value2\"}");
+        requestBody.put("simplePackageId", 20);
+        requestBody.put("value", 20);
         String requestBodyJson = new ObjectMapper().writeValueAsString(requestBody);
 
         // Create HTTP request
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBodyJson);
         Request request = new Request.Builder()
-                .url(baseUrl + "package-logs")
+                .url(baseUrl + "observations")
                 .post(body)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
@@ -59,7 +61,24 @@ public class PackageLogApiTest {
             if (response.body() != null) {
                 printJsonResponse(response.body().string());
             }
-            assertEquals(404, response.code());
+            assertEquals(200, response.code());
+        }
+    }
+
+    @Test
+    public void testGetObservations() throws IOException {
+        Request request = new Request.Builder()
+                .url(baseUrl + "observations")
+                .addHeader("Accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("Request URL: " + request.url());
+            System.out.println("Response Body:");
+            if (response.body() != null) {
+                printJsonResponse(response.body().string());
+            }
+            assertEquals(200, response.code());
         }
     }
 
