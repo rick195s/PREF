@@ -51,20 +51,20 @@ const fields = ref([
   {
     label: "Price",
     name: "price",
-    type: "text"
+    type: "number"
   },
   {
     label: "Weight",
     name: "weight",
-    type: "text"
+    type: "number"
   },
   {
     label: "Validity Range",
     name: "validityRange",
-    type: "text"
+    type: "number"
   },
   {
-    label: "Dimensions",
+    label: "Dimensions (Length x Weigth x Height)",
     name: "dimensions",
     type: "text"
   }
@@ -72,9 +72,15 @@ const fields = ref([
 
 const createProduct = async (formData) => {
   if (!hasErrors(formData)) {
-    const newProduct = { ...formData };
-    newProduct.productPackages = { ...selectedPackages };
-
+    const newProduct = {
+      ...formData,
+      ...getDimensionsSeparated(formData.dimensions)
+    };
+    delete newProduct.dimensions;
+    newProduct.productPackages = selectedPackages.value.map(({ id }) => ({
+      id: id
+    }));
+    console.log(newProduct);
     loading.value = true;
     const { pending } = await useLazyAsyncData(
       "createProduct",
@@ -108,9 +114,16 @@ const hasErrors = (formData) => {
     return true;
   }
 
-  for (const field in fields) {
-    if (!formData[field]) {
+  for (const field of fields.value) {
+    if (!formData[field.name]) {
       toastMessage.value = "Please fill all the fields";
+      toastType.value = "error";
+      return true;
+    }
+
+    if (formData["dimensions"].trim().split("x").length !== 3) {
+      toastMessage.value =
+        "Dimensions field is incorrect (correct: L x W x H) ";
       toastType.value = "error";
       return true;
     }
@@ -125,5 +138,21 @@ const addPackage = (selectedPackage) => {
   ) {
     selectedPackages.value.push(selectedPackage);
   }
+};
+
+const getDimensionsSeparated = (dimensions) => {
+  const dimensionsArray = dimensions.trim().split("x");
+  return {
+    length:
+      Number(dimensionsArray[0]) !== (NaN || 0)
+        ? Number(dimensionsArray[0])
+        : 1,
+    width:
+      Number(dimensionsArray[1]) !== (NaN || 0)
+        ? Number(dimensionsArray[1])
+        : 1,
+    height:
+      Number(dimensionsArray[2]) !== (NaN || 0) ? Number(dimensionsArray[2]) : 1
+  };
 };
 </script>

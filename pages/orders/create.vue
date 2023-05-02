@@ -118,8 +118,8 @@ const hasErrors = (formData) => {
     return true;
   }
 
-  for (const field in fields) {
-    if (!formData[field]) {
+  for (const field of fields.value) {
+    if (!formData[field.name]) {
       toastMessage.value = "Please fill all the fields";
       toastType.value = "error";
       return true;
