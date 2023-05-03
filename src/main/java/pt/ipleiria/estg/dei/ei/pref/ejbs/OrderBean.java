@@ -41,7 +41,7 @@ public class OrderBean {
         Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
 
         List<OrderLine> orderLines = products.stream().map(product ->
-                new OrderLine(productsQuantities.get(product.getId()), product.getPrice(),product, order)).collect(Collectors.toList());
+                new OrderLine(productsQuantities.get(product.getId()), productsQuantities.get(product.getId())*product.getPrice(),product, order)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 
