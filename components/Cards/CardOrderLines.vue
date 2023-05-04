@@ -146,11 +146,9 @@
               {{ orderLine.productPrice }}€
             </td>
             <td
-              v-for="productPackage in orderLine.product.productPackages"
-              :key="productPackage.id"
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ productPackage.name }}
+              {{ orderLine.product.productPackages.map(packageName => packageName.name).join('; ') }}
             </td>
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
