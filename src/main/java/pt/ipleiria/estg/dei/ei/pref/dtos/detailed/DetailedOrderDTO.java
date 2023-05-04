@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.dtos.detailed;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderLineDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
@@ -19,9 +20,9 @@ public class DetailedOrderDTO implements Serializable {
     private float weight;
     private String carrier;
     private List<String> shippingMethods;
-    private OrderPackageDTO orderPackage;
+    private List<OrderPackageDTO> orderPackages;
 
-    public DetailedOrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, OrderPackageDTO orderPackage) {
+    public DetailedOrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, List<OrderPackageDTO> orderPackages) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
@@ -31,7 +32,7 @@ public class DetailedOrderDTO implements Serializable {
         this.weight = weight;
         this.carrier = carrier;
         this.shippingMethods = shippingMethods;
-        this.orderPackage = orderPackage;
+        this.orderPackages = orderPackages;
     }
 
     public DetailedOrderDTO() {
@@ -110,16 +111,15 @@ public class DetailedOrderDTO implements Serializable {
     }
 
 
-    public OrderPackageDTO getOrderPackage() {
-        return orderPackage;
+    public List<OrderPackageDTO> getOrderPackages() {
+        return orderPackages;
     }
 
-    public void setOrderPackage(OrderPackageDTO orderPackage) {
-        this.orderPackage = orderPackage;
+    public void setOrderPackages(List<OrderPackageDTO> orderPackages) {
+        this.orderPackages = orderPackages;
     }
 
     public static DetailedOrderDTO from(Order order) {
-        DetailedOrderDTO detailedOrderDTO = new DetailedOrderDTO();
         return new DetailedOrderDTO(
                 order.getTrackingNumber(),
                 order.getDate(),
@@ -130,7 +130,7 @@ public class DetailedOrderDTO implements Serializable {
                 order.getWeight(),
                 order.getCarrier(),
                 order.getShippingMethods(),
-                order.getOrderPackage() != null ? OrderPackageDTO.from(order.getOrderPackage()) : null
+                order.getOrderPackages() != null ? OrderPackageDTO.fromOrderPackageList(order.getOrderPackages()) : null
         );
     }
 

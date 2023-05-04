@@ -80,19 +80,8 @@ public class OrderService {
 
     @PATCH
     @Path("/{trackingNumber}")
-    public Response dispatchOrder(String jsonObject, @PathParam("trackingNumber") long trackingNumber) {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = null;
-
-        try {
-            rootNode = objectMapper.readTree(jsonObject);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        long orderPackageId = rootNode.get("orderPackageId").asLong();
-        return Response.ok(DetailedOrderDTO.from(orderBean.dispatchOrder(trackingNumber, orderPackageId))).build();
+    public Response dispatchOrder(@PathParam("trackingNumber") long trackingNumber) {
+        return Response.ok(DetailedOrderDTO.from(orderBean.dispatchOrder(trackingNumber))).build();
     }
 
 }

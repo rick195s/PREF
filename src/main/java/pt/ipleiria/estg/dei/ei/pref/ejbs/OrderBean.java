@@ -13,8 +13,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,13 +55,8 @@ public class OrderBean {
 
     public Order findOrFail(long trackingNumber) {
         Order order = entityManager.getReference(Order.class, trackingNumber);
-        Hibernate.initialize(order);
-        Hibernate.initialize(order.getOrderLines());
-        Hibernate.initialize(order.getShippingMethods());
+        initializeOrder(order);
 
-        for (OrderLine orderLine : order.getOrderLines()) {
-            Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
-        }
         return order;
     }
 
@@ -74,13 +67,19 @@ public class OrderBean {
                 .getResultList();
 
         for (Order order : orders) {
-            Hibernate.initialize(order.getOrderLines());
-            Hibernate.initialize(order.getShippingMethods());
-            for (OrderLine orderLine : order.getOrderLines()) {
-                Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
-            }
+           initializeOrder(order);
         }
         return orders;
+    }
+
+    private void initializeOrder(Order order){
+        Hibernate.initialize(order.getOrderLines());
+        Hibernate.initialize(order.getShippingMethods());
+        Hibernate.initialize(order.getOrderPackages());
+
+        for (OrderLine orderLine : order.getOrderLines()) {
+            Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+        }
     }
 
     public Long count() {
@@ -88,7 +87,7 @@ public class OrderBean {
     }
 
 
-    public Order dispatchOrder(long id, long orderPackageId) {
+    public Order dispatchOrder(long id) {
           Order order = findOrFail(id);
 
         if (order == null) {
@@ -97,11 +96,7 @@ public class OrderBean {
         if (order.getState() != OrderState.PENDING) {
             throw new MyIllegalArgumentException("Order is not waiting for dispatch");
         }
-        OrderPackage orderPackage = entityManager.find(OrderPackage.class, orderPackageId);
-        if (orderPackage == null) {
-            throw new MyEntityNotFoundException("Package not found");
-        }
-        order.setOrderPackage(orderPackage);
+
         order.setState(OrderState.PACKED);
 
         return order;
