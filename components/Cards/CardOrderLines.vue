@@ -154,7 +154,7 @@
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               <NuxtLink
-                :to="'/packages/' + orderLine.product?.productPackages.id"
+                :to="'/observations/' + orderLine.product?.productPackages.id"
               >
                 <button
                   class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
