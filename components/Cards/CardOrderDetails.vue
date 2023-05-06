@@ -191,7 +191,7 @@
                   <span style="margin-right: 30px">{{
                     orderData?.orderPackage?.name
                   }}</span>
-                  <NuxtLink :to="'/packages/' + orderData?.orderPackage?.id">
+                  <NuxtLink :to="'/observations/' + orderData?.orderPackage?.id">
                     <button
                       class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none"
                       type="button"
@@ -256,4 +256,5 @@ const choosePackage = async (selectedPackage, orderId) => {
     }
   );
 };
+
 </script>
