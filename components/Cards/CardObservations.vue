@@ -46,7 +46,7 @@ const { data: observations, pending } = await useLazyAsyncData(
 
         if (element.phenomenonType && !phenomenonTypes.includes(element.phenomenonType)) {
           phenomenonTypes.push(element.phenomenonType);
-          keys.value.splice(-1, 0, {  // Insert at second-to-last position
+          keys.value.push({
             key: element.phenomenonType,
             label: element.phenomenonType
           });
