@@ -46,9 +46,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    @ManyToOne
+    @ManyToMany
+    @JoinTable(
+            name = "order_package_relations",
+            joinColumns = @JoinColumn(name = "order_package_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id"))
     @JoinColumn(name = "order_package_id")
-    private OrderPackage orderPackage;
+    private List<OrderPackage> orderPackages;
 
     public Order() {
         this.orderLines = new LinkedList<>();
@@ -130,12 +134,20 @@ public class Order {
         this.carrier = carrier;
     }
 
-    public OrderPackage getOrderPackage() {
-        return orderPackage;
+    public List<OrderPackage> getOrderPackages() {
+        return orderPackages;
     }
 
-    public void setOrderPackage(OrderPackage orderPackage) {
-        this.orderPackage = orderPackage;
+    public void setOrderPackages(List<OrderPackage> orderPackages) {
+        this.orderPackages = orderPackages;
+    }
+
+    public void addOrderPackage(OrderPackage orderPackage) {
+        this.orderPackages.add(orderPackage);
+    }
+
+    public void removeOrderPackage(OrderPackage orderPackage) {
+        this.orderPackages.remove(orderPackage);
     }
 
     public List<String> getShippingMethods() {

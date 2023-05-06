@@ -22,7 +22,7 @@ import java.util.List;
         )})
 public class OrderPackage extends SimplePackage implements Serializable {
 
-    @OneToMany(mappedBy = "orderPackage")
+    @ManyToMany(mappedBy = "orderPackages", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
 

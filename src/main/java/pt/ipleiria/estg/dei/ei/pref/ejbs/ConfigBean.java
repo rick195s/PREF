@@ -109,7 +109,7 @@ public class ConfigBean {
 
         for (int i = 0; i < 200; i++) {
             // random number with min 1 and max 3
-            orderBean.dispatchOrder(i+1, orderPackages.get(new Random().nextInt(orderPackages.size())).getId());
+            orderBean.dispatchOrder(i+1);
         }
     }
 
