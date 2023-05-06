@@ -34,7 +34,7 @@ public class ObservationApiTest {
     }
 
     @Test
-    public void testCreateObservationError() throws IOException {
+    public void testCreateObservation() throws IOException {
         // Create JSON request body
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("phenomenonType", "TEMPERATURE");
@@ -61,7 +61,7 @@ public class ObservationApiTest {
             if (response.body() != null) {
                 printJsonResponse(response.body().string());
             }
-            assertEquals(200, response.code());
+            assertEquals(201, response.code());
         }
     }
 

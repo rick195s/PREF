@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
@@ -34,6 +37,14 @@ public class ObservationBean {
         Observer observer = observerBean.findOrFail(observerId);
 
         SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
+
+        // validate json
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.readTree(details);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid JSON details");
+        }
 
         if (phenomenonType.isMeasurement()) {
             double measurementValue = Double.parseDouble(value);

@@ -81,7 +81,7 @@ public class ObservationService {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();
         }
 
-        return Response.ok(MeasurementDTO.from((Measurement) observation)).build();
+        return Response.status(Response.Status.CREATED).entity(MeasurementDTO.from((Measurement) observation)).build();
     }
 
 }
