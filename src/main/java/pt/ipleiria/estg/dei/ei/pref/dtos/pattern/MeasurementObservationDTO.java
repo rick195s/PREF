@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Measurement;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Quantity;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -29,19 +28,19 @@ public class MeasurementDTO extends ObservationDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public static MeasurementDTO from(Measurement measurement) {
+    public static MeasurementDTO from(MeasurementObservation measurementObservation) {
         return new MeasurementDTO(
-                measurement.getId(),
-                measurement.getPhenomenonType(),
-                measurement.getObserver().getId(),
-                measurement.getDate(),
-                measurement.getDetails(),
-                measurement.getSimplePackage().getId(),
-                measurement.getQuantity()
+                measurementObservation.getId(),
+                measurementObservation.getPhenomenonType(),
+                measurementObservation.getObserver().getId(),
+                measurementObservation.getDate(),
+                measurementObservation.getDetails(),
+                measurementObservation.getSimplePackage().getId(),
+                measurementObservation.getQuantity()
         );
     }
 
-    public static List<MeasurementDTO> fromMeasurementList(List<Measurement> measurements) {
-        return measurements.stream().map(MeasurementDTO::from).collect(Collectors.toList());
+    public static List<MeasurementDTO> fromMeasurementList(List<MeasurementObservation> measurementObservations) {
+        return measurementObservations.stream().map(MeasurementDTO::from).collect(Collectors.toList());
     }
 }
