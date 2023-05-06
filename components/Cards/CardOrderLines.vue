@@ -50,7 +50,7 @@ const keys = ref([
 const { data: order, pending } = await useLazyAsyncData(
   "order",
   () =>
-    $fetch(`/api/orders/1`, {
+    $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {
     }),
   {
     server: false,
