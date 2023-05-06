@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
@@ -50,9 +48,9 @@ public class ObservationBean {
             double measurementValue = Double.parseDouble(value);
             Quantity quantity = new Quantity(measurementValue);
             entityManager.persist(quantity);
-            Measurement measurement = new Measurement(phenomenonType, observer, date, details, simplePackage, quantity);
-            entityManager.persist(measurement);
-            return measurement;
+            MeasurementObservation measurementObservation = new MeasurementObservation(phenomenonType, observer, date, details, simplePackage, quantity);
+            entityManager.persist(measurementObservation);
+            return measurementObservation;
         }
             Category category = new Category(value);
             entityManager.persist(category);

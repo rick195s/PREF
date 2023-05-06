@@ -9,21 +9,21 @@ import java.util.stream.Collectors;
 
 public class CategoryObservationDTO extends ObservationDTO implements Serializable {
 
-    private Category category;
+    private String category;
 
     public CategoryObservationDTO() {
     }
 
-    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, Category category) {
+    public CategoryObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, String category) {
         super(id, phenomenonType, observerId, date, details, simplePackageId);
         this.category = category;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -35,7 +35,7 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
                 categoryObservation.getDate(),
                 categoryObservation.getDetails(),
                 categoryObservation.getSimplePackage().getId(),
-                categoryObservation.getCategory()
+                categoryObservation.getCategory().getValue()
         );
     }
 

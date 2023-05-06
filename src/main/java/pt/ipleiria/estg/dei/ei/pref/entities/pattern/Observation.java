@@ -32,6 +32,8 @@ public class Observation implements Serializable {
     private PhenomenonType phenomenonType;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "observer_id")
     private Observer observer;
 
     @NotNull

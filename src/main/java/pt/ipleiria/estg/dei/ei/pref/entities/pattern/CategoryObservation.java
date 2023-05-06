@@ -3,10 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -19,6 +16,8 @@ import java.io.Serializable;
                 query = "SELECT c FROM CategoryObservation c ORDER BY c.id" // JPQL
         )})
 public class CategoryObservation extends Observation implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public CategoryObservation() {
