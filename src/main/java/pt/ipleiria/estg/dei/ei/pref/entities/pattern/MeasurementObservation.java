@@ -3,27 +3,26 @@ package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(
-        name = "measurements"
+        name = "measurement_observations"
 )
 @NamedQueries({
         @NamedQuery(
-                name = "getAllMeasurements",
-                query = "SELECT m FROM Measurement m ORDER BY m.id" // JPQL
+                name = "getAllMeasurementObservation",
+                query = "SELECT m FROM MeasurementObservation m ORDER BY m.id" // JPQL
         )})
-public class Measurement extends Observation implements Serializable {
+public class MeasurementObservation extends Observation implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "quantity_id")
     private Quantity quantity;
 
-    public Measurement() {
+    public MeasurementObservation() {
     }
-    public Measurement(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage, Quantity quantity) {
+    public MeasurementObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage, Quantity quantity) {
         super(phenomenonType, observer, date, details, simplePackage);
         this.quantity = quantity;
     }

@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.CategoryObservationDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Measurement;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -43,12 +43,12 @@ public class ObservationService {
     public Response getAllObservationsFromPackage(@PathParam("simplePackageId") long simplePackageId) {
         List<Observation> observations = observationBean.getAllPackageObservations(simplePackageId);
 
-        List<Object> results = new ArrayList<>();
+        List<ObservationDTO> results = new ArrayList<>();
         for (Observation obs : observations) {
             if (obs instanceof CategoryObservation) {
                 results.add(CategoryObservationDTO.from((CategoryObservation) obs));
-            } else if (obs instanceof Measurement) {
-                results.add(MeasurementDTO.from((Measurement) obs));
+            } else if (obs instanceof MeasurementObservation) {
+                results.add(MeasurementObservationDTO.from((MeasurementObservation) obs));
             }
         }
 
@@ -81,7 +81,7 @@ public class ObservationService {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();
         }
 
-        return Response.status(Response.Status.CREATED).entity(MeasurementDTO.from((Measurement) observation)).build();
+        return Response.status(Response.Status.CREATED).entity(MeasurementObservationDTO.from((MeasurementObservation) observation)).build();
     }
 
 }

@@ -1,7 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Measurement;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -25,14 +23,14 @@ public class Quantity implements Serializable {
     @NotNull
     private double value;
     @OneToMany(mappedBy = "quantity")
-    private List<Measurement> measurements;
+    private List<MeasurementObservation> measurementObservations;
 
     public Quantity() {
-        measurements = new LinkedList<>();
+        measurementObservations = new LinkedList<>();
     }
     public Quantity(double value) {
         this.value = value;
-        measurements = new LinkedList<>();
+        measurementObservations = new LinkedList<>();
     }
 
     public long getId() {
@@ -51,11 +49,11 @@ public class Quantity implements Serializable {
         this.value = value;
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
+    public List<MeasurementObservation> getMeasurements() {
+        return measurementObservations;
     }
 
-    public void addMeasurement(Measurement measurement) {
-        measurements.add(measurement);
+    public void addMeasurement(MeasurementObservation measurementObservation) {
+        measurementObservations.add(measurementObservation);
     }
 }

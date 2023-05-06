@@ -8,39 +8,39 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MeasurementDTO extends ObservationDTO implements Serializable {
+public class MeasurementObservationDTO extends ObservationDTO implements Serializable {
 
-    private Quantity quantity;
+    private double quantity;
 
-    public MeasurementDTO() {
+    public MeasurementObservationDTO() {
     }
 
-    public MeasurementDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, Quantity quantity) {
+    public MeasurementObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, double quantity) {
         super(id, phenomenonType, observerId, date, details, simplePackageId);
         this.quantity = quantity;
     }
 
-    public Quantity getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Quantity quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public static MeasurementDTO from(MeasurementObservation measurementObservation) {
-        return new MeasurementDTO(
+    public static MeasurementObservationDTO from(MeasurementObservation measurementObservation) {
+        return new MeasurementObservationDTO(
                 measurementObservation.getId(),
                 measurementObservation.getPhenomenonType(),
                 measurementObservation.getObserver().getId(),
                 measurementObservation.getDate(),
                 measurementObservation.getDetails(),
                 measurementObservation.getSimplePackage().getId(),
-                measurementObservation.getQuantity()
+                measurementObservation.getQuantity().getValue()
         );
     }
 
-    public static List<MeasurementDTO> fromMeasurementList(List<MeasurementObservation> measurementObservations) {
-        return measurementObservations.stream().map(MeasurementDTO::from).collect(Collectors.toList());
+    public static List<MeasurementObservationDTO> fromMeasurementList(List<MeasurementObservation> measurementObservations) {
+        return measurementObservations.stream().map(MeasurementObservationDTO::from).collect(Collectors.toList());
     }
 }

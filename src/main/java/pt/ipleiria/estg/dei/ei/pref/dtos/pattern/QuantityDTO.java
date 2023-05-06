@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Measurement;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Quantity;
 
 import java.io.Serializable;
