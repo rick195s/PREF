@@ -41,7 +41,7 @@
             </tr>
           </tbody>
 
-          <tbody v-else-if="!props.data">
+          <tbody v-else-if="!props.data || props.data.length === 0">
             <tr class="w-full">
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
