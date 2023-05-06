@@ -1,6 +1,6 @@
 <template>
   <TableComponent
-  :data="orders?.orderLines?.flatMap((orderLine) => orderLine.packages || [orderLine])"
+  :data="orderProductPackage?.orderLines?.flatMap((orderLine) => orderLine.packages || [orderLine])"
   :loading="pending"
   :keys="keys"
   title="Products Packages"
@@ -29,8 +29,8 @@ const keys = ref([
   }
 ]);
 
-const { data: orders, pending } = await useLazyAsyncData(
-  "orders",
+const { data: orderProductPackage, pending } = await useLazyAsyncData(
+  "orderProductPackage",
   () =>
     $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {
     }),

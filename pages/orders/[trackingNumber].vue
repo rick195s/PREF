@@ -9,6 +9,6 @@
 </template>
 <script setup>
 import CardOrderDetails from "@/components/Cards/CardOrderDetails.vue";
-import CardOrderLines from "@/components/Cards/CardOrderLines.vue";
+import CardOrderLines from "~/components/Cards/CardOrderLines.vue";
 import CardOrderLinePackages from "~/components/Cards/CardOrderLinesPackages.vue";
 </script>
