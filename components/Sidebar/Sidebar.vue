@@ -11,7 +11,7 @@
               data-drawer-toggle="logo-sidebar"
               aria-controls="logo-sidebar"
               type="button"
-              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
             >
               <span class="sr-only">Open sidebar</span>
               <svg
@@ -111,8 +111,10 @@
 
     <aside
       id="logo-sidebar"
-      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 transform-none"
       aria-label="Sidebar"
+      aria-modal="true"
+      role="dialog"
     >
       <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
@@ -120,7 +122,7 @@
             <nuxt-link
               v-slot="{ isActive }"
               :to="page.route"
-              class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100"
             >
               <span
                 :class="[
@@ -130,6 +132,7 @@
                 ]"
               >
                 <i
+                  aria-hidden="true"
                   class="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   :class="[
                     isActive ? 'text-red-500' : ' text-gray-500',
@@ -147,9 +150,6 @@
 </template>
 
 <script setup>
-import NotificationDropdown from "@/components/Dropdowns/NotificationDropdown.vue";
-import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
-
 const pages = ref([
   {
     name: "Dashboard",
@@ -167,9 +167,4 @@ const pages = ref([
     icon: "fas fa-circle-plus"
   }
 ]);
-const collapseShow = ref("hidden");
-
-const toggleCollapseShow = (classes) => {
-  collapseShow.value = classes;
-};
 </script>
