@@ -1,94 +1,126 @@
 <template>
-  <nav
-    class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white no-scrollbar flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6"
-  >
-    <div
-      class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto"
+  <div>
+    <nav
+      class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
     >
-      <!-- Toggler -->
-      <button
-        class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-        type="button"
-        @click="toggleCollapseShow('bg-white m-2 py-3 px-6')"
-      >
-        <i class="fas fa-bars"></i>
-      </button>
-      <!-- Brand -->
-      <nuxt-link
-        class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-        to="/"
-      >
-        <img
-          alt="logo"
-          class="mx-auto w-64 align-middle"
-          src="~/assets/img/prozis_logo_red.png"
-        />
-      </nuxt-link>
-
-      <ul class="md:hidden items-center flex flex-wrap list-none">
-        <li class="inline-block relative">
-          <NotificationDropdown />
-        </li>
-        <li class="inline-block relative">
-          <UserDropdown />
-        </li>
-      </ul>
-      <!-- Collapse -->
-      <div
-        class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded"
-        :class="collapseShow"
-      >
-        <!-- Collapse header -->
-        <div
-          class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200"
-        >
-          <div class="flex flex-wrap">
-            <div class="w-6/12">
-              <nuxt-link
-                class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                to="/"
+      <div class="px-3 py-3 lg:px-5 lg:pl-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center justify-start">
+            <button
+              data-drawer-target="logo-sidebar"
+              data-drawer-toggle="logo-sidebar"
+              aria-controls="logo-sidebar"
+              type="button"
+              class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            >
+              <span class="sr-only">Open sidebar</span>
+              <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                Vue Notus
-              </nuxt-link>
-            </div>
-            <div class="w-6/12 flex justify-end">
-              <button
-                type="button"
-                class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-                @click="toggleCollapseShow('hidden')"
+                <path
+                  clip-rule="evenodd"
+                  fill-rule="evenodd"
+                  d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                ></path>
+              </svg>
+            </button>
+            <nuxt-link class="flex ml-2 md:mr-24" to="/">
+              <img
+                alt="logo"
+                class="h-6 mr-3"
+                src="~/assets/img/prozis_logo_red.png"
+              />
+            </nuxt-link>
+          </div>
+          <div class="flex items-center">
+            <div class="flex items-center ml-3">
+              <div>
+                <button
+                  type="button"
+                  class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  aria-expanded="false"
+                  data-dropdown-toggle="dropdown-user"
+                >
+                  <span class="sr-only">Open user menu</span>
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    alt="user photo"
+                  />
+                </button>
+              </div>
+              <div
+                id="dropdown-user"
+                class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
               >
-                <i class="fas fa-times"></i>
-              </button>
+                <div class="px-4 py-3" role="none">
+                  <p class="text-sm text-gray-900 dark:text-white" role="none">
+                    Neil Sims
+                  </p>
+                  <p
+                    class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                    role="none"
+                  >
+                    neil.sims@flowbite.com
+                  </p>
+                </div>
+                <ul class="py-1" role="none">
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      role="menuitem"
+                      >Dashboard</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      role="menuitem"
+                      >Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      role="menuitem"
+                      >Earnings</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                      role="menuitem"
+                      >Sign out</a
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Form -->
-        <form class="mt-6 mb-4 md:hidden">
-          <div class="mb-3 pt-0">
-            <input
-              type="text"
-              placeholder="Search"
-              class="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-            />
-          </div>
-        </form>
+      </div>
+    </nav>
 
-        <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
-        <!-- Heading -->
-        <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          Admin Layout Pages
-        </h6>
-        <!-- Navigation -->
-
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+    <aside
+      id="logo-sidebar"
+      class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+      aria-label="Sidebar"
+    >
+      <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <ul class="space-y-2 font-medium">
           <li v-for="page in pages" :key="page.name" class="items-center">
             <nuxt-link
               v-slot="{ isActive }"
               :to="page.route"
-              class="text-xs uppercase py-3 font-bold block"
+              class="flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <span
                 :class="[
@@ -98,9 +130,9 @@
                 ]"
               >
                 <i
-                  class="mr-2 text-sm"
+                  class="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   :class="[
-                    isActive ? 'opacity-75' : 'text-blueGray-300',
+                    isActive ? 'text-red-500' : ' text-gray-500',
                     page.icon
                   ]"
                 ></i>
@@ -108,91 +140,10 @@
               </span>
             </nuxt-link>
           </li>
-          <!--
-          <li class="items-center">
-            <nuxt-link
-              v-slot="{ isActive }"
-              to="/settings"
-              class="text-xs uppercase py-3 font-bold block"
-            >
-              <span
-                :class="[
-                  isActive
-                    ? 'text-red-500 hover:text-red-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500'
-                ]"
-              >
-                <i
-                  class="fas fa-tools mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Settings
-              </span>
-            </nuxt-link>
-          </li>
-          -->
         </ul>
-
-        <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
-        <!-- Heading -->
-        <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          Auth Layout Pages
-        </h6>
-        <!-- Navigation -->
-        <!--
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <li class="items-center">
-            <nuxt-link
-              class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-              to="/auth/login"
-            >
-              <i class="fas fa-fingerprint text-blueGray-300 mr-2 text-sm"></i>
-              Login
-            </nuxt-link>
-          </li>
-
-          <li class="items-center">
-            <nuxt-link
-              class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-              to="/auth/register"
-            >
-              <i
-                class="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"
-              ></i>
-              Register
-            </nuxt-link>
-          </li>
-        </ul>
-        -->
-        <!-- Divider -->
-        <hr class="my-4 md:min-w-full" />
-        <!-- Heading -->
-        <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          Documentation
-        </h6>
-        <!-- Navigation -->
-        <!--
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-          <li class="inline-flex">
-            <a
-              href="https://www.creative-tim.com/learning-lab/tailwind/vue/overview/notus"
-              target="_blank"
-              class="text-blueGray-700 hover:text-blueGray-500 text-sm block mb-4 no-underline font-semibold"
-            >
-              <i class="fab fa-vuejs mr-2 text-blueGray-300 text-base"></i>
-              VueJS
-            </a>
-          </li>
-        </ul>
-        -->
       </div>
-    </div>
-  </nav>
+    </aside>
+  </div>
 </template>
 
 <script setup>

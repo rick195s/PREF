@@ -10,7 +10,7 @@
       </div>
     </div>
     <div
-      class="grid grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
+      class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
     >
       <CardProduct
         v-for="product in products"

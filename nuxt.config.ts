@@ -6,7 +6,7 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    modules: ['@nuxtjs-alt/proxy'],
+    modules: ['@nuxtjs-alt/proxy', '@nuxtjs/tailwindcss'],
 
     proxy: {
         enableProxy: true,
