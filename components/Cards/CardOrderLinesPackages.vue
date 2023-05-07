@@ -1,64 +1,44 @@
 <template>
-  <TableComponent
-  :data="orderProductPackage?.orderLines?.flatMap((orderLine) => orderLine.packages || [orderLine])"
-  :loading="pending"
-  :keys="keys"
-  title="Products Packages"
-></TableComponent>
+  <div
+    class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+  >
+    <div class="rounded-t mb-0 px-4 py-3 border-0">
+      <div class="flex flex-wrap items-center">
+        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+          <h3 class="font-semibold text-base text-blueGray-700">Products</h3>
+        </div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
+    >
+      <CardProduct
+        v-for="product in products"
+        :key="product.id"
+        class="mx-4"
+        :product="product"
+      />
+    </div>
+  </div>
 </template>
 <script setup>
-import TableComponent from "@/components/Tables/TableComponent.vue";
+import CardProduct from "@/components/Cards/CardProduct.vue";
 
-
-const keys = ref([
-  {
-    key: "packageId",
-    label: "Package Id"
-  },
-  {
-    key: "packageName",
-    label: "Package Name"
-  },
-  {
-    key: "packageType",
-    label: "Package Type"
-  },
-  {
-    key: "productId",
-    label: "Product Id"
+const props = defineProps({
+  orderLines: {
+    type: Array,
+    required: true,
+    default: () => []
   }
-]);
+});
 
-const { data: orderProductPackage, pending } = await useLazyAsyncData(
-  "orderProductPackage",
-  () =>
-    $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {
-    }),
-  {
-    server: false,
-    transform: (data) => {
-      data.orderLines.forEach((orderLine) => {
-        orderLine.product.productPackages.forEach((productPackage) => {
-          const newPackage = {
-            packageId: productPackage.id,
-            packageName: productPackage.name,
-            packageType: productPackage.packageType,
-            productId: orderLine.product.id,
-            actions: [
-              {
-                to: `/observations/${productPackage.id}`,
-                icon: "fa-solid fa-location-dot"
-              }
-            ]
-          };
-          if (!orderLine.packages) {
-            orderLine.packages = [newPackage];
-          } else {
-            orderLine.packages.push(newPackage);
-          }
-        });
-      });
-      return data;
-    },
+const products = computed(() => {
+  let products = [];
+
+  props.orderLines.forEach((orderLine) => {
+    products.push(orderLine.product);
   });
+
+  return products;
+});
 </script>

@@ -109,7 +109,7 @@ const props = defineProps({
   },
   data: {
     type: Object,
-    default: null
+    default: []
   },
   keys: {
     type: Array,

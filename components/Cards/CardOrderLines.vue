@@ -1,13 +1,25 @@
 <template>
   <TableComponent
-    :data="order?.orderLines"
-    :loading="pending"
+    :data="props.orderLines"
+    :loading="props.loading"
     :keys="keys"
-    title="Products"
+    title="Order Lines"
   ></TableComponent>
 </template>
 <script setup>
 import TableComponent from "@/components/Tables/TableComponent.vue";
+
+const props = defineProps({
+  orderLines: {
+    type: Array,
+    required: true,
+    default: () => []
+  },
+  loading: {
+    type: Boolean,
+    required: true
+  }
+});
 
 const keys = ref([
   {
@@ -37,7 +49,8 @@ const keys = ref([
   {
     key: "quantity",
     label: "Quantity"
-  },{
+  },
+  {
     key: "price",
     label: "Product Price"
   },
@@ -46,25 +59,4 @@ const keys = ref([
     label: "Total Price"
   }
 ]);
-
-const { data: order, pending } = await useLazyAsyncData(
-  "order",
-  () =>
-    $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {
-    }),
-  {
-    server: false,
-    transform: (data) => {
-      data.orderLines.forEach((element) => {
-        element.productId = element.product.id;
-        element.productName = element.product.name;
-        element.validityRange = element.product.validityRange;
-        element.dimensions = element.product.length + "x" + element.product.width + "x" + element.product.height;
-        element.weight = element.product.weight;
-        element.price = element.product.price;
-        element.category = element.product.category;
-      });
-      return data;
-    },
-  });
 </script>
