@@ -7,7 +7,15 @@ export default defineNuxtConfig({
         },
     },
     modules: ['@nuxtjs-alt/proxy'],
-
+    app: {
+        head: {
+            title: 'PREF',
+            link: [
+                { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css' },
+            ],
+            script: [{ src: 'https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js' }],
+        },
+    },
     proxy: {
         enableProxy: true,
         proxies: {
