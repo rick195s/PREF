@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 import TableComponent from "@/components/Tables/TableComponent.vue";
 
 const keys = ref([
@@ -44,7 +44,10 @@ const { data: observations, pending } = await useLazyAsyncData(
           element[element.phenomenonType] = element.category.value;
         }
 
-        if (element.phenomenonType && !phenomenonTypes.includes(element.phenomenonType)) {
+        if (
+          element.phenomenonType &&
+          !phenomenonTypes.includes(element.phenomenonType)
+        ) {
           phenomenonTypes.push(element.phenomenonType);
           keys.value.push({
             key: element.phenomenonType,
@@ -61,7 +64,6 @@ const { data: observations, pending } = await useLazyAsyncData(
 
       return data;
     }
-  });
-
-console.log(observations);
+  }
+);
 </script>

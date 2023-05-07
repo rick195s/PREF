@@ -24,7 +24,7 @@
             <td
               class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.trackingNumber }}
+              {{ props.orderData?.trackingNumber }}
             </td>
           </tr>
           <tr>
@@ -36,7 +36,9 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ new Date(orderData?.orderDate).toLocaleDateString("pt-pt") }}
+              {{
+                new Date(props.orderData?.orderDate).toLocaleDateString("pt-pt")
+              }}
             </td>
           </tr>
           <tr>
@@ -49,11 +51,14 @@
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               {{
-                new Date(orderData?.orderDate).toLocaleTimeString("pt-PT", {
-                  hour12: false,
-                  hour: "numeric",
-                  minute: "numeric"
-                })
+                new Date(props.orderData?.orderDate).toLocaleTimeString(
+                  "pt-PT",
+                  {
+                    hour12: false,
+                    hour: "numeric",
+                    minute: "numeric"
+                  }
+                )
               }}
             </td>
           </tr>
@@ -66,7 +71,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.source }}
+              {{ props.orderData?.source }}
             </td>
           </tr>
           <tr>
@@ -78,7 +83,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.destination }}
+              {{ props.orderData?.destination }}
             </td>
           </tr>
           <tr>
@@ -90,7 +95,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.state }}
+              {{ props.orderData?.state }}
             </td>
           </tr>
           <tr>
@@ -102,7 +107,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.weight.toFixed(2) }}kg
+              {{ props.orderData?.weight.toFixed(2) }}kg
             </td>
           </tr>
           <tr>
@@ -114,7 +119,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.carrier }}
+              {{ props.orderData?.carrier }}
             </td>
           </tr>
           <tr>
@@ -126,7 +131,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ orderData?.shippingMethods.join(", ") }}
+              {{ props.orderData?.shippingMethods.join(", ") }}
             </td>
           </tr>
           <tr>
@@ -139,11 +144,14 @@
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               <div
-                v-if="orderData != null && !orderData?.orderPackage?.name"
+                v-if="
+                  props.orderData != null &&
+                  !props.orderData?.orderPackage?.name
+                "
                 class="flex items-center"
               >
                 <select
-                  v-model="orderData.orderPackage"
+                  v-model="props.orderData.orderPackage"
                   class="form-select block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-2 md:mb-0 mr-2"
                 >
                   <option
@@ -167,14 +175,14 @@
                   </option>
                 </select>
                 <svg
-                  v-if="isPackageSelected(orderData?.orderPackage)"
+                  v-if="isPackageSelected(props.orderData?.orderPackage)"
                   class="fill-current h-4 w-4 md:ml-2 svg-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   @click="
                     choosePackage(
-                      orderData?.orderPackage,
-                      orderData?.trackingNumber
+                      props.orderData?.orderPackage,
+                      props.orderData?.trackingNumber
                     )
                   "
                 >
@@ -186,12 +194,14 @@
               <div v-if="errorMessage" class="text-red-500 mb-2 md:mb-0">
                 {{ errorMessage }}
               </div>
-              <div v-if="orderData?.orderPackage?.name">
+              <div v-if="props.orderData?.orderPackage?.name">
                 <div style="display: flex; align-items: center">
                   <span style="margin-right: 30px">{{
-                    orderData?.orderPackage?.name
+                    props.orderData?.orderPackage?.name
                   }}</span>
-                  <NuxtLink :to="'/observations/' + orderData?.orderPackage?.id">
+                  <NuxtLink
+                    :to="'/observations/' + props.orderData?.orderPackage?.id"
+                  >
                     <button
                       class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none"
                       type="button"
@@ -209,13 +219,12 @@
   </div>
 </template>
 <script setup>
-const { data: orderData } = await useLazyAsyncData(
-  "orderData",
-  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
-  {
-    server: false
+const props = defineProps({
+  orderData: {
+    type: Object,
+    required: true
   }
-);
+});
 
 const { data: orderPackages } = await useLazyAsyncData(
   "orderPackages",
@@ -256,5 +265,4 @@ const choosePackage = async (selectedPackage, orderId) => {
     }
   );
 };
-
 </script>
