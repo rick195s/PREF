@@ -17,19 +17,17 @@ import java.util.List;
                 name = "getAllOrderPackages",
                 query = "SELECT o FROM OrderPackage o ORDER BY o.id" // JPQL
         )})
-public class OrderPackage extends OrderPackageType implements Serializable {
+public class OrderPackage extends ObservablePackage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-
     public OrderPackage() {
 
     }
 
-    public OrderPackage(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart, Order order) {
-        super(name, cost, dimension, isSustainable, resistance, isSmart);
+    public OrderPackage(Order order) {
         this.order = order;
     }
 

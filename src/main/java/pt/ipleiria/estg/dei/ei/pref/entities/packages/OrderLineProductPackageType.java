@@ -15,17 +15,13 @@ import java.io.Serializable;
                 name = "getAllOrderLineProductPackages",
                 query = "SELECT o FROM OrderLineProductPackage o ORDER BY o.id" // JPQL
         )})
-public class OrderLineProductPackageType extends ProductPackageType implements Serializable {
+public class OrderLineProductPackageType extends ObservablePackage implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_line_product_relation_id")
     private OrderLineProductRelation orderLineProductRelation;
 
     public OrderLineProductPackageType() {
-    }
-
-    public OrderLineProductPackageType(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
-        super(name, cost, dimension, isSustainable, resistance, isSmart);
     }
 
     public OrderLineProductRelation getOrderLineProductRelation() {
