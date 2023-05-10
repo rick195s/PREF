@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pt.ipleiria.estg.dei.ei.pref.ApiIntegrationTests.baseUrl;
 import static pt.ipleiria.estg.dei.ei.pref.ApiIntegrationTests.printJsonResponse;
 
-public class ProductPackageApiTests {
+public class ProductPackageTypeApiTests {
 
     private final OkHttpClient client = new OkHttpClient();
 

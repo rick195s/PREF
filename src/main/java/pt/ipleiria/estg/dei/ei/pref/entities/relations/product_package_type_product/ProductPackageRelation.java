@@ -1,8 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import javax.persistence.*;
 
@@ -25,17 +24,17 @@ public class ProductPackageRelation {
     @ManyToOne
     @MapsId("product_package_id")
     @JoinColumn(name = "product_package_id")
-    private ProductPackage productPackage;
+    private ProductPackageType productPackageType;
 
-    private ProductPackageType type;
+    private pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type;
 
     public ProductPackageRelation() {
     }
 
-    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackage productPackage, ProductPackageType type) {
+    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackageType productPackageType, pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type) {
         this.id = id;
         this.product = product;
-        this.productPackage = productPackage;
+        this.productPackageType = productPackageType;
         this.type = type;
     }
 
@@ -55,19 +54,19 @@ public class ProductPackageRelation {
         this.product = product;
     }
 
-    public ProductPackage getProductPackage() {
-        return productPackage;
+    public ProductPackageType getProductPackage() {
+        return productPackageType;
     }
 
-    public void setProductPackage(ProductPackage productPackage) {
-        this.productPackage = productPackage;
+    public void setProductPackage(ProductPackageType productPackageType) {
+        this.productPackageType = productPackageType;
     }
 
-    public ProductPackageType getType() {
+    public pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType getType() {
         return type;
     }
 
-    public void setType(ProductPackageType type) {
+    public void setType(pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type) {
         this.type = type;
     }
 }

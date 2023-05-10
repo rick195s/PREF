@@ -2,7 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackageType;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ public class OrderLineProductRelation {
     private OrderLine orderLine;
 
     @OneToMany(mappedBy = "orderLineProductRelation")
-    private List<OrderLineProductPackage> productPackage;
+    private List<OrderLineProductPackageType> productPackage;
 
     public OrderLineProductRelation() {
         productPackage = new LinkedList<>();
@@ -56,11 +56,11 @@ public class OrderLineProductRelation {
         this.product = product;
     }
 
-    public List<OrderLineProductPackage> getProductPackage() {
+    public List<OrderLineProductPackageType> getProductPackage() {
         return productPackage;
     }
 
-    public void setProductPackage(List<OrderLineProductPackage> productPackage) {
+    public void setProductPackage(List<OrderLineProductPackageType> productPackage) {
         this.productPackage = productPackage;
     }
 

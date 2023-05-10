@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
@@ -87,11 +87,11 @@ public class ConfigBean {
 
         String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
-        for (ProductPackage productPackage : simplePackageBean.getAllProductPackages()) {
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), "21");
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), "23");
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), "18");
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), "19");
+        for (ProductPackageType productPackageType : simplePackageBean.getAllProductPackages()) {
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackageType.getId(), "21");
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackageType.getId(), "23");
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackageType.getId(), "18");
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackageType.getId(), "19");
         }
 
     }

@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
@@ -140,13 +140,13 @@ public class Product {
         return productPackageRelations;
     }
 
-    public List<ProductPackage> getProductPackages(){
-        List<ProductPackage> packages = new LinkedList<>();
+    public List<ProductPackageType> getProductPackages(){
+        List<ProductPackageType> packages = new LinkedList<>();
 
         for (ProductPackageRelation relation : productPackageRelations) {
-            ProductPackage productPackage = relation.getProductPackage();
-            productPackage.setType(relation.getType());
-            packages.add(productPackage);
+            ProductPackageType productPackageType = relation.getProductPackage();
+            productPackageType.setType(relation.getType());
+            packages.add(productPackageType);
         }
         return packages;
     }

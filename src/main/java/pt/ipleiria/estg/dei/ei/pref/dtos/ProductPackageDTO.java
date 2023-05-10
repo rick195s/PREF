@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,12 +11,12 @@ public class ProductPackageDTO {
     private String name;
 
     // filled with the ProductPackageRelation.type
-    private ProductPackageType packageType;
+    private pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType;
 
     public ProductPackageDTO() {
     }
 
-    public ProductPackageDTO(long id, String name, ProductPackageType packageType) {
+    public ProductPackageDTO(long id, String name, pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType) {
         this.id = id;
         this.name = name;
         this.packageType = packageType;
@@ -39,23 +38,23 @@ public class ProductPackageDTO {
         this.name = name;
     }
 
-    public ProductPackageType getPackageType() {
+    public pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType getPackageType() {
         return packageType;
     }
 
-    public void setPackageType(ProductPackageType packageType) {
+    public void setPackageType(pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType) {
         this.packageType = packageType;
     }
 
-    public static ProductPackageDTO from(ProductPackage productPackage) {
+    public static ProductPackageDTO from(ProductPackageType productPackageType) {
         return new ProductPackageDTO(
-                productPackage.getId(),
-                productPackage.getName(),
-                productPackage.getType()
+                productPackageType.getId(),
+                productPackageType.getName(),
+                productPackageType.getType()
         );
     }
 
-    public static List<ProductPackageDTO> from(List<ProductPackage> productPackages) {
-        return productPackages.stream().map(ProductPackageDTO::from).collect(Collectors.toList());
+    public static List<ProductPackageDTO> from(List<ProductPackageType> productPackageTypes) {
+        return productPackageTypes.stream().map(ProductPackageDTO::from).collect(Collectors.toList());
     }
 }

@@ -5,11 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
@@ -38,16 +37,16 @@ public class ProductBean {
         // packages order in hash influence in the type of package (primary, secondary, etc-)
         int i = 0;
         for (Long productPackageId : productPackagesIds) {
-            if (i>=ProductPackageType.values().length){
+            if (i>= pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values().length){
                 break;
             }
 
-            ProductPackage productPackage = entityManager.find(ProductPackage.class, productPackageId);
+            ProductPackageType productPackageType = entityManager.find(ProductPackageType.class, productPackageId);
             ProductPackageRelation relation = new ProductPackageRelation(
-                    new ProductPackageRelationPK(productPackage.getId(), product.getId()),
+                    new ProductPackageRelationPK(productPackageType.getId(), product.getId()),
                     product,
-                    productPackage,
-                    ProductPackageType.values()[i]
+                    productPackageType,
+                    pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values()[i]
             );
             entityManager.persist(relation);
 
@@ -82,25 +81,25 @@ public class ProductBean {
     }
 
 
-    public List<ProductPackage> getAllProductPackages() {
-        return (List<ProductPackage>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
+    public List<ProductPackageType> getAllProductPackages() {
+        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
     }
 
     public void populateProducts() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Product> products = objectMapper.readValue(getProductsJson(), new TypeReference<>(){});
 
-        List<ProductPackage> productPackages = getAllProductPackages();
+        List<ProductPackageType> productPackageTypes = getAllProductPackages();
         HashSet<Long> productPackagesByType = new HashSet<>();
 
         // choose just a max of x packages for each product
         // none of the package type will be repeated
-        int max = ProductPackageType.values().length;
+        int max = pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values().length;
         int min = 1;
         for (Product product : products) {
             productPackagesByType.clear();
             for (int i = 0; i < new Random().nextInt(max-min+1)+min; i++) {
-                productPackagesByType.add(productPackages.get(new Random().nextInt(productPackages.size())).getId());
+                productPackagesByType.add(productPackageTypes.get(new Random().nextInt(productPackageTypes.size())).getId());
             }
             create(product.getName(), product.getCategory(), product.getPrice(), product.getWeight(), product.getValidityRange(), product.getLength(), product.getWidth(), product.getHeight(), productPackagesByType);
         }
@@ -108,12 +107,12 @@ public class ProductBean {
 
     public void populateProductPackages() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<ProductPackage> productPackages = objectMapper.readValue(getProductPackagesJson(), new TypeReference<List<ProductPackage>>(){});
+        List<ProductPackageType> productPackageTypes = objectMapper.readValue(getProductPackagesJson(), new TypeReference<List<ProductPackageType>>(){});
 
-        for (ProductPackage productPackage : productPackages) {
-            System.out.println(productPackage.getName());
-            productPackage.setResistance(ResistenceType.values()[new Random().nextInt(ResistenceType.values().length)]);
-            entityManager.persist(productPackage);
+        for (ProductPackageType productPackageType : productPackageTypes) {
+            System.out.println(productPackageType.getName());
+            productPackageType.setResistance(ResistenceType.values()[new Random().nextInt(ResistenceType.values().length)]);
+            entityManager.persist(productPackageType);
         }
     }
 
