@@ -1,10 +1,9 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import javax.persistence.*;

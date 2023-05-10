@@ -1,22 +1,22 @@
-package pt.ipleiria.estg.dei.ei.pref.entities.relations;
+package pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class ProductPackageRelationPK implements Serializable {
-    @Column(name = "product_package_id")
-    private long productPackageId;
+public class OrderLineProductRelationPK implements Serializable {
+    @Column(name = "order_line_id")
+    private long orderLineId;
 
     @Column(name = "product_id")
     private long productId;
 
-    public ProductPackageRelationPK() {
+    public OrderLineProductRelationPK() {
     }
 
-    public ProductPackageRelationPK(long productPackageId, long productId) {
-        this.productPackageId = productPackageId;
+    public OrderLineProductRelationPK(long orderLineId, long productId) {
+        this.orderLineId = orderLineId;
         this.productId = productId;
     }
 
@@ -25,15 +25,15 @@ public class ProductPackageRelationPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductPackageRelationPK that = (ProductPackageRelationPK) o;
+        OrderLineProductRelationPK that = (OrderLineProductRelationPK) o;
 
-        if (productPackageId != that.productPackageId) return false;
+        if (orderLineId != that.orderLineId) return false;
         return productId == that.productId;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (productPackageId ^ (productPackageId >>> 32));
+        int result = (int) (orderLineId ^ (orderLineId >>> 32));
         result = 31 * result + (int) (productId ^ (productId >>> 32));
         return result;
     }
