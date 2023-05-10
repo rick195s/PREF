@@ -27,7 +27,8 @@ public class OrderPackage extends ObservablePackage<OrderPackageType> implements
 
     }
 
-    public OrderPackage(Order order) {
+    public OrderPackage(Order order, OrderPackageType orderPackageType) {
+        super(orderPackageType);
         this.order = order;
     }
 

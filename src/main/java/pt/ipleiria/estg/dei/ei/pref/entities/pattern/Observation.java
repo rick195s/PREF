@@ -42,9 +42,10 @@ public class Observation implements Serializable {
 
     private String details;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "observable_package_id")
-    private ObservablePackage<SimplePackage> observablePackage;
+    private ObservablePackage observablePackage;
 
     public Observation() {
 

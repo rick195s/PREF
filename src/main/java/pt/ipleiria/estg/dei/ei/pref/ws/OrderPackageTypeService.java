@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageTypeDTO;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderPackageTypeBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageTypeBean;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;

@@ -1,8 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.ObservablePackageBean;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.ObservablePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
@@ -21,6 +20,7 @@ public class ObservationBean {
 
     @EJB
     private ObserverBean observerBean;
+
     @EJB
     private ObservablePackageBean observablePackageBean;
 
@@ -36,7 +36,7 @@ public class ObservationBean {
 
         Observer observer = observerBean.findOrFail(observerId);
 
-        ObservablePackage<SimplePackage> observablePackage = observablePackageBean.findOrFail(observablePackageId);
+        ObservablePackage observablePackage = observablePackageBean.findOrFail(observablePackageId);
 
         // validate json
         try {

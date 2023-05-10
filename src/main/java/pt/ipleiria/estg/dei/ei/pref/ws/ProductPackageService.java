@@ -1,13 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductPackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.SimplePackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageBean;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/product-packages")

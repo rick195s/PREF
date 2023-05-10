@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.ejbs;
+package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 

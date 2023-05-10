@@ -2,8 +2,12 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.datafaker.Faker;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageTypeBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
+import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
@@ -43,6 +47,12 @@ public class ConfigBean {
     @EJB
     ObserverBean observerBean;
 
+    @EJB
+    OrderPackageBean orderPackageBean;
+
+    @EJB
+    OrderPackageTypeBean orderPackageTypeBean;
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
@@ -60,8 +70,8 @@ public class ConfigBean {
         createOrders();
         System.out.println("Orders created");
 
-        createOrderPackages();
-        System.out.println("OrderPackages created");
+        createOrderPackageTypes();
+        System.out.println("OrderPackageTypes created");
 
         dispatchOrders();
         System.out.println("Orders dispatched");
@@ -69,9 +79,25 @@ public class ConfigBean {
         createObservers();
         System.out.println("Observers created");
 
+        createOrderPackages();
+        System.out.println("OrderPackages created");
+
         createObservation();
         System.out.println("Observations created");
 
+    }
+
+    private void createOrderPackages() {
+        List<OrderPackageType> allOrderPackageTypes = orderPackageTypeBean.getAllOrderPackageTypes();
+
+        int max = allOrderPackageTypes.size()-1;
+        int min = 0;
+        for (Order order : orderBean.getAllOrders(0, 500)) {
+            orderPackageBean.create(
+                    allOrderPackageTypes.get( new Random().nextInt(max-min+1)+min).getId(),
+                    order.getTrackingNumber()
+            );
+        }
     }
 
     private void createObservers(){
@@ -96,7 +122,7 @@ public class ConfigBean {
 
     }
 
-    private void createOrderPackages() {
+    private void createOrderPackageTypes() {
         List<OrderPackageType> packages = new LinkedList<>();
 
         packages.add(new OrderPackageType("Cartao",  20,"10x10x10",  true, ResistenceType.MEDIUM, false));
