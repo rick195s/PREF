@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
-import pt.ipleiria.estg.dei.ei.pref.dtos.SimplePackageDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.SimplePackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageBean;
 
 import javax.ejb.EJB;

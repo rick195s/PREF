@@ -1,8 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.detailed;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderLineDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageTypeDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 

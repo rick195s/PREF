@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.dtos;
+package pt.ipleiria.estg.dei.ei.pref.dtos.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
