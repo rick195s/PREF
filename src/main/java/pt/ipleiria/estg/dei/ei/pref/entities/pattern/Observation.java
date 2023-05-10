@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -42,20 +43,20 @@ public class Observation implements Serializable {
     private String details;
 
     @ManyToOne
-    @JoinColumn(name = "simple_package_id")
-    private SimplePackage simplePackage;
+    @JoinColumn(name = "observable_package_id")
+    private ObservablePackage observablePackage;
 
     public Observation() {
 
     }
 
-    public Observation(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage) {
+    public Observation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage observablePackage) {
         this();
         this.phenomenonType = phenomenonType;
         this.observer = observer;
         this.date = date;
         this.details = details;
-        this.simplePackage = simplePackage;
+        this.observablePackage = observablePackage;
     }
 
     public long getId() {
@@ -98,11 +99,11 @@ public class Observation implements Serializable {
         this.details = details;
     }
 
-    public SimplePackage getSimplePackage() {
-        return simplePackage;
+    public ObservablePackage getObservablePackage() {
+        return observablePackage;
     }
 
-    public void setSimplePackage(SimplePackage simplePackage) {
-        this.simplePackage = simplePackage;
+    public void setObservablePackage(ObservablePackage observablePackage) {
+        this.observablePackage = observablePackage;
     }
 }
