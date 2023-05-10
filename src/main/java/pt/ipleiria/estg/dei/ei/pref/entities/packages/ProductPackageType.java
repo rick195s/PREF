@@ -14,8 +14,8 @@ import java.util.List;
 )
 @NamedQueries({
         @NamedQuery(
-                name = "getAllProductPackages",
-                query = "SELECT p FROM ProductPackage p ORDER BY p.id" // JPQL
+                name = "getAllProductPackageTypes",
+                query = "SELECT p FROM ProductPackageType p ORDER BY p.id" // JPQL
         )})
 public class ProductPackageType extends SimplePackage implements Serializable {
     @Transient

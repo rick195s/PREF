@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(
-        name = "order_packageTypes"
+        name = "order_package_types"
 )
 @NamedQueries({
         @NamedQuery(

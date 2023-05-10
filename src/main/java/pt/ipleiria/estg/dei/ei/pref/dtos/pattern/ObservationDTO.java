@@ -14,6 +14,7 @@ public class ObservationDTO implements Serializable {
     private String date;
     private String details;
     private long observablePackageId;
+    private String value;
 
     public ObservationDTO() {
     }
@@ -72,6 +73,14 @@ public class ObservationDTO implements Serializable {
 
     public void setObservablePackageId(long observablePackageId) {
         this.observablePackageId = observablePackageId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public static ObservationDTO from(Observation observation) {

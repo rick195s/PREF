@@ -31,7 +31,7 @@ public class SimplePackageBean {
         return simplePackage;
     }
 
-    public List<ProductPackageType> getAllProductPackages() {
-        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
+    public List<ProductPackageType> getAllProductPackageTypes() {
+        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackageTypes").getResultList();
     }
 }

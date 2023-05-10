@@ -19,8 +19,8 @@ public class ProductPackageService {
 
     @GET
     @Path("/")
-    public List<ProductPackageDTO> getAllProductPackages() {
-        return ProductPackageDTO.from(simplePackageBean.getAllProductPackages());
+    public List<ProductPackageDTO> getAllProductPackageTypes() {
+        return ProductPackageDTO.from(simplePackageBean.getAllProductPackageTypes());
     }
 
 }

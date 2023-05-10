@@ -87,7 +87,7 @@ public class ConfigBean {
 
         String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
-        for (ProductPackageType productPackageType : simplePackageBean.getAllProductPackages()) {
+        for (ProductPackageType productPackageType : simplePackageBean.getAllProductPackageTypes()) {
             observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackageType.getId(), "21");
             observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackageType.getId(), "23");
             observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackageType.getId(), "18");

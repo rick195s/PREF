@@ -39,9 +39,9 @@ public class ObservationService {
     }
 
     @GET
-    @Path("/package/{simplePackageId}")
-    public Response getAllObservationsFromPackage(@PathParam("simplePackageId") long simplePackageId) {
-        List<Observation> observations = observationBean.getAllPackageObservations(simplePackageId);
+    @Path("/package/{observablePackageId}")
+    public Response getAllObservationsFromPackage(@PathParam("observablePackageId") long observablePackageId) {
+        List<Observation> observations = observationBean.getAllPackageObservations(observablePackageId);
 
         List<ObservationDTO> results = new ArrayList<>();
         for (Observation obs : observations) {
@@ -57,25 +57,16 @@ public class ObservationService {
 
     @POST
     @Path("/")
-    public Response createObservation(String jsonObject) {
+    public Response createObservation(ObservationDTO observationDTO) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = null;
-
-        try {
-            rootNode = objectMapper.readTree(jsonObject);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        PhenomenonType phenomenonType = PhenomenonType.valueOf(rootNode.get("phenomenonType").asText());
-        long observerId = rootNode.get("observerId").asLong();
-        String date = rootNode.get("date").asText();
-        String details = rootNode.get("details").asText();
-        long simplePackageId = rootNode.get("simplePackageId").asLong();
-        String value = rootNode.get("value").asText();
-
-        Observation observation = observationBean.create(phenomenonType, observerId, date, details,simplePackageId, value);
+        Observation observation = observationBean.create(
+                observationDTO.getPhenomenonType(),
+                observationDTO.getId(),
+                observationDTO.getDate(),
+                observationDTO.getDetails(),
+                observationDTO.getObservablePackageId(),
+                observationDTO.getValue()
+        );
 
         if (observation instanceof CategoryObservation) {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();

@@ -82,15 +82,15 @@ public class ProductBean {
     }
 
 
-    public List<ProductPackageType> getAllProductPackages() {
-        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
+    public List<ProductPackageType> getAllProductPackageTypes() {
+        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackageTypes").getResultList();
     }
 
     public void populateProducts() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Product> products = objectMapper.readValue(getProductsJson(), new TypeReference<>(){});
 
-        List<ProductPackageType> productPackageTypes = getAllProductPackages();
+        List<ProductPackageType> productPackageTypes = getAllProductPackageTypes();
         HashSet<Long> productPackagesByType = new HashSet<>();
 
         // choose just a max of x packages for each product
