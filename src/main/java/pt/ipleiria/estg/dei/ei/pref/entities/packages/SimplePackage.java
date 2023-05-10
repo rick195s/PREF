@@ -5,6 +5,8 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -39,9 +41,11 @@ public class SimplePackage implements Serializable {
     @Column(name = "is_smart")
     private boolean isSmart;
 
+    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ObservablePackage> observablePackages;
 
     public SimplePackage() {
-
+        observablePackages = new LinkedList<>();
     }
 
     public SimplePackage( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
@@ -110,4 +114,11 @@ public class SimplePackage implements Serializable {
         this.resistance = resistance;
     }
 
+    public List<ObservablePackage> getObservablePackages() {
+        return observablePackages;
+    }
+
+    public void setObservablePackages(List<ObservablePackage> observablePackages) {
+        this.observablePackages = observablePackages;
+    }
 }

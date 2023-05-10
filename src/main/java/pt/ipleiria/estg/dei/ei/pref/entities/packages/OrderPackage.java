@@ -17,7 +17,7 @@ import java.util.List;
                 name = "getAllOrderPackages",
                 query = "SELECT o FROM OrderPackage o ORDER BY o.id" // JPQL
         )})
-public class OrderPackage extends ObservablePackage implements Serializable {
+public class OrderPackage extends ObservablePackage<OrderPackageType> implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
