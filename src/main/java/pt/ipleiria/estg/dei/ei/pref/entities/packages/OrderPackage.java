@@ -17,26 +17,27 @@ import java.util.List;
                 name = "getAllOrderPackages",
                 query = "SELECT o FROM OrderPackage o ORDER BY o.id" // JPQL
         )})
-public class OrderPackage extends SimplePackage implements Serializable {
+public class OrderPackage extends OrderPackageType implements Serializable {
 
-    @ManyToMany(mappedBy = "orderPackages", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Order> orders;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
 
     public OrderPackage() {
-        this.orders = new LinkedList<>();
+
     }
 
-    public OrderPackage(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+    public OrderPackage(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart, Order order) {
         super(name, cost, dimension, isSustainable, resistance, isSmart);
-        this.orders = new LinkedList<>();
+        this.order = order;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public Order getOrder() {
+        return order;
     }
 
-    public void addOrder(Order order) {
-        this.orders.add(order);
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

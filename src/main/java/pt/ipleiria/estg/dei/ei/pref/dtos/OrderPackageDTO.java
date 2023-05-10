@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import java.io.Serializable;
@@ -30,7 +30,7 @@ public class OrderPackageDTO extends SimplePackageDTO implements Serializable {
     }
 
 
-    public static List<OrderPackageDTO> fromOrderPackageList(List<OrderPackage> orderPackages) {
-        return orderPackages.stream().map(OrderPackageDTO::from).collect(Collectors.toList());
+    public static List<OrderPackageDTO> fromOrderPackageList(List<OrderPackage> orderPackage) {
+        return orderPackage.stream().map(OrderPackageDTO::from).collect(Collectors.toList());
     }
 }
