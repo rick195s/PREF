@@ -54,11 +54,12 @@ public class ObservationBean {
             entityManager.persist(measurementObservation);
             return measurementObservation;
         }
-            Category category = new Category(value);
-            entityManager.persist(category);
-            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, details, observablePackage, category);
-            entityManager.persist(categoryObservation);
-            return categoryObservation;
+
+        Category category = new Category(value);
+        entityManager.persist(category);
+        CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, details, observablePackage, category);
+        entityManager.persist(categoryObservation);
+        return categoryObservation;
     }
 
     public List<Observation> getAllPackageObservations(long observablePackageId) {

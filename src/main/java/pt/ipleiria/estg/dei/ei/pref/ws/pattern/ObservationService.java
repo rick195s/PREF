@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ws.pattern;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.CategoryObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
@@ -10,13 +8,13 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("/observations")
@@ -35,7 +33,18 @@ public class ObservationService {
     @GET
     @Path("/")
     public List<ObservationDTO> getAllObservations() {
-        return ObservationDTO.from(observationBean.getAllObservations());
+        List<ObservationDTO> observationDTOS = new LinkedList<>();
+
+        List<Observation> observations = observationBean.getAllObservations();
+        for (Observation observation : observations) {
+            if (observation.getPhenomenonType().isMeasurement()) {
+                observationDTOS.add(MeasurementObservationDTO.from((MeasurementObservation) observation));
+            } else {
+                observationDTOS.add(CategoryObservationDTO.from((CategoryObservation) observation));
+            }
+        }
+
+        return observationDTOS;
     }
 
     @GET

@@ -1,8 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
