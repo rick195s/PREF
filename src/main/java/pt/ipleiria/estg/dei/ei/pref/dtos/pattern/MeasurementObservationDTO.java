@@ -15,8 +15,8 @@ public class MeasurementObservationDTO extends ObservationDTO implements Seriali
     public MeasurementObservationDTO() {
     }
 
-    public MeasurementObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, double quantity) {
-        super(id, phenomenonType, observerId, date, details, simplePackageId);
+    public MeasurementObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long observablePackageId, double quantity) {
+        super(id, phenomenonType, observerId, date, details, observablePackageId);
         this.quantity = quantity;
     }
 
@@ -35,7 +35,7 @@ public class MeasurementObservationDTO extends ObservationDTO implements Seriali
                 measurementObservation.getObserver().getId(),
                 measurementObservation.getDate(),
                 measurementObservation.getDetails(),
-                measurementObservation.getSimplePackage().getId(),
+                measurementObservation.getObservablePackage().getId(),
                 measurementObservation.getQuantity().getValue()
         );
     }
