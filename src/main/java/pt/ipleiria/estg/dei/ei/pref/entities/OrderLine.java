@@ -1,7 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -18,22 +22,22 @@ public class OrderLine {
     @Column(name = "product_price")
     private float productPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToMany(mappedBy = "orderLine", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<OrderLineProductRelation> orderLineProductRelations;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderLine(int quantity, float productPrice, Product product, Order order) {
+    public OrderLine(int quantity, float productPrice,  Order order) {
+        this();
         this.quantity = quantity;
-        this.product = product;
         this.order = order;
         this.productPrice = productPrice;
     }
 
     public OrderLine() {
+        this.orderLineProductRelations = new LinkedList<>();
     }
 
     public long getId() {
@@ -60,13 +64,6 @@ public class OrderLine {
         this.productPrice = productPrice;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 
     public Order getOrder() {
         return order;
@@ -76,4 +73,15 @@ public class OrderLine {
         this.order = order;
     }
 
+    public List<OrderLineProductRelation> getOrderLineProductRelations() {
+        return orderLineProductRelations;
+    }
+
+    public void setOrderLineProductRelations(List<OrderLineProductRelation> orderLineProductRelations) {
+        this.orderLineProductRelations = orderLineProductRelations;
+    }
+
+    public Product getProduct() {
+        return orderLineProductRelations.get(0).getProduct();
+    }
 }

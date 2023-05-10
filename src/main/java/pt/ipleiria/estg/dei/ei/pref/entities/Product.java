@@ -1,7 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import javax.persistence.*;
@@ -41,12 +42,13 @@ public class Product {
     private float height;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<OrderLine> orderLine;
+    private List<OrderLineProductRelation> orderLineProductRelations;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProductPackageRelation> productPackageRelations;
 
     public Product(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height) {
+        this();
         this.name = name;
         this.category = category;
         this.price = price;
@@ -55,11 +57,11 @@ public class Product {
         this.length = length;
         this.width = width;
         this.height = height;
-        orderLine = new LinkedList<>();
     }
 
     public Product() {
-        orderLine = new LinkedList<>();
+        this.orderLineProductRelations = new LinkedList<>();
+        this.productPackageRelations = new LinkedList<>();
     }
 
     public long getId() {
@@ -84,18 +86,6 @@ public class Product {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
-    }
-
-    public List<OrderLine> getOrderLine() {
-        return orderLine;
-    }
-
-    public void addOrderLine(OrderLine orderLine) {
-        this.orderLine.add(orderLine);
-    }
-
-    public void removeOrderLine(OrderLine orderLine) {
-        this.orderLine.remove(orderLine);
     }
 
     public float getPrice() {
@@ -159,5 +149,17 @@ public class Product {
             packages.add(productPackage);
         }
         return packages;
+    }
+
+    public List<OrderLineProductRelation> getOrderLineProductRelations() {
+        return orderLineProductRelations;
+    }
+
+    public void setOrderLineProductRelations(List<OrderLineProductRelation> orderLineProductRelations) {
+        this.orderLineProductRelations = orderLineProductRelations;
+    }
+
+    public void setProductPackageRelations(List<ProductPackageRelation> productPackageRelations) {
+        this.productPackageRelations = productPackageRelations;
     }
 }

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.entities.relations;
+package pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

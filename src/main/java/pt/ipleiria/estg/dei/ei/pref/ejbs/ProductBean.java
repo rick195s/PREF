@@ -4,12 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.Hibernate;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelation;
-import pt.ipleiria.estg.dei.ei.pref.entities.relations.ProductPackageRelationPK;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
@@ -37,7 +35,7 @@ public class ProductBean {
         );
 
         entityManager.persist(product);
-        // packages order influence in the type of package (primary, secondary, etc-)
+        // packages order in hash influence in the type of package (primary, secondary, etc-)
         int i = 0;
         for (Long productPackageId : productPackagesIds) {
             if (i>=ProductPackageType.values().length){
