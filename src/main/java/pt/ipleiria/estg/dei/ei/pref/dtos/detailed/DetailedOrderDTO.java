@@ -2,8 +2,8 @@ package pt.ipleiria.estg.dei.ei.pref.dtos.detailed;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderLineDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
@@ -109,7 +109,6 @@ public class DetailedOrderDTO implements Serializable {
     public void setState(OrderState state) {
         this.state = state;
     }
-
 
     public List<OrderPackageDTO> getOrderPackages() {
         return orderPackages;

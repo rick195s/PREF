@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
