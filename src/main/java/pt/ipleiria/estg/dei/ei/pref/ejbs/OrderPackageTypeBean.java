@@ -12,8 +12,8 @@ public class OrderPackageTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderPackageType findOrFail(long code) {
-        return entityManager.find(OrderPackageType.class, code);
+    public OrderPackageType findOrFail(long id) {
+        return entityManager.find(OrderPackageType.class, id);
     }
 
     public List<OrderPackageType> getAllOrderPackageTypes() {

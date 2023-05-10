@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.ObservablePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
@@ -20,7 +22,7 @@ public class ObservationBean {
     @EJB
     private ObserverBean observerBean;
     @EJB
-    private SimplePackageBean simplePackageBean;
+    private ObservablePackageBean observablePackageBean;
 
     public Observation findOrFail(long id) {
         return entityManager.find(Observation.class, id);
@@ -30,11 +32,11 @@ public class ObservationBean {
         return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
     }
 
-    public Observation create(PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId, String value) {
+    public Observation create(PhenomenonType phenomenonType, long observerId, String date, String details, long observablePackageId, String value) {
 
         Observer observer = observerBean.findOrFail(observerId);
 
-        SimplePackage simplePackage = simplePackageBean.findOrFail(simplePackageId);
+        ObservablePackage<SimplePackage> observablePackage = observablePackageBean.findOrFail(observablePackageId);
 
         // validate json
         try {
@@ -48,13 +50,13 @@ public class ObservationBean {
             double measurementValue = Double.parseDouble(value);
             Quantity quantity = new Quantity(measurementValue);
             entityManager.persist(quantity);
-            MeasurementObservation measurementObservation = new MeasurementObservation(phenomenonType, observer, date, details, simplePackage, quantity);
+            MeasurementObservation measurementObservation = new MeasurementObservation(phenomenonType, observer, date, details, observablePackage, quantity);
             entityManager.persist(measurementObservation);
             return measurementObservation;
         }
             Category category = new Category(value);
             entityManager.persist(category);
-            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, details, simplePackage, category);
+            CategoryObservation categoryObservation = new CategoryObservation(phenomenonType, observer, date, details, observablePackage, category);
             entityManager.persist(categoryObservation);
             return categoryObservation;
     }

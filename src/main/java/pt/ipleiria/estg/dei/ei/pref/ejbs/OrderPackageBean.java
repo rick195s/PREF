@@ -13,8 +13,8 @@ public class OrderPackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderPackage findOrFail(long code) {
-        return entityManager.find(OrderPackage.class, code);
+    public OrderPackage findOrFail(long id) {
+        return entityManager.find(OrderPackage.class, id);
     }
 
     public List<OrderPackage> getAllOrderPackages() {

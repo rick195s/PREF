@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -22,8 +23,8 @@ public class CategoryObservation extends Observation implements Serializable {
 
     public CategoryObservation() {
     }
-    public CategoryObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage, Category category) {
-        super(phenomenonType, observer, date, details, simplePackage);
+    public CategoryObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage<SimplePackage> observablePackage, Category category) {
+        super(phenomenonType, observer, date, details, observablePackage);
         this.category = category;
     }
 

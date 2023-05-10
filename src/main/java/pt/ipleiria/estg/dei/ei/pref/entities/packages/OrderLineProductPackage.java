@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,13 +14,18 @@ import java.io.Serializable;
                 name = "getAllOrderLineProductPackages",
                 query = "SELECT o FROM OrderLineProductPackage o ORDER BY o.id" // JPQL
         )})
-public class OrderLineProductPackageType extends ObservablePackage<ProductPackageType> implements Serializable {
+public class OrderLineProductPackage extends ObservablePackage<ProductPackageType> implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_line_product_relation_id")
     private OrderLineProductRelation orderLineProductRelation;
 
-    public OrderLineProductPackageType() {
+    public OrderLineProductPackage() {
+    }
+
+    public OrderLineProductPackage(ProductPackageType productPackage, OrderLineProductRelation orderLineProductRelation) {
+        super(productPackage);
+        this.orderLineProductRelation = orderLineProductRelation;
     }
 
     public OrderLineProductRelation getOrderLineProductRelation() {

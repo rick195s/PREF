@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
+import org.hibernate.annotations.Type;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 
 import javax.persistence.*;
@@ -25,7 +26,8 @@ public class ObservablePackage<PackageType extends SimplePackage> implements Ser
     @OneToMany(mappedBy = "observablePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Observation> observations;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = SimplePackage.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "simple_package_id")
     private PackageType simplePackage;
 
     public ObservablePackage() {

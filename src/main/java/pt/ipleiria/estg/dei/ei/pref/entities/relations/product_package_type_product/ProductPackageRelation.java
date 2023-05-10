@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_pro
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 
 import javax.persistence.*;
 
@@ -26,12 +27,12 @@ public class ProductPackageRelation {
     @JoinColumn(name = "product_package_id")
     private ProductPackageType productPackageType;
 
-    private pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type;
+    private ProductPackageLevel type;
 
     public ProductPackageRelation() {
     }
 
-    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackageType productPackageType, pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type) {
+    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackageType productPackageType, ProductPackageLevel type) {
         this.id = id;
         this.product = product;
         this.productPackageType = productPackageType;
@@ -62,11 +63,11 @@ public class ProductPackageRelation {
         this.productPackageType = productPackageType;
     }
 
-    public pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType getType() {
+    public ProductPackageLevel getType() {
         return type;
     }
 
-    public void setType(pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type) {
+    public void setType(ProductPackageLevel type) {
         this.type = type;
     }
 }

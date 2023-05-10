@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelationPK;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
@@ -37,7 +38,7 @@ public class ProductBean {
         // packages order in hash influence in the type of package (primary, secondary, etc-)
         int i = 0;
         for (Long productPackageId : productPackagesIds) {
-            if (i>= pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values().length){
+            if (i>= ProductPackageLevel.values().length){
                 break;
             }
 
@@ -46,7 +47,7 @@ public class ProductBean {
                     new ProductPackageRelationPK(productPackageType.getId(), product.getId()),
                     product,
                     productPackageType,
-                    pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values()[i]
+                    ProductPackageLevel.values()[i]
             );
             entityManager.persist(relation);
 
@@ -94,7 +95,7 @@ public class ProductBean {
 
         // choose just a max of x packages for each product
         // none of the package type will be repeated
-        int max = pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType.values().length;
+        int max = ProductPackageLevel.values().length;
         int min = 1;
         for (Product product : products) {
             productPackagesByType.clear();

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(
-        name = "product_packages"
+        name = "product_package_types"
 )
 @NamedQueries({
         @NamedQuery(
@@ -19,9 +20,9 @@ import java.util.List;
 public class ProductPackageType extends SimplePackage implements Serializable {
     @Transient
     // Aux property, real type is in ProductPackageRelation
-    private pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type;
+    private ProductPackageLevel type;
 
-    @OneToMany(mappedBy = "productPackage")
+    @OneToMany(mappedBy = "productPackageType")
     private List<ProductPackageRelation> productPackageRelations;
 
     public ProductPackageType() {
@@ -31,11 +32,11 @@ public class ProductPackageType extends SimplePackage implements Serializable {
         super(name, cost, dimension, isSustainable, resistance, isSmart);
     }
 
-    public pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType getType() {
+    public ProductPackageLevel getType() {
         return type;
     }
 
-    public void setType(pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType type) {
+    public void setType(ProductPackageLevel type) {
         this.type = type;
     }
 }

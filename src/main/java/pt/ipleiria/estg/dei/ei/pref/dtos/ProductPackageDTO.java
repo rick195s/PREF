@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,12 +12,12 @@ public class ProductPackageDTO {
     private String name;
 
     // filled with the ProductPackageRelation.type
-    private pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType;
+    private ProductPackageLevel packageType;
 
     public ProductPackageDTO() {
     }
 
-    public ProductPackageDTO(long id, String name, pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType) {
+    public ProductPackageDTO(long id, String name, ProductPackageLevel packageType) {
         this.id = id;
         this.name = name;
         this.packageType = packageType;
@@ -38,11 +39,11 @@ public class ProductPackageDTO {
         this.name = name;
     }
 
-    public pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType getPackageType() {
+    public ProductPackageLevel getPackageType() {
         return packageType;
     }
 
-    public void setPackageType(pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType packageType) {
+    public void setPackageType(ProductPackageLevel packageType) {
         this.packageType = packageType;
     }
 

@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
@@ -10,16 +11,16 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class SimplePackageBean {
+public class ObservablePackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SimplePackage findOrFail(long code) {
-        return entityManager.find(SimplePackage.class, code);
+    public ObservablePackage<SimplePackage> findOrFail(long id) {
+        return entityManager.find(ObservablePackage.class, id);
     }
 
-    public List<SimplePackage> getAllSimplePackages() {
-        return (List<SimplePackage>) entityManager.createNamedQuery("getAllSimplePackages").getResultList();
+    public List<ObservablePackage> getAllObservablePackages() {
+        return (List<ObservablePackage>) entityManager.createNamedQuery("getAllObservablePackages").getResultList();
     }
 
     public SimplePackage create( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistence, boolean isSmart) {
@@ -29,9 +30,5 @@ public class SimplePackageBean {
         entityManager.persist(simplePackage);
 
         return simplePackage;
-    }
-
-    public List<ProductPackageType> getAllProductPackages() {
-        return (List<ProductPackageType>) entityManager.createNamedQuery("getAllProductPackages").getResultList();
     }
 }

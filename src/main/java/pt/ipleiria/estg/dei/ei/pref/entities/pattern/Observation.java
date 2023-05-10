@@ -19,7 +19,7 @@ import java.io.Serializable;
         ),
         @NamedQuery(
                 name = "getAllPackageObservations",
-                query = "SELECT o FROM Observation o JOIN o.simplePackage sp WHERE sp.id = :simplePackageId"
+                query = "SELECT o FROM Observation o JOIN o.observablePackage op WHERE op.id = :observablePackageId"
         )})
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Observation implements Serializable {
@@ -44,7 +44,7 @@ public class Observation implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "observable_package_id")
-    private ObservablePackage observablePackage;
+    private ObservablePackage<SimplePackage> observablePackage;
 
     public Observation() {
 

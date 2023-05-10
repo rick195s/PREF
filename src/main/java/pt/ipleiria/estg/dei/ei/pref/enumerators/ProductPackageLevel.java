@@ -1,6 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.enumerators;
 
-public enum ProductPackageType {
+public enum ProductPackageLevel {
     PRIMARY,
     SECONDARY,
     TERTIARY

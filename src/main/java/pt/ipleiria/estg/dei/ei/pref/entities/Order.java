@@ -141,6 +141,16 @@ public class Order {
         return orderPackages;
     }
 
+    public List<OrderPackageType> getOrderPackageTypes() {
+        List<OrderPackageType> orderPackageTypes = new LinkedList<>();
+        for (OrderPackage orderPackage : orderPackages) {
+            orderPackageTypes.add(orderPackage.getSimplePackage());
+        }
+
+        return orderPackageTypes;
+    }
+
+
     public void setOrderPackages(List<OrderPackage> orderPackages) {
         this.orderPackages = orderPackages;
     }

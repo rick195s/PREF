@@ -29,7 +29,7 @@ public class OrderPackageTypeDTO extends SimplePackageDTO implements Serializabl
     }
 
 
-    public static List<OrderPackageTypeDTO> fromOrderPackageTypeList(List<OrderPackageType> orderPackageTypes) {
+    public static List<OrderPackageTypeDTO> fromOrderPackageType(List<OrderPackageType> orderPackageTypes) {
         return orderPackageTypes.stream().map(OrderPackageTypeDTO::from).collect(Collectors.toList());
     }
 }

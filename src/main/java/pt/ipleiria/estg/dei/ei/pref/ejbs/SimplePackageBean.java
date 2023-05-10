@@ -14,8 +14,8 @@ public class SimplePackageBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SimplePackage findOrFail(long code) {
-        return entityManager.find(SimplePackage.class, code);
+    public SimplePackage findOrFail(long id) {
+        return entityManager.find(SimplePackage.class, id);
     }
 
     public List<SimplePackage> getAllSimplePackages() {

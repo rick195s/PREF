@@ -4,7 +4,7 @@ import org.hibernate.Hibernate;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
@@ -32,14 +32,11 @@ public class OrderLineBean {
             entityManager.persist(relation);
 
             for (ProductPackageType productPackageType : product.getProductPackages()) {
-                OrderLineProductPackageType newProductPackage = new OrderLineProductPackageType(
-                        productPackageType.getName(),
-                        productPackageType.getCost(),
-                        productPackageType.getDimension(),
-                        productPackageType.isSustainable(),
-                        productPackageType.getResistance(),
-                        productPackageType.isSmart()
+                OrderLineProductPackage newProductPackage = new OrderLineProductPackage(
+                        productPackageType,
+                        relation
                 );
+
                 newProductPackage.setOrderLineProductRelation(relation);
                 entityManager.persist(newProductPackage);
             }
