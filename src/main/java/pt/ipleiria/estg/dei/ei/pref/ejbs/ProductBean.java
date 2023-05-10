@@ -35,7 +35,7 @@ public class ProductBean {
         );
 
         entityManager.persist(product);
-        // packages order influence in the type of package (primary, secondary, etc-)
+        // packages order in hash influence in the type of package (primary, secondary, etc-)
         int i = 0;
         for (Long productPackageId : productPackagesIds) {
             if (i>=ProductPackageType.values().length){

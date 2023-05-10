@@ -5,6 +5,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
@@ -28,6 +29,9 @@ public class OrderBean {
     @EJB
     private ProductBean productBean;
 
+    @EJB
+    private OrderLineBean orderLineBean;
+
     public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
@@ -39,7 +43,7 @@ public class OrderBean {
         Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
 
         List<OrderLine> orderLines = products.stream().map(product ->
-                new OrderLine(productsQuantities.get(product.getId()), productsQuantities.get(product.getId())*product.getPrice(),product, order)).collect(Collectors.toList());
+                orderLineBean.create(productsQuantities.get(product.getId()), product.getPrice(),product, order)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 
@@ -78,7 +82,10 @@ public class OrderBean {
         Hibernate.initialize(order.getOrderPackages());
 
         for (OrderLine orderLine : order.getOrderLines()) {
-            Hibernate.initialize(orderLine.getProduct().getProductPackageRelations());
+            Hibernate.initialize(orderLine.getOrderLineProductRelations());
+            for (OrderLineProductRelation orderLineProductRelation : orderLine.getOrderLineProductRelations()) {
+                Hibernate.initialize(orderLineProductRelation.getProduct().getProductPackageRelations());
+            }
         }
     }
 
@@ -88,7 +95,7 @@ public class OrderBean {
 
 
     public Order dispatchOrder(long id) {
-          Order order = findOrFail(id);
+        Order order = findOrFail(id);
 
         if (order == null) {
             throw new MyEntityNotFoundException("OrderLine not found");
@@ -100,6 +107,5 @@ public class OrderBean {
         order.setState(OrderState.PACKED);
 
         return order;
-
     }
 }
