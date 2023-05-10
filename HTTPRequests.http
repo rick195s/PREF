@@ -35,7 +35,7 @@ Content-Type: application/json
 %}
 
 ### List Order Packages
-GET http://localhost:8080/pref/api/orderPackages
+GET http://localhost:8080/pref/api/orderPackageTypes
 Accept: application/json
 
 > {%
@@ -45,7 +45,7 @@ Accept: application/json
 %}
 
 ### Get Order Package
-GET http://localhost:8080/pref/api/orderPackages/19
+GET http://localhost:8080/pref/api/orderPackageTypes/19
 Accept: application/json
 
 > {%
@@ -80,12 +80,12 @@ POST http://localhost:8080/pref/api/observations
 Content-Type: application/json
 
 {
-  "phenomenonType": "TEMPERATURE",
+  "phenomenonType": "LOCATION",
   "observerId": 1,
   "date": "2018-01-01T00:00:00.000Z",
   "details": "{\"key1\": \"value1\", \"key2\": \"value2\"}",
   "simplePackageId": 20,
-  "value": 30
+  "value": "BUDAPEST"
 }
 
 > {%

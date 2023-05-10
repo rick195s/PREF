@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
@@ -46,17 +48,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_package_relations",
-            joinColumns = @JoinColumn(name = "order_package_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id"))
-    @JoinColumn(name = "order_package_id")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderPackage> orderPackages;
 
     public Order() {
         this.orderLines = new LinkedList<>();
         this.shippingMethods = new LinkedList<>();
+        this.orderPackages = new LinkedList<>();
     }
 
     public Order(String date, String source, String destination, float weight, String carrier, List<String> shippingMethods, OrderState state) {
@@ -68,6 +66,7 @@ public class Order {
         this.carrier = carrier;
         this.state = state;
         this.shippingMethods = shippingMethods;
+        this.orderPackages = new LinkedList<>();
     }
 
     public long getTrackingNumber() {
@@ -144,10 +143,6 @@ public class Order {
 
     public void addOrderPackage(OrderPackage orderPackage) {
         this.orderPackages.add(orderPackage);
-    }
-
-    public void removeOrderPackage(OrderPackage orderPackage) {
-        this.orderPackages.remove(orderPackage);
     }
 
     public List<String> getShippingMethods() {
