@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
@@ -86,10 +87,13 @@ public class ConfigBean {
 
         String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
-        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, 1, "21");
-        observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, 1, "23");
-        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, 2, "18");
-        observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, 2, "19");
+        for (ProductPackage productPackage : simplePackageBean.getAllProductPackages()) {
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), "21");
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), "23");
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), "18");
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), "19");
+        }
+
     }
 
     private void createOrderPackages() {
