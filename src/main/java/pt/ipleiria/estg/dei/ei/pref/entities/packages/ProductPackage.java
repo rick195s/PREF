@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +26,10 @@ public class ProductPackage extends SimplePackage implements Serializable {
     private List<ProductPackageRelation> productPackageRelations;
 
     public ProductPackage() {
+    }
+
+    public ProductPackage(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+        super(name, cost, dimension, isSustainable, resistance, isSmart);
     }
 
     public ProductPackageType getType() {
