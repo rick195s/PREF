@@ -1,8 +1,9 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 xl:mb-0 px-4">
-      <CardOrderLinePackages :order-lines="orderData?.orderLines" />
-      <CardObservations :order-data="orderData" :loading="pending"/>
+      <CardOrderLinePackages :order-lines="orderData?.orderLines" @package-selected="updateSelectedPackages" />
+      <CardObservations :order-data="orderData"
+                        :loading="pending" :selected-packages="selectedPackages"/>
       <CardOrderLines :order-lines="orderData?.orderLines" :loading="pending" />
       <CardOrderDetails :order-data="orderData" />
 
@@ -14,6 +15,15 @@ import CardOrderDetails from "@/components/Cards/CardOrderDetails.vue";
 import CardOrderLines from "~/components/Cards/CardOrderLines.vue";
 import CardOrderLinePackages from "~/components/Cards/CardOrderLinesPackages.vue";
 import CardObservations from "~/components/Cards/CardObservations.vue";
+
+const selectedPackages = ref([]);
+const updateSelectedPackages = (payload) => {
+  if(payload.checked){
+    selectedPackages.value.push(payload.packageId);
+  }else{
+    selectedPackages.value = selectedPackages.value.filter((item) => item !== payload.packageId);
+  }
+};
 
 const { data: orderData, pending } = await useLazyAsyncData(
   "orderData",
