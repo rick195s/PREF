@@ -76,9 +76,6 @@ public class ConfigBean {
         createOrderPackageTypes();
         System.out.println("OrderPackageTypes created");
 
-        dispatchOrders();
-        System.out.println("Orders dispatched");
-
         createObservers();
         System.out.println("Observers created");
 
@@ -116,7 +113,7 @@ public class ConfigBean {
             int min = 1;
             for (Product product : products) {
                 productPackagesByType.clear();
-                for (int i = 0; i < new Random().nextInt(max-min+1)+min; i++) {
+                for (int i = 0; i < new Random().nextInt(max - min + 1) + min; i++) {
                     productPackagesByType.add(productPackageTypes.get(new Random().nextInt(productPackageTypes.size())).getId());
                 }
                 productBean.create(product.getName(), product.getCategory(), product.getPrice(), product.getWeight(), product.getValidityRange(), product.getLength(), product.getWidth(), product.getHeight(), productPackagesByType);
@@ -149,17 +146,17 @@ public class ConfigBean {
     private void createOrderPackages() {
         List<OrderPackageType> allOrderPackageTypes = orderPackageTypeBean.getAllOrderPackageTypes();
 
-        int max = allOrderPackageTypes.size()-1;
+        int max = allOrderPackageTypes.size() - 1;
         int min = 0;
         for (Order order : orderBean.getAllOrders(0, 500)) {
             orderPackageBean.create(
-                    allOrderPackageTypes.get( new Random().nextInt(max-min+1)+min).getId(),
+                    allOrderPackageTypes.get(new Random().nextInt(max - min + 1) + min).getId(),
                     order.getTrackingNumber()
             );
         }
     }
 
-    private void createObservers(){
+    private void createObservers() {
         observerBean.create("Temperature Sensor");
         observerBean.create("Humidity Sensor");
         observerBean.create("Location Sensor");
@@ -198,24 +195,14 @@ public class ConfigBean {
     private void createOrderPackageTypes() {
         List<OrderPackageType> packages = new LinkedList<>();
 
-        packages.add(new OrderPackageType("Cartao",  20,"10x10x10",  true, ResistenceType.MEDIUM, false));
-        packages.add(new OrderPackageType( "Palete", 10,"10x10x10",  false, ResistenceType.LOW, false));
-        packages.add(new OrderPackageType( "CAIXA ISOMÉTRICA EPS", 40,"10x10x10",  false, ResistenceType.HIGH, true));
+        packages.add(new OrderPackageType("Cartao", 20, "10x10x10", true, ResistenceType.MEDIUM, false));
+        packages.add(new OrderPackageType("Palete", 10, "10x10x10", false, ResistenceType.LOW, false));
+        packages.add(new OrderPackageType("CAIXA ISOMÉTRICA EPS", 40, "10x10x10", false, ResistenceType.HIGH, true));
 
         for (OrderPackageType orderPackageType : packages) {
             entityManager.persist(orderPackageType);
         }
 
-    }
-
-    private void dispatchOrders() {
-        // get all orderPackages
-        List<OrderPackageType> orderPackageTypes = entityManager.createNamedQuery("getAllOrderPackageTypes").getResultList();
-
-        for (int i = 0; i < 200; i++) {
-            // random number with min 1 and max 3
-            orderBean.dispatchOrder(i+1);
-        }
     }
 
     private void createOrders() {

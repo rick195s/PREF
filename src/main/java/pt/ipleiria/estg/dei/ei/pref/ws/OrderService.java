@@ -1,17 +1,21 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +29,9 @@ import java.util.Map;
 public class OrderService {
     @EJB
     private OrderBean orderBean;
+
+    @EJB
+    private OrderPackageBean orderPackageBean;
 
     @GET
     @Path("/{trackingNumber}")
@@ -77,8 +84,18 @@ public class OrderService {
 
     @PATCH
     @Path("/{trackingNumber}")
-    public Response dispatchOrder(@PathParam("trackingNumber") long trackingNumber) {
-        return Response.ok(DetailedOrderDTO.from(orderBean.dispatchOrder(trackingNumber))).build();
+    public Response associatePackageWithOrder(@PathParam("trackingNumber") long trackingNumber, OrderPackageTypeDTO orderPackageTypeDTO) {
+        orderPackageBean.create(trackingNumber, orderPackageTypeDTO.getId());
+
+        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber));
+
+        return Response.ok(detailedOrderDTO).build();
+    }
+
+    @PATCH
+    @Path("/{trackingNumber}/pack")
+    public Response packOrder(@PathParam("trackingNumber") long trackingNumber) {
+        return Response.ok(DetailedOrderDTO.from(orderBean.packOrder(trackingNumber))).build();
     }
 
 }
