@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
-import pt.ipleiria.estg.dei.ei.pref.dtos.SimplePackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.SimplePackageTypeDTO;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageTypeBean;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -12,20 +12,20 @@ import java.util.List;
 @Path("/packages")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-public class SimplePackageService {
+public class SimplePackageTypeService {
     @EJB
-    private SimplePackageBean simplePackageBean;
+    private SimplePackageTypeBean simplePackageTypeBean;
 
     @GET
     @Path("/")
-    public List<SimplePackageDTO> getAllSimplePackages() {
-        return SimplePackageDTO.from(simplePackageBean.getAllSimplePackages());
+    public List<SimplePackageTypeDTO> getAllSimplePackageTypes() {
+        return SimplePackageTypeDTO.from(simplePackageTypeBean.getAllSimplePackageTypes());
     }
 
     @GET
     @Path("{id}")
     public Response get(@PathParam("id") long id) {
-        return Response.ok(SimplePackageDTO.from(simplePackageBean.findOrFail(id))).build();
+        return Response.ok(SimplePackageTypeDTO.from(simplePackageTypeBean.findOrFail(id))).build();
     }
 
     /*@POST

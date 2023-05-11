@@ -5,7 +5,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
@@ -31,15 +31,12 @@ public class OrderLineBean {
             );
             entityManager.persist(relation);
 
-            for (ProductPackage productPackage : product.getProductPackages()) {
+            for (ProductPackageType productPackageType : product.getProductPackages()) {
                 OrderLineProductPackage newProductPackage = new OrderLineProductPackage(
-                        productPackage.getName(),
-                        productPackage.getCost(),
-                        productPackage.getDimension(),
-                        productPackage.isSustainable(),
-                        productPackage.getResistance(),
-                        productPackage.isSmart()
+                        productPackageType,
+                        relation
                 );
+
                 newProductPackage.setOrderLineProductRelation(relation);
                 entityManager.persist(newProductPackage);
             }

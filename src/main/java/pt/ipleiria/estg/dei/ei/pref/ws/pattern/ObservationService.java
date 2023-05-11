@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ws.pattern;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.CategoryObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
@@ -10,13 +8,13 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("/observations")
@@ -35,13 +33,24 @@ public class ObservationService {
     @GET
     @Path("/")
     public List<ObservationDTO> getAllObservations() {
-        return ObservationDTO.from(observationBean.getAllObservations());
+        List<ObservationDTO> observationDTOS = new LinkedList<>();
+
+        List<Observation> observations = observationBean.getAllObservations();
+        for (Observation observation : observations) {
+            if (observation.getPhenomenonType().isMeasurement()) {
+                observationDTOS.add(MeasurementObservationDTO.from((MeasurementObservation) observation));
+            } else {
+                observationDTOS.add(CategoryObservationDTO.from((CategoryObservation) observation));
+            }
+        }
+
+        return observationDTOS;
     }
 
     @GET
-    @Path("/package/{simplePackageId}")
-    public Response getAllObservationsFromPackage(@PathParam("simplePackageId") long simplePackageId) {
-        List<Observation> observations = observationBean.getAllPackageObservations(simplePackageId);
+    @Path("/package/{observablePackageId}")
+    public Response getAllObservationsFromPackage(@PathParam("observablePackageId") long observablePackageId) {
+        List<Observation> observations = observationBean.getAllPackageObservations(observablePackageId);
 
         List<ObservationDTO> results = new ArrayList<>();
         for (Observation obs : observations) {
@@ -57,25 +66,16 @@ public class ObservationService {
 
     @POST
     @Path("/")
-    public Response createObservation(String jsonObject) {
+    public Response createObservation(ObservationDTO observationDTO) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode rootNode = null;
-
-        try {
-            rootNode = objectMapper.readTree(jsonObject);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        PhenomenonType phenomenonType = PhenomenonType.valueOf(rootNode.get("phenomenonType").asText());
-        long observerId = rootNode.get("observerId").asLong();
-        String date = rootNode.get("date").asText();
-        String details = rootNode.get("details").asText();
-        long simplePackageId = rootNode.get("simplePackageId").asLong();
-        String value = rootNode.get("value").asText();
-
-        Observation observation = observationBean.create(phenomenonType, observerId, date, details,simplePackageId, value);
+        Observation observation = observationBean.create(
+                observationDTO.getPhenomenonType(),
+                observationDTO.getObserverId(),
+                observationDTO.getDate(),
+                observationDTO.getDetails(),
+                observationDTO.getObservablePackageId(),
+                observationDTO.getValue()
+        );
 
         if (observation instanceof CategoryObservation) {
             return Response.ok(CategoryObservationDTO.from((CategoryObservation) observation)).build();

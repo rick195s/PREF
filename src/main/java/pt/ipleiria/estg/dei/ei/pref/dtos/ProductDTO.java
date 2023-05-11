@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 

@@ -14,6 +14,10 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllCategories",
                 query = "SELECT c FROM Category c ORDER BY c.id" // JPQL
+        ),
+        @NamedQuery(
+                name = "getCategoryByValue",
+                query = "SELECT c FROM Category c WHERE c.value = :value" // JPQL
         )})
 public class Category implements Serializable {
     @Id

@@ -1,13 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
-import pt.ipleiria.estg.dei.ei.pref.dtos.ProductPackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.SimplePackageDTO;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.SimplePackageBean;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageDTO;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageTypeBean;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/product-packages")
@@ -15,12 +13,12 @@ import java.util.List;
 @Consumes({MediaType.APPLICATION_JSON})
 public class ProductPackageService {
     @EJB
-    private SimplePackageBean simplePackageBean;
+    private SimplePackageTypeBean simplePackageTypeBean;
 
     @GET
     @Path("/")
-    public List<ProductPackageDTO> getAllProductPackages() {
-        return ProductPackageDTO.from(simplePackageBean.getAllProductPackages());
+    public List<ProductPackageDTO> getAllProductPackageTypes() {
+        return ProductPackageDTO.from(simplePackageTypeBean.getAllProductPackageTypes());
     }
 
 }

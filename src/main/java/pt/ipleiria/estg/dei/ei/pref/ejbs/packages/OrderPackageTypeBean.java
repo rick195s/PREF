@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.ejbs;
+package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
@@ -12,8 +12,8 @@ public class OrderPackageTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderPackageType findOrFail(long code) {
-        return entityManager.find(OrderPackageType.class, code);
+    public OrderPackageType findOrFail(long id) {
+        return entityManager.find(OrderPackageType.class, id);
     }
 
     public List<OrderPackageType> getAllOrderPackageTypes() {

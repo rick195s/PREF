@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
@@ -14,17 +13,18 @@ public class ObservationDTO implements Serializable {
     private long observerId;
     private String date;
     private String details;
-    private long simplePackageId;
+    private long observablePackageId;
+    private String value;
 
     public ObservationDTO() {
     }
-    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long simplePackageId) {
+    public ObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long observablePackageId) {
         this.id = id;
         this.phenomenonType = phenomenonType;
         this.observerId = observerId;
         this.date = date;
         this.details = details;
-        this.simplePackageId = simplePackageId;
+        this.observablePackageId = observablePackageId;
     }
 
     public long getId() {
@@ -67,12 +67,20 @@ public class ObservationDTO implements Serializable {
         this.details = details;
     }
 
-    public long getSimplePackageId() {
-        return simplePackageId;
+    public long getObservablePackageId() {
+        return observablePackageId;
     }
 
-    public void setSimplePackageId(long simplePackageId) {
-        this.simplePackageId = simplePackageId;
+    public void setObservablePackageId(long observablePackageId) {
+        this.observablePackageId = observablePackageId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public static ObservationDTO from(Observation observation) {
@@ -82,7 +90,7 @@ public class ObservationDTO implements Serializable {
                 observation.getObserver().getId(),
                 observation.getDate(),
                 observation.getDetails(),
-                observation.getSimplePackage().getId()
+                observation.getObservablePackage().getId()
         );
     }
 

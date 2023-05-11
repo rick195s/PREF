@@ -17,7 +17,7 @@ public class ObservationApiTest {
     private final OkHttpClient client = new OkHttpClient();
 
     @Test
-    public void testGetObservationsFromSimplePackage() throws IOException {
+    public void testGetObservationsFromSimplePackageType() throws IOException {
         Request request = new Request.Builder()
                 .url(baseUrl + "observations/package/1")
                 .addHeader("Accept", "application/json")
@@ -41,7 +41,7 @@ public class ObservationApiTest {
         requestBody.put("observerId", 1);
         requestBody.put("date", "2023-01-01T00:00:00.000Z");
         requestBody.put("details", "{\"key1\": \"value1\", \"key2\": \"value2\"}");
-        requestBody.put("simplePackageId", 20);
+        requestBody.put("observablePackageId", 20);
         requestBody.put("value", 20);
         String requestBodyJson = new ObjectMapper().writeValueAsString(requestBody);
 

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.persistence.*;
@@ -22,8 +23,8 @@ public class MeasurementObservation extends Observation implements Serializable 
 
     public MeasurementObservation() {
     }
-    public MeasurementObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, SimplePackage simplePackage, Quantity quantity) {
-        super(phenomenonType, observer, date, details, simplePackage);
+    public MeasurementObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage<SimplePackageType> observablePackage, Quantity quantity) {
+        super(phenomenonType, observer, date, details, observablePackage);
         this.quantity = quantity;
     }
 

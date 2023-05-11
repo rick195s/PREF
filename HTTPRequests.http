@@ -84,7 +84,7 @@ Content-Type: application/json
   "observerId": 1,
   "date": "2018-01-01T00:00:00.000Z",
   "details": "{\"key1\": \"value1\", \"key2\": \"value2\"}",
-  "simplePackageId": 20,
+  "simplePackageTypeId": 20,
   "value": "BUDAPEST"
 }
 

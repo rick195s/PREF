@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
@@ -11,15 +10,15 @@ import java.util.List;
 
 @Entity
 @Table(
-        name = "simple_packages"
+        name = "simple_package_types"
 )
 @NamedQueries({
         @NamedQuery(
-                name = "getAllSimplePackages",
-                query = "SELECT s FROM SimplePackage s ORDER BY s.id" // JPQL
+                name = "getAllSimplePackageTypes",
+                query = "SELECT s FROM SimplePackageType s ORDER BY s.id" // JPQL
         )})
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class SimplePackage implements Serializable {
+public class SimplePackageType implements Serializable {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,14 +40,15 @@ public class SimplePackage implements Serializable {
     @NotNull
     @Column(name = "is_smart")
     private boolean isSmart;
-    @OneToMany(mappedBy = "simplePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Observation> observations;
 
-    public SimplePackage() {
-        observations = new LinkedList<>();
+    @OneToMany(mappedBy = "simplePackageType", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ObservablePackage> observablePackages;
+
+    public SimplePackageType() {
+        observablePackages = new LinkedList<>();
     }
 
-    public SimplePackage( String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+    public SimplePackageType(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
         this();
         this.name = name;
         this.cost = cost;
@@ -56,7 +56,6 @@ public class SimplePackage implements Serializable {
         this.isSustainable = isSustainable;
         this.resistance = resistance;
         this.isSmart = isSmart;
-        this.observations = new LinkedList<>();
     }
 
     public long getId() {
@@ -115,11 +114,11 @@ public class SimplePackage implements Serializable {
         this.resistance = resistance;
     }
 
-    public List<Observation> getObservations() {
-        return observations;
+    public List<ObservablePackage> getObservablePackages() {
+        return observablePackages;
     }
 
-    public void addObservation(Observation observation) {
-        this.observations.add(observation);
+    public void setObservablePackages(List<ObservablePackage> observablePackages) {
+        this.observablePackages = observablePackages;
     }
 }

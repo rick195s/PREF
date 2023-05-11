@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.pref.entities;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
@@ -140,6 +139,16 @@ public class Order {
     public List<OrderPackage> getOrderPackages() {
         return orderPackages;
     }
+
+    public List<OrderPackageType> getOrderPackageTypes() {
+        List<OrderPackageType> orderPackageTypes = new LinkedList<>();
+        for (OrderPackage orderPackage : orderPackages) {
+            orderPackageTypes.add(orderPackage.getSimplePackageType());
+        }
+
+        return orderPackageTypes;
+    }
+
 
     public void setOrderPackages(List<OrderPackage> orderPackages) {
         this.orderPackages = orderPackages;

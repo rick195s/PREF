@@ -14,7 +14,12 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllQuantities",
                 query = "SELECT q FROM Quantity q ORDER BY q.id" // JPQL
-        )})
+        ),
+        @NamedQuery(
+                name = "getQuantityByValue",
+                query = "SELECT q FROM Quantity q WHERE q.value = :value" // JPQL
+        )
+})
 public class Quantity implements Serializable {
     @Id
     @NotNull

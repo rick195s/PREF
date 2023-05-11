@@ -1,13 +1,13 @@
-package pt.ipleiria.estg.dei.ei.pref.dtos;
+package pt.ipleiria.estg.dei.ei.pref.dtos.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimplePackageDTO implements Serializable {
+public class SimplePackageTypeDTO implements Serializable {
     private long id;
     private String name;
     private double cost;
@@ -16,10 +16,10 @@ public class SimplePackageDTO implements Serializable {
     private ResistenceType resistance;
     private boolean isSmart;
 
-    public SimplePackageDTO() {
+    public SimplePackageTypeDTO() {
     }
 
-    public SimplePackageDTO(long id, String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+    public SimplePackageTypeDTO(long id, String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
         this.id = id;
         this.cost = cost;
         this.dimension = dimension;
@@ -86,18 +86,18 @@ public class SimplePackageDTO implements Serializable {
         isSmart = smart;
     }
 
-    public static SimplePackageDTO from(SimplePackage simplePackage) {
-        return new SimplePackageDTO(
-                simplePackage.getId(),
-                simplePackage.getName(),
-                simplePackage.getCost(),
-                simplePackage.getDimension(),
-                simplePackage.isSustainable(),
-                simplePackage.getResistance(),
-                simplePackage.isSmart());
+    public static SimplePackageTypeDTO from(SimplePackageType simplePackageType) {
+        return new SimplePackageTypeDTO(
+                simplePackageType.getId(),
+                simplePackageType.getName(),
+                simplePackageType.getCost(),
+                simplePackageType.getDimension(),
+                simplePackageType.isSustainable(),
+                simplePackageType.getResistance(),
+                simplePackageType.isSmart());
     }
 
-    public static List<SimplePackageDTO> from(List<SimplePackage> simplePackages) {
-        return simplePackages.stream().map(SimplePackageDTO::from).collect(Collectors.toList());
+    public static List<SimplePackageTypeDTO> from(List<SimplePackageType> simplePackageTypes) {
+        return simplePackageTypes.stream().map(SimplePackageTypeDTO::from).collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.dtos;
+package pt.ipleiria.estg.dei.ei.pref.dtos.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OrderPackageTypeDTO extends SimplePackageDTO implements Serializable {
+public class OrderPackageTypeDTO extends SimplePackageTypeDTO implements Serializable {
 
 
     public OrderPackageTypeDTO() {
@@ -29,7 +29,7 @@ public class OrderPackageTypeDTO extends SimplePackageDTO implements Serializabl
     }
 
 
-    public static List<OrderPackageTypeDTO> fromOrderPackageTypeList(List<OrderPackageType> orderPackageTypes) {
+    public static List<OrderPackageTypeDTO> fromOrderPackageType(List<OrderPackageType> orderPackageTypes) {
         return orderPackageTypes.stream().map(OrderPackageTypeDTO::from).collect(Collectors.toList());
     }
 }
