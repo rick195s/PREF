@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import org.hibernate.Hibernate;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.ProductPackageTypeBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
@@ -8,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_prod
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +19,9 @@ import java.util.*;
 public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
+
+    @EJB
+    private ProductPackageTypeBean productPackageTypeBean;
 
     public Product create(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, HashSet<Long> productPackagesIds){
         Product product = new Product(
@@ -84,5 +89,12 @@ public class ProductBean {
 
     public Long count() {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Product.class.getSimpleName(), Long.class).getSingleResult();
+    }
+
+    public ProductPackageType getPrimaryPackageType(long productId) {
+         return (ProductPackageType) entityManager.createNamedQuery("getPackageTypeOfProduct")
+                 .setParameter("productId", productId)
+                 .setParameter("level", ProductPackageLevel.PRIMARY)
+                 .getSingleResult();
     }
 }

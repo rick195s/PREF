@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
+import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderLineProductPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageTypeBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageTypeBean;
@@ -15,6 +16,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
 import javax.annotation.PostConstruct;
@@ -56,12 +58,15 @@ public class ConfigBean {
     @EJB
     OrderPackageTypeBean orderPackageTypeBean;
 
+    @EJB
+    OrderLineProductPackageBean orderLineProductPackageBean;
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
-        createProductPackages();
-        System.out.println("Product Packages created");
+        createProductPackageTypes();
+        System.out.println("Product Package Types created");
 
         createProducts();
         System.out.println("Products created");
@@ -81,9 +86,19 @@ public class ConfigBean {
         createOrderPackages();
         System.out.println("OrderPackages created");
 
+        createProductPackages();
+        System.out.println("ProductPackages created");
+
         createObservation();
         System.out.println("Observations created");
 
+    }
+
+    private void createProductPackages() {
+        List<OrderLineProductRelation> orderLineProductRelations = (List<OrderLineProductRelation>) entityManager.createNamedQuery("getAllOrderLineProductRelations").getResultList();
+        for (OrderLineProductRelation orderLineProductRelation : orderLineProductRelations) {
+            orderLineProductPackageBean.createPrimaryPackage(orderLineProductRelation.getId());
+        }
     }
 
     private void createProducts() {
@@ -114,7 +129,7 @@ public class ConfigBean {
 
     }
 
-    private void createProductPackages() {
+    private void createProductPackageTypes() {
         String productPackages = "[{\"name\":\"duplex PE+AL\",\"cost\":2.99,\"dimension\":\"10x10x5cm\",\"sustainable\":true,\"smart\":false},{\"name\":\"cartão microcanelado\",\"cost\":1.49,\"dimension\":\"15x15x7cm\",\"sustainable\":true,\"smart\":true},{\"name\":\"Papel conformado/ cup cake wrappers\",\"cost\":0.99,\"dimension\":\"6x6x3cm\",\"sustainable\":true,\"smart\":false},{\"name\":\"Cartolina 300g\",\"cost\":0.75,\"dimension\":\"20x20x5cm\",\"sustainable\":true,\"smart\":true},{\"name\":\"PE cristal\",\"cost\":1.25,\"dimension\":\"12x12x8cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"Frasco PET sleeve\",\"cost\":3.99,\"dimension\":\"15x10x10cm\",\"sustainable\":false,\"smart\":true},{\"name\":\"Tampa PP\",\"cost\":0.5,\"dimension\":\"5x5x2cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"DOYPACK\",\"cost\":1.99,\"dimension\":\"10x15x3cm\",\"sustainable\":false,\"smart\":true},{\"name\":\"PP + AL/ PE + AL\",\"cost\":2.49,\"dimension\":\"8x8x8cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"DOYPACK POUCH\",\"cost\":2.99,\"dimension\":\"12x18x5cm\",\"sustainable\":false,\"smart\":true},{\"name\":\"Frasco PET\",\"cost\":2.25,\"dimension\":\"10x15x10cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"Saco PE + AL\",\"cost\":0.99,\"dimension\":\"20x30x5cm\",\"sustainable\":false,\"smart\":true},{\"name\":\"PEFC\",\"cost\":0.25,\"dimension\":\"10x10x1cm\",\"sustainable\":true,\"smart\":false},{\"name\":\"PE laminado\",\"cost\":1.75,\"dimension\":\"10x15x5cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"tetrapak\",\"cost\":1.99,\"dimension\":\"15x20x10cm\",\"sustainable\":true,\"smart\":true},{\"name\":\"Filme PE\",\"cost\":0.5,\"dimension\":\"10x10x1cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"opérculo filme PE\",\"cost\":0.25,\"dimension\":\"5x5x1cm\",\"sustainable\":false,\"smart\":false},{\"name\":\"colher doseadora 70ml PP\",\"cost\":0.15,\"dimension\":\"10x5x1cm\",\"sustainable\":false,\"smart\":false}]\n";
 
         ObjectMapper objectMapper = new ObjectMapper();
