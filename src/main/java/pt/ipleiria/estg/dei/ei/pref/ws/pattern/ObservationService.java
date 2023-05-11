@@ -70,7 +70,7 @@ public class ObservationService {
 
         Observation observation = observationBean.create(
                 observationDTO.getPhenomenonType(),
-                observationDTO.getId(),
+                observationDTO.getObserverId(),
                 observationDTO.getDate(),
                 observationDTO.getDetails(),
                 observationDTO.getObservablePackageId(),
