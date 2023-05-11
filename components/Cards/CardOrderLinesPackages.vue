@@ -17,12 +17,15 @@
         :key="product.id"
         class="mx-4"
         :product="product"
+        @package-selected="updateSelectedPackages"
       />
     </div>
   </div>
 </template>
 <script setup>
 import CardProduct from "@/components/Cards/CardProduct.vue";
+
+const emit = defineEmits(["package-selected"]);
 
 const props = defineProps({
   orderLines: {
@@ -41,4 +44,8 @@ const products = computed(() => {
 
   return products;
 });
+
+const updateSelectedPackages = (payload) => {
+  emit('package-selected', payload);
+};
 </script>
