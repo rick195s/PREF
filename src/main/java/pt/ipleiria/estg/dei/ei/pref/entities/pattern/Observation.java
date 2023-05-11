@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.pattern;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.persistence.*;

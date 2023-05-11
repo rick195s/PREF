@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.ObservablePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 

@@ -17,7 +17,7 @@ import java.util.List;
                 name = "getAllProductPackageTypes",
                 query = "SELECT p FROM ProductPackageType p ORDER BY p.id" // JPQL
         )})
-public class ProductPackageType extends SimplePackage implements Serializable {
+public class ProductPackageType extends SimplePackageType implements Serializable {
     @Transient
     // Aux property, real type is in ProductPackageRelation
     private ProductPackageLevel type;

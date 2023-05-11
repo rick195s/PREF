@@ -16,7 +16,7 @@ import java.util.List;
                 name = "getAllObservablePackages",
                 query = "SELECT o FROM ObservablePackage o ORDER BY o.id" // JPQL
         )})
-public class ObservablePackage<PackageType extends SimplePackage> implements Serializable {
+public class ObservablePackage<PackageType extends SimplePackageType> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +25,17 @@ public class ObservablePackage<PackageType extends SimplePackage> implements Ser
     @OneToMany(mappedBy = "observablePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Observation> observations;
 
-    @ManyToOne(targetEntity = SimplePackage.class)
-    @JoinColumn(name = "simple_package_id")
-    private PackageType simplePackage;
+    @ManyToOne(targetEntity = SimplePackageType.class)
+    @JoinColumn(name = "simple_package_type_id")
+    private PackageType simplePackageType;
 
     public ObservablePackage() {
         this.observations = new LinkedList<>();
     }
 
-    public ObservablePackage(PackageType simplePackage) {
+    public ObservablePackage(PackageType simplePackageType) {
         this();
-        this.simplePackage = simplePackage;
+        this.simplePackageType = simplePackageType;
     }
 
     public long getId() {
@@ -54,11 +54,11 @@ public class ObservablePackage<PackageType extends SimplePackage> implements Ser
         this.observations = observations;
     }
 
-    public PackageType getSimplePackage() {
-        return simplePackage;
+    public PackageType getSimplePackageType() {
+        return simplePackageType;
     }
 
-    public void setSimplePackage(PackageType simplePackage) {
-        this.simplePackage = simplePackage;
+    public void setSimplePackageType(PackageType simplePackageType) {
+        this.simplePackageType = simplePackageType;
     }
 }

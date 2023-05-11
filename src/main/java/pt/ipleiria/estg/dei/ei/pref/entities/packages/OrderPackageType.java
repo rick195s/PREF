@@ -14,7 +14,7 @@ import java.io.Serializable;
                 name = "getAllOrderPackageTypes",
                 query = "SELECT o FROM OrderPackageType o ORDER BY o.id" // JPQL
         )})
-public class OrderPackageType extends SimplePackage implements Serializable {
+public class OrderPackageType extends SimplePackageType implements Serializable {
     public OrderPackageType() {
 
     }

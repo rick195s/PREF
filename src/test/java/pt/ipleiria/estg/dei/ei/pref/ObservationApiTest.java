@@ -17,7 +17,7 @@ public class ObservationApiTest {
     private final OkHttpClient client = new OkHttpClient();
 
     @Test
-    public void testGetObservationsFromSimplePackage() throws IOException {
+    public void testGetObservationsFromSimplePackageType() throws IOException {
         Request request = new Request.Builder()
                 .url(baseUrl + "observations/package/1")
                 .addHeader("Accept", "application/json")

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OrderPackageTypeDTO extends SimplePackageDTO implements Serializable {
+public class OrderPackageTypeDTO extends SimplePackageTypeDTO implements Serializable {
 
 
     public OrderPackageTypeDTO() {

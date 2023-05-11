@@ -18,7 +18,7 @@ public class OrderPackageTypeService {
 
     @GET
     @Path("/")
-    public List<OrderPackageTypeDTO> getAllSimplePackages() {
+    public List<OrderPackageTypeDTO> getAllSimplePackageTypes() {
         return OrderPackageTypeDTO.fromOrderPackageType(orderPackageTypeBean.getAllOrderPackageTypes());
     }
 
