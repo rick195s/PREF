@@ -181,7 +181,7 @@ public class ConfigBean {
         }
 
         i=0;
-        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllProductPackages()) {
+        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllProductPackages(300)) {
             observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
             observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
             observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));

@@ -25,8 +25,10 @@ public class OrderLineProductPackageBean {
     @EJB
     private ProductBean productBean;
 
-    public List<OrderLineProductPackage> getAllProductPackages() {
-        return (List<OrderLineProductPackage>) entityManager.createNamedQuery("getAllOrderLineProductPackages").getResultList();
+    public List<OrderLineProductPackage> getAllProductPackages(int limit) {
+        return (List<OrderLineProductPackage>) entityManager.createNamedQuery("getAllOrderLineProductPackages")
+                .setMaxResults(limit)
+                .getResultList();
     }
 
     public OrderLineProductPackage findOrFail(long id) {

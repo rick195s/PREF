@@ -100,7 +100,7 @@ public class OrderBean {
     public Long count() {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
     }
-    
+
     public Order packOrder(long trackingNumber) {
         Order order = findOrFail(trackingNumber);
 
