@@ -30,6 +30,9 @@ public class OrderService {
     @EJB
     private OrderBean orderBean;
 
+    @EJB
+    private OrderPackageBean orderPackageBean;
+
     @GET
     @Path("/{trackingNumber}")
     public Response get(@PathParam("trackingNumber") long trackingNumber) {
@@ -82,11 +85,10 @@ public class OrderService {
     @PATCH
     @Path("/{trackingNumber}")
     public Response associatePackageWithOrder(@PathParam("trackingNumber") long trackingNumber, OrderPackageTypeDTO orderPackageTypeDTO) {
-        Order order = orderBean.associatePackageWithOrder(trackingNumber, orderPackageTypeDTO.getId());
-        System.out.println("OLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(order);
+        orderPackageBean.create(trackingNumber, orderPackageTypeDTO.getId());
 
-        System.out.println("E AGORAAAAAAAAAAAAAAAAAAAAA");
+        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber));
+
         return Response.ok(detailedOrderDTO).build();
     }
 

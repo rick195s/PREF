@@ -100,22 +100,7 @@ public class OrderBean {
     public Long count() {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
     }
-
-    public Order associatePackageWithOrder(long trackingNumber, long orderPackageTypeId) {
-        Order order = findOrFail(trackingNumber);
-        if (order == null) {
-            throw new EntityNotFoundException("Order not found");
-        }
-
-        if (order.getState() != OrderState.PENDING) {
-            throw new IllegalArgumentException("Order is not waiting for dispatch");
-        }
-
-        OrderPackage orderPackage = orderPackageBean.create(orderPackageTypeId, trackingNumber);
-        order.addOrderPackage(orderPackage);
-        return order;
-    }
-
+    
     public Order packOrder(long trackingNumber) {
         Order order = findOrFail(trackingNumber);
 

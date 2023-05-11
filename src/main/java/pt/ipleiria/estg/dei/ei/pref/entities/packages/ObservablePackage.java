@@ -16,10 +16,11 @@ import java.util.List;
                 name = "getAllObservablePackages",
                 query = "SELECT o FROM ObservablePackage o ORDER BY o.id" // JPQL
         )})
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class ObservablePackage<PackageType extends SimplePackageType> implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     @OneToMany(mappedBy = "observablePackage", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

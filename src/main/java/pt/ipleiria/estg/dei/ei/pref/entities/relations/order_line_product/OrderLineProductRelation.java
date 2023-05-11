@@ -12,6 +12,11 @@ import java.util.List;
 @Table(
         name = "order_line_product_relations"
 )
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOrderLineProductRelations",
+                query = "SELECT olpr FROM OrderLineProductRelation olpr"
+        )})
 public class OrderLineProductRelation {
 
     @Id

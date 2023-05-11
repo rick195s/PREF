@@ -10,6 +10,11 @@ import javax.persistence.*;
 @Table(
         name = "product_package_relations"
 )
+@NamedQueries({
+        @NamedQuery(
+                name = "getPackageTypeOfProduct",
+                query = "SELECT ppr.productPackageType FROM ProductPackageRelation ppr WHERE ppr.product.id = :productId AND ppr.type = :level"
+        )})
 // ManyToMany relation between products and product packages.
 // Needed because of extra column "type" in the relation.
 public class ProductPackageRelation {

@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -37,6 +38,9 @@ public class ObservationBean {
         Observer observer = observerBean.findOrFail(observerId);
 
         ObservablePackage observablePackage = observablePackageBean.findOrFail(observablePackageId);
+        if (observablePackage == null) {
+            throw new EntityNotFoundException("Observable Package not found");
+        }
 
         // validate json
         try {

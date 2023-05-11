@@ -22,7 +22,7 @@ import java.util.List;
 public class Category implements Serializable {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     private String value;
