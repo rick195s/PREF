@@ -23,7 +23,7 @@ import java.util.List;
 public class Quantity implements Serializable {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     private double value;

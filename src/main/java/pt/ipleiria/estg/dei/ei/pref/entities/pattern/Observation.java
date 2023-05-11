@@ -20,12 +20,12 @@ import java.io.Serializable;
                 name = "getAllPackageObservations",
                 query = "SELECT o FROM Observation o JOIN o.observablePackage op WHERE op.id = :observablePackageId"
         )})
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Observation implements Serializable {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull

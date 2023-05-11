@@ -12,6 +12,8 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderLineProductPackage;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
@@ -39,9 +41,6 @@ public class ConfigBean {
 
     @EJB
     OrderBean orderBean;
-
-    @EJB
-    SimplePackageTypeBean simplePackageTypeBean;
 
     @EJB
     ProductBean productBean;
@@ -89,7 +88,7 @@ public class ConfigBean {
         createProductPackages();
         System.out.println("ProductPackages created");
 
-        createObservation();
+        createObservations();
         System.out.println("Observations created");
 
     }
@@ -166,18 +165,32 @@ public class ConfigBean {
         observerBean.create("Location Sensor");
     }
 
-    private void createObservation(){
+    private void createObservations(){
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = date.format(formatter);
+        Faker faker = new Faker();
+
 
         String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
-        for (ProductPackageType productPackageType : simplePackageTypeBean.getAllProductPackageTypes()) {
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackageType.getId(), "21");
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackageType.getId(), "23");
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackageType.getId(), "18");
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackageType.getId(), "19");
+        int i = 0;
+        for (OrderPackage orderPackage : orderPackageBean.getAllOrderPackages()) {
+            observationBean.create(PhenomenonType.LOCATION, 1, dateString,details, orderPackage.getId(), faker.address().cityName());
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(5, 30)));
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            i++;
+            System.out.println("Order package "+i+" criado");
+        }
+
+        i=0;
+        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllProductPackages()) {
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
+            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            i++;
+            System.out.println("Product package "+i+" criado");
         }
 
     }
@@ -211,8 +224,6 @@ public class ConfigBean {
         Map<Long, Integer> productsQuantities = new HashMap<>();
         productsQuantities.put(1L, 1);
         productsQuantities.put(2L, 2);
-        productsQuantities.put(3L, 3);
-        productsQuantities.put(4L, 4);
 
         for (int i = 0; i < 500; i++) {
             orderBean.create(

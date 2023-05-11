@@ -17,11 +17,11 @@ import java.util.List;
                 name = "getAllSimplePackageTypes",
                 query = "SELECT s FROM SimplePackageType s ORDER BY s.id" // JPQL
         )})
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class SimplePackageType implements Serializable {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     private String name;
