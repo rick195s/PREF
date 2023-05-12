@@ -128,7 +128,7 @@ public class ProductDTO implements Serializable {
         return productPackageTypes;
     }
 
-    public static ProductDTO from(Product product) {
+    public static ProductDTO from(Product product, boolean detailed) {
         return new ProductDTO(
                 product.getId(),
                 product.getName(),
@@ -139,11 +139,11 @@ public class ProductDTO implements Serializable {
                 product.getLength(),
                 product.getWidth(),
                 product.getHeight(),
-                product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null
+                detailed ? product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null : null
         );
     }
 
-    public static List<ProductDTO> from(List<Product> products) {
-        return products.stream().map(ProductDTO::from).collect(Collectors.toList());
+    public static List<ProductDTO> from(List<Product> products, boolean detailed) {
+        return products.stream().map(product -> from(product, detailed)).collect(Collectors.toList());
     }
 }

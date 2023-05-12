@@ -11,13 +11,15 @@ public class OrderLineDTO implements Serializable {
     private long id;
     private int quantity;
     private float productPrice;
-    private List<OrderLineProductRelationDTO> orderLineProductRelationDTO;
+    private List<OrderLineProductRelationDTO> orderLineProductRelation;
+    private ProductDTO product;
 
-    public OrderLineDTO(long id, int quantity, float productPrice, List<OrderLineProductRelationDTO> orderLineProductRelationDTO) {
+    public OrderLineDTO(long id, int quantity, float productPrice, List<OrderLineProductRelationDTO> orderLineProductRelation, ProductDTO product) {
         this.id = id;
         this.quantity = quantity;
         this.productPrice = productPrice;
-        this.orderLineProductRelationDTO = orderLineProductRelationDTO;
+        this.orderLineProductRelation = orderLineProductRelation;
+        this.product = product;
     }
 
     public OrderLineDTO() {
@@ -47,12 +49,20 @@ public class OrderLineDTO implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public List<OrderLineProductRelationDTO> getOrderLineProductRelationDTO() {
-        return orderLineProductRelationDTO;
+    public List<OrderLineProductRelationDTO> getOrderLineProductRelation() {
+        return orderLineProductRelation;
     }
 
-    public void setOrderLineProductRelationDTO(List<OrderLineProductRelationDTO> orderLineProductRelationDTO) {
-        this.orderLineProductRelationDTO = orderLineProductRelationDTO;
+    public void setOrderLineProductRelation(List<OrderLineProductRelationDTO> orderLineProductRelation) {
+        this.orderLineProductRelation = orderLineProductRelation;
+    }
+
+    public ProductDTO getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductDTO product) {
+        this.product = product;
     }
 
     public static OrderLineDTO from(OrderLine orderLine) {
@@ -60,7 +70,8 @@ public class OrderLineDTO implements Serializable {
                 orderLine.getId(),
                 orderLine.getQuantity(),
                 orderLine.getProductPrice(),
-                OrderLineProductRelationDTO.from(orderLine.getOrderLineProductRelations())
+                OrderLineProductRelationDTO.from(orderLine.getOrderLineProductRelations()),
+                ProductDTO.from(orderLine.getProduct(), false)
         );
     }
 

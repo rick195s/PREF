@@ -18,7 +18,10 @@ public class OrderPackageTypeService {
 
     @GET
     @Path("/")
-    public List<OrderPackageTypeDTO> getAllSimplePackageTypes() {
+    public List<OrderPackageTypeDTO> getAllSimplePackageTypes(@QueryParam("id") List<Long> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            return OrderPackageTypeDTO.fromOrderPackageType(orderPackageTypeBean.getAllOrderPackageTypesWithId(ids));
+        }
         return OrderPackageTypeDTO.fromOrderPackageType(orderPackageTypeBean.getAllOrderPackageTypes());
     }
 

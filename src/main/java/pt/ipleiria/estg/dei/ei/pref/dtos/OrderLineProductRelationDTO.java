@@ -50,7 +50,7 @@ public class OrderLineProductRelationDTO implements Serializable {
     public static OrderLineProductRelationDTO from(OrderLineProductRelation orderLineProductRelation) {
         return new OrderLineProductRelationDTO(
                 orderLineProductRelation.getId(),
-                ProductDTO.from(orderLineProductRelation.getProduct()),
+                ProductDTO.from(orderLineProductRelation.getProduct(), true),
                 OrderLineProductPackageDTO.from(orderLineProductRelation.getProductPackage())
         );
     }
