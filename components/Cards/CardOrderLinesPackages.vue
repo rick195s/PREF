@@ -5,7 +5,7 @@
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-          <h3 class="font-semibold text-base text-blueGray-700">Products</h3>
+          <h3 class="font-semibold text-base text-blueGray-700">Product Packages</h3>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
         :key="product.id"
         class="mx-4"
         :product="product"
-        @package-selected="updateSelectedPackages"
+        @product-package-selected="updateSelectedProductPackages"
       />
     </div>
   </div>
@@ -25,7 +25,7 @@
 <script setup>
 import CardProduct from "@/components/Cards/CardProduct.vue";
 
-const emit = defineEmits(["package-selected"]);
+const emit = defineEmits(["product-package-selected"]);
 
 const props = defineProps({
   orderLines: {
@@ -36,16 +36,23 @@ const props = defineProps({
 });
 
 const products = computed(() => {
-  let products = [];
-
-  props.orderLines.forEach((orderLine) => {
-    products.push(orderLine.product);
-  });
-
-  return products;
+  return props.orderLines.flatMap((orderLine) =>
+    orderLine.orderLineProductRelationDTO.flatMap((item) => {
+      item.product.orderLineProductPackages.forEach((orderLinePackage) => {
+        const packageType = item.product.productPackageTypes.find(
+          (packageType) => packageType.id === orderLinePackage.simplePackageTypeId
+        );
+        if (packageType) {
+          orderLinePackage.packageName = packageType.name;
+        }
+      });
+      return item.product;
+    })
+  );
 });
 
-const updateSelectedPackages = (payload) => {
-  emit('package-selected', payload);
+
+const updateSelectedProductPackages = (payload) => {
+  emit('product-package-selected', payload);
 };
 </script>

@@ -22,7 +22,7 @@ const props = defineProps({
     required: true,
     default: () => true
   },
-  selectedPackages: {
+  selectedProductPackages: {
     type: Array,
     required: true,
     default: () => []
@@ -36,8 +36,8 @@ const keys = ref([
     label: "Date"
   },
   {
-    key: "simplePackageId",
-    label: "Package ID"
+    key: "observablePackageId",
+    label: "Observable Package ID"
   },
   {
     key: "observerId",
@@ -48,13 +48,13 @@ const keys = ref([
 const phenomenonTypes = ref([]);
 const observations = ref([]);
 
-// Watch for changes in props.orderData and props.selectedPackages
+// Watch for changes in props.orderData and props.selectedProductPackages
 watchEffect(() => {
-  fetchData(props.orderData, props.selectedPackages);
+  fetchData(props.orderData, props.selectedProductPackages);
 });
 
-// Function to fetch multiple data based on orderData and selectedPackages
-async function fetchData(orderData, selectedPackages) {
+// Function to fetch multiple data based on orderData and selectedProductPackages
+async function fetchData(orderData, selectedProductPackages) {
   // If orderData is null, return
   if (!orderData) {
     return;
@@ -71,6 +71,7 @@ async function fetchData(orderData, selectedPackages) {
     }
   });
 
+
   // Generate URLs for each combination of order package
   const urls = [];
   orderPackagesToFetch.forEach((orderPackage) => {
@@ -79,8 +80,8 @@ async function fetchData(orderData, selectedPackages) {
   });
 
   // Generate URLs for each combination of selected package
-  if (selectedPackages) {
-    selectedPackages.forEach((productPackageId) => {
+  if (selectedProductPackages) {
+    selectedProductPackages.forEach((productPackageId) => {
       if (!orderPackagesToFetch.includes(productPackageId)) {
         const url = `/api/observations/package/${productPackageId}`;
         urls.push(url);
