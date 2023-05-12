@@ -8,6 +8,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -32,8 +33,14 @@ public class OrderPackageBean {
 
     public OrderPackage create(long orderPackageTypeId, long orderTrackingNumber) {
         OrderPackageType orderPackageType = orderPackageTypeBean.findOrFail(orderPackageTypeId);
+        if (orderPackageType == null) {
+            throw new EntityNotFoundException("Order package type not found");
+        }
 
         Order order = orderBean.findOrFail(orderTrackingNumber);
+        if (order == null) {
+            throw new EntityNotFoundException("Order not found");
+        }
 
         // create simple package and persist it
         OrderPackage orderPackage = new OrderPackage(order, orderPackageType);
