@@ -34,7 +34,7 @@ public class ProductApiTests {
 
     @Test
     public void testCreateProduct() throws IOException {
-        String jsonBody = "{\"name\":\"Example\",\"category\":\"FOOD\",\"price\":12.3,\"weight\":0.5,\"validityRange\":4,\"length\":2,\"width\":2,\"height\":1,\"productPackages\":[{\"id\":1},{\"id\":4}]}";
+        String jsonBody = "{\"name\":\"Example\",\"category\":\"FOOD\",\"price\":12.3,\"weight\":0.5,\"validityRange\":4,\"length\":2,\"width\":2,\"height\":1,\"productPackageTypes\":[{\"id\":1},{\"id\":4}]}";
 
         RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
