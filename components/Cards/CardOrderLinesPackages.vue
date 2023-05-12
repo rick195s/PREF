@@ -17,7 +17,7 @@
         :key="product.id"
         class="mx-4"
         :product="product"
-        @package-selected="updateSelectedPackages"
+        @product-package-selected="updateSelectedProductPackages"
       />
     </div>
   </div>
@@ -25,7 +25,7 @@
 <script setup>
 import CardProduct from "@/components/Cards/CardProduct.vue";
 
-const emit = defineEmits(["package-selected"]);
+const emit = defineEmits(["product-package-selected"]);
 
 const props = defineProps({
   orderLines: {
@@ -36,16 +36,23 @@ const props = defineProps({
 });
 
 const products = computed(() => {
-  let products = [];
-
-  props.orderLines.forEach((orderLine) => {
-    products.push(orderLine.product);
-  });
-
-  return products;
+  return props.orderLines.flatMap((orderLine) =>
+    orderLine.orderLineProductRelation.flatMap((item) => {
+      item.product.orderLineProductPackages.forEach((orderLinePackage) => {
+        const packageType = item.product.productPackageTypes.find(
+          (packageType) => packageType.id === orderLinePackage.simplePackageTypeId
+        );
+        if (packageType) {
+          orderLinePackage.packageName = packageType.name;
+        }
+      });
+      return item.product;
+    })
+  );
 });
 
-const updateSelectedPackages = (payload) => {
-  emit('package-selected', payload);
+
+const updateSelectedProductPackages = (payload) => {
+  emit('product-package-selected', payload);
 };
 </script>
