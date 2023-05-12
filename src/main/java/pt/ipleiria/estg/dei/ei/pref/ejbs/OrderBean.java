@@ -93,6 +93,7 @@ public class OrderBean {
             Hibernate.initialize(orderLine.getOrderLineProductRelations());
             for (OrderLineProductRelation orderLineProductRelation : orderLine.getOrderLineProductRelations()) {
                 Hibernate.initialize(orderLineProductRelation.getProduct().getProductPackageRelations());
+                Hibernate.initialize(orderLineProductRelation.getProductPackage());
             }
         }
     }

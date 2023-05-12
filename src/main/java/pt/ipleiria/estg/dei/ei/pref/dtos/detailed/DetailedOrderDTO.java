@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.detailed;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.OrderLineDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
@@ -19,9 +20,9 @@ public class DetailedOrderDTO implements Serializable {
     private float weight;
     private String carrier;
     private List<String> shippingMethods;
-    private List<OrderPackageTypeDTO> orderPackages;
+    private List<OrderPackageDTO> orderPackages;
 
-    public DetailedOrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, List<OrderPackageTypeDTO> orderPackages) {
+    public DetailedOrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, List<OrderPackageDTO> orderPackages) {
         this.trackingNumber = trackingNumber;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
@@ -109,11 +110,11 @@ public class DetailedOrderDTO implements Serializable {
         this.state = state;
     }
 
-    public List<OrderPackageTypeDTO> getOrderPackages() {
+    public List<OrderPackageDTO> getOrderPackages() {
         return orderPackages;
     }
 
-    public void setOrderPackages(List<OrderPackageTypeDTO> orderPackages) {
+    public void setOrderPackages(List<OrderPackageDTO> orderPackages) {
         this.orderPackages = orderPackages;
     }
 
@@ -128,7 +129,7 @@ public class DetailedOrderDTO implements Serializable {
                 order.getWeight(),
                 order.getCarrier(),
                 order.getShippingMethods(),
-                order.getOrderPackages() != null ? OrderPackageTypeDTO.fromOrderPackageType(order.getOrderPackageTypes()) : null
+                order.getOrderPackages() != null ? OrderPackageDTO.fromOrderPackageList(order.getOrderPackages()) : null
         );
     }
 
