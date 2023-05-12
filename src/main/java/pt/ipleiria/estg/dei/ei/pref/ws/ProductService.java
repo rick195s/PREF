@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.ProductDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.ProductBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
@@ -51,8 +52,8 @@ public class ProductService {
     @Path("/")
     public Response createProduct(ProductDTO productDTO){
         HashSet<Long> productPackagesIds = new HashSet<>();
-        for (ProductPackageDTO productPackageDTO : productDTO.getProductPackages()) {
-            productPackagesIds.add(productPackageDTO.getId());
+        for (ProductPackageTypeDTO productPackageTypeDTO : productDTO.getProductPackageTypes()) {
+            productPackagesIds.add(productPackageTypeDTO.getId());
         }
 
 
