@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(
-        name = "order_package_types"
-)
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrderPackageTypes",

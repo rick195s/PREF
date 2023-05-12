@@ -9,9 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(
-        name = "product_package_types"
-)
 @NamedQueries({
         @NamedQuery(
                 name = "getAllProductPackageTypes",
