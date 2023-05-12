@@ -5,7 +5,7 @@
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-          <h3 class="font-semibold text-base text-blueGray-700">Product Packages</h3>
+          <h3 class="font-semibold text-base text-blueGray-700">Products</h3>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@ const props = defineProps({
 
 const products = computed(() => {
   return props.orderLines.flatMap((orderLine) =>
-    orderLine.orderLineProductRelationDTO.flatMap((item) => {
+    orderLine.orderLineProductRelation.flatMap((item) => {
       item.product.orderLineProductPackages.forEach((orderLinePackage) => {
         const packageType = item.product.productPackageTypes.find(
           (packageType) => packageType.id === orderLinePackage.simplePackageTypeId

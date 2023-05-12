@@ -26,6 +26,11 @@ const props = defineProps({
     type: Array,
     required: true,
     default: () => []
+  },
+  selectedOrderPackages: {
+    type: Array,
+    required: true,
+    default: () => []
   }
 });
 
@@ -50,39 +55,24 @@ const observations = ref([]);
 
 // Watch for changes in props.orderData and props.selectedProductPackages
 watchEffect(() => {
-  fetchData(props.orderData, props.selectedProductPackages);
+  fetchData(props.orderData, props.selectedProductPackages, props.selectedOrderPackages);
 });
 
 // Function to fetch multiple data based on orderData and selectedProductPackages
-async function fetchData(orderData, selectedProductPackages) {
-  // If orderData is null, return
-  if (!orderData) {
-    return;
-  }
-
-  // Get the order packages from orderData
-  const orderPackages = orderData.orderPackages;
-  const orderPackagesToFetch = [];
-
-  // Get the IDs of the order packages and add them to an array
-  orderPackages.forEach((orderPackage) => {
-    if (!orderPackagesToFetch.includes(orderPackage.id)) {
-      orderPackagesToFetch.push(orderPackage.id);
-    }
-  });
-
-
+async function fetchData(orderData, selectedProductPackages, selectedOrderPackages) {
   // Generate URLs for each combination of order package
   const urls = [];
-  orderPackagesToFetch.forEach((orderPackage) => {
-    const url = `/api/observations/package/${orderPackage}`;
-    urls.push(url);
-  });
+  if (selectedOrderPackages) {
+    selectedOrderPackages.forEach((productPackageId) => {
+        const url = `/api/observations/package/${productPackageId}`;
+        urls.push(url);
+    });
+  }
 
   // Generate URLs for each combination of selected package
   if (selectedProductPackages) {
     selectedProductPackages.forEach((productPackageId) => {
-      if (!orderPackagesToFetch.includes(productPackageId)) {
+      if (!selectedOrderPackages.includes(productPackageId)) {
         const url = `/api/observations/package/${productPackageId}`;
         urls.push(url);
       }
@@ -130,7 +120,7 @@ async function fetchData(orderData, selectedProductPackages) {
   //if "HUMIDIY" is not present in any observation (don't has values), it will be removed from "phenomenonTypes" and "keys
   keys.value = keys.value.filter((key) => {
     // Check if the key is date, simplePackageId or observerId
-    if (["date", "simplePackageId", "observerId"].includes(key.key)) {
+    if (["date", "observablePackageId", "observerId"].includes(key.key)) {
       return true;
     }
 
