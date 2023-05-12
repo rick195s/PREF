@@ -77,7 +77,12 @@ const { data: orders, pending } = await useLazyAsyncData(
           {
             to: `/orders/${element.trackingNumber}`,
             icon: "fa-regular fa-pen-to-square"
+          },
+          {
+            to: `/orders/history/${element.trackingNumber}`,
+            icon: "fa-regular fa-file-alt"
           }
+
         ];
       });
 
