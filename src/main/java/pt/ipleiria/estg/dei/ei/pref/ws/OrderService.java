@@ -85,7 +85,7 @@ public class OrderService {
     @PATCH
     @Path("/{trackingNumber}")
     public Response associatePackageWithOrder(@PathParam("trackingNumber") long trackingNumber, OrderPackageTypeDTO orderPackageTypeDTO) {
-        orderPackageBean.create(trackingNumber, orderPackageTypeDTO.getId());
+        orderPackageBean.create(orderPackageTypeDTO.getId(), trackingNumber);
 
         DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber));
 
