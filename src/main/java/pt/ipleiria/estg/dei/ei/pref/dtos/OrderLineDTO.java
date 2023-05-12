@@ -11,13 +11,13 @@ public class OrderLineDTO implements Serializable {
     private long id;
     private int quantity;
     private float productPrice;
-    private ProductDTO product;
+    private List<OrderLineProductRelationDTO> orderLineProductRelationDTO;
 
-    public OrderLineDTO(long id, int quantity, float productPrice, ProductDTO product) {
+    public OrderLineDTO(long id, int quantity, float productPrice, List<OrderLineProductRelationDTO> orderLineProductRelationDTO) {
         this.id = id;
         this.quantity = quantity;
-        this.product = product;
         this.productPrice = productPrice;
+        this.orderLineProductRelationDTO = orderLineProductRelationDTO;
     }
 
     public OrderLineDTO() {
@@ -47,12 +47,12 @@ public class OrderLineDTO implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public List<OrderLineProductRelationDTO> getOrderLineProductRelationDTO() {
+        return orderLineProductRelationDTO;
     }
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
+    public void setOrderLineProductRelationDTO(List<OrderLineProductRelationDTO> orderLineProductRelationDTO) {
+        this.orderLineProductRelationDTO = orderLineProductRelationDTO;
     }
 
     public static OrderLineDTO from(OrderLine orderLine) {
@@ -60,7 +60,7 @@ public class OrderLineDTO implements Serializable {
                 orderLine.getId(),
                 orderLine.getQuantity(),
                 orderLine.getProductPrice(),
-                ProductDTO.from(orderLine.getProduct())
+                OrderLineProductRelationDTO.from(orderLine.getOrderLineProductRelations())
         );
     }
 
