@@ -10,7 +10,13 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "getAllOrderPackageTypes",
                 query = "SELECT o FROM OrderPackageType o ORDER BY o.id" // JPQL
-        )})
+        ),
+        @NamedQuery(
+                name = "getAllOrderPackageTypesWithId",
+                query = "SELECT o FROM OrderPackageType o WHERE o.id IN :ids ORDER BY o.id" // JPQL
+        )
+})
+
 public class OrderPackageType extends SimplePackageType implements Serializable {
     public OrderPackageType() {
 

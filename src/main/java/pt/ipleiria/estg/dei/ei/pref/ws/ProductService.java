@@ -43,7 +43,7 @@ public class ProductService {
             count = 0L;
         }
 
-        var paginatedDTO = new PaginatedDTO<>(ProductDTO.from(products), count, pageRequest.getOffset());
+        var paginatedDTO = new PaginatedDTO<>(ProductDTO.from(products, true), count, pageRequest.getOffset());
 
         return Response.ok(paginatedDTO).build();
     }
@@ -71,7 +71,7 @@ public class ProductService {
 
 
         return Response
-                .ok(ProductDTO.from(productBean.findOrFail(product.getId())))
+                .ok(ProductDTO.from(productBean.findOrFail(product.getId()), true))
                 .status(Response.Status.CREATED).build();
     }
 }

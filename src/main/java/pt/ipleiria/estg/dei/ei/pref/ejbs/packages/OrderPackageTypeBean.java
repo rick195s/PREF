@@ -19,4 +19,10 @@ public class OrderPackageTypeBean {
     public List<OrderPackageType> getAllOrderPackageTypes() {
         return (List<OrderPackageType>) entityManager.createNamedQuery("getAllOrderPackageTypes").getResultList();
     }
+
+    public List<OrderPackageType> getAllOrderPackageTypesWithId(List<Long> ids) {
+        return (List<OrderPackageType>) entityManager.createNamedQuery("getAllOrderPackageTypesWithId")
+                .setParameter("ids", ids)
+                .getResultList();
+    }
 }
