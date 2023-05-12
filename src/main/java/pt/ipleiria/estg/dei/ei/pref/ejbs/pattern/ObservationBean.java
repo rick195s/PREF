@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.ObservablePackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
@@ -22,9 +21,6 @@ public class ObservationBean {
     @EJB
     private ObserverBean observerBean;
 
-    @EJB
-    private ObservablePackageBean observablePackageBean;
-
     public Observation findOrFail(long id) {
         return entityManager.find(Observation.class, id);
     }
@@ -37,7 +33,7 @@ public class ObservationBean {
 
         Observer observer = observerBean.findOrFail(observerId);
 
-        ObservablePackage observablePackage = observablePackageBean.findOrFail(observablePackageId);
+        ObservablePackage observablePackage = entityManager.find(ObservablePackage.class, observablePackageId);
         if (observablePackage == null) {
             throw new EntityNotFoundException("Observable Package not found");
         }
