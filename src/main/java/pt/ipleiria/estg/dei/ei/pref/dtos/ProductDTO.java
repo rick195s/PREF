@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
@@ -29,12 +30,12 @@ public class ProductDTO implements Serializable {
     private float width;
     private float height;
 
-    private List<ProductPackageDTO> productPackages;
+    private List<ProductPackageTypeDTO> productPackageTypes;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, List<ProductPackageDTO> productPackages) {
+    public ProductDTO(long id, String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, List<ProductPackageTypeDTO> productPackageTypes) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -44,7 +45,7 @@ public class ProductDTO implements Serializable {
         this.length = length;
         this.width = width;
         this.height = height;
-        this.productPackages = productPackages;
+        this.productPackageTypes = productPackageTypes;
     }
 
     public long getId() {
@@ -119,12 +120,12 @@ public class ProductDTO implements Serializable {
         this.height = height;
     }
 
-    public void addProductPackage(ProductPackageDTO productPackage) {
-        this.productPackages.add(productPackage);
+    public void addProductPackageTypes(ProductPackageTypeDTO productPackageType) {
+        this.productPackageTypes.add(productPackageType);
     }
 
-    public List<ProductPackageDTO> getProductPackages() {
-        return productPackages;
+    public List<ProductPackageTypeDTO> getProductPackageTypes() {
+        return productPackageTypes;
     }
 
     public static ProductDTO from(Product product) {
@@ -138,7 +139,7 @@ public class ProductDTO implements Serializable {
                 product.getLength(),
                 product.getWidth(),
                 product.getHeight(),
-                ProductPackageDTO.from(product.getProductPackages())
+                product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null
         );
     }
 
