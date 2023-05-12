@@ -5,11 +5,14 @@
     </div>
 
     <div class="w-full lg:w-8/12 px-4" v-if="shouldRenderCardOrderPackages">
-      <CardOrderPackages @add-order-package="addOrderPackage($event)" />
+      <CardOrderPackages @add-order-package="addSelectedPackage($event)" />
     </div>
 
     <div class="w-full lg:w-4/12 px-4" v-if="shouldRenderCardOrderPackages">
-      <CardSelectedOrderPackages v-model="selectedPackages" @add-packages="addPackages($event)" />
+      <CardSelectedOrderPackages
+        v-model="selectedPackages"
+        @add-packages="associatePackagesWithOrder($event)"
+      />
     </div>
 
     <NotificationToast
@@ -23,17 +26,18 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
 import CardOrderDetails from "@/components/Cards/CardOrderDetails.vue";
 import CardOrderLines from "~/components/Cards/CardOrderLines.vue";
 import CardOrderPackages from "~/components/Cards/CardOrderPackages.vue";
 import CardSelectedOrderPackages from "@/components/Cards/CardSelectedOrderPackages.vue";
+import NotificationToast from "@/components/Toasts/NotificationToast.vue";
 
 const selectedPackages = ref([]);
 const toastMessage = ref("");
 const toastType = ref("success");
 const loading = ref(false);
-const addOrderPackage = (selectedPackage) => {
+
+const addSelectedPackage = (selectedPackage) => {
   selectedPackages.value.push(selectedPackage);
 };
 
@@ -43,6 +47,7 @@ const { data: orderData, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
+      console.log(data);
       data.orderLines.forEach((element) => {
         element.productId = element.product.id;
         element.productName = element.product.name;
@@ -53,9 +58,10 @@ const { data: orderData, pending } = await useLazyAsyncData(
           element.product.width +
           "x" +
           element.product.height;
-        element.weight = element.product.weight;
-        element.price = element.product.price;
+        element.weight = element.product.weight + "kg";
+        element.price = element.product.price * element.quantity + "€";
         element.category = element.product.category;
+        element.productPrice = element.productPrice + "€";
       });
       return data;
     }
@@ -63,34 +69,37 @@ const { data: orderData, pending } = await useLazyAsyncData(
 );
 
 const shouldRenderCardOrderPackages = computed(() => {
-  return orderData?.value?.state === 'PENDING';
+  return orderData?.value?.state === "PENDING";
 });
 
 //Add selectedPackages to order
-const addPackages = async () => {
+const associatePackagesWithOrder = async () => {
   if (selectedPackages.value.length > 0) {
     for (const selectedPackage of selectedPackages.value) {
-      console.log(selectedPackages);
       loading.value = true;
       const { pending } = await useLazyAsyncData(
         "addPackage",
-        async () => { // Make the callback function async
-          const response = await $fetch(`/api/orders/${orderData.value.trackingNumber}`, {
-            method: "PATCH",
-            body: JSON.stringify({
-              id: selectedPackage.id
-            }),
-            onResponseError: ({ request, options, response }) => {
-              toastMessage.value = response._data?.reason;
-              toastType.value = "error";
-            },
-            onResponse: ({ request, response, options }) => {
-              toastMessage.value = "Packages added successfully";
-              toastType.value = "success";
-              //reload page
-              location.reload();
+        async () => {
+          // Make the callback function async
+          const response = await $fetch(
+            `/api/orders/${orderData.value.trackingNumber}`,
+            {
+              method: "PATCH",
+              body: JSON.stringify({
+                id: selectedPackage.id
+              }),
+              onResponseError: ({ request, options, response }) => {
+                toastMessage.value = response._data?.reason;
+                toastType.value = "error";
+              },
+              onResponse: ({ request, response, options }) => {
+                toastMessage.value = "Packages added successfully";
+                toastType.value = "success";
+                //reload page
+                location.reload();
+              }
             }
-          });
+          );
           return response;
         },
         {
@@ -101,6 +110,4 @@ const addPackages = async () => {
     }
   }
 };
-
-
 </script>

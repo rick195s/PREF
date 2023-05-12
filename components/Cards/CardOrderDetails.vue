@@ -22,7 +22,7 @@
     <div
       v-if="props.loading"
       class="flex items-center justify-center"
-      style="min-height: 200px;"
+      style="min-height: 200px"
     >
       <SpinnerComponent></SpinnerComponent>
     </div>
@@ -30,143 +30,147 @@
       <!-- Order table -->
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Tracking Number
-          </th>
-          <td
-            class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.trackingNumber }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Date
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{
-              new Date(props.orderData?.orderDate).toLocaleDateString("pt-pt")
-            }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Hour
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{
-              new Date(props.orderData?.orderDate).toLocaleTimeString(
-                "pt-PT",
-                {
-                  hour12: false,
-                  hour: "numeric",
-                  minute: "numeric"
-                }
-              )
-            }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Source
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.source }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Destination
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.destination }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            State
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.state }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Weight
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.weight.toFixed(2) }}kg
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Carrier
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.carrier }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Shipping Methods
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
-          >
-            {{ props.orderData?.shippingMethods.join(", ") }}
-          </td>
-        </tr>
-        <tr>
-          <th
-            class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Package
-          </th>
-          <td
-            class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            {{ props.orderData?.orderPackages.map(orderPackage => orderPackage.name).join(", ") }}
-          </td>
-        </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Tracking Number
+            </th>
+            <td
+              class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.trackingNumber }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Date
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{
+                new Date(props.orderData?.orderDate).toLocaleDateString("pt-pt")
+              }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Hour
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{
+                new Date(props.orderData?.orderDate).toLocaleTimeString(
+                  "pt-PT",
+                  {
+                    hour12: false,
+                    hour: "numeric",
+                    minute: "numeric"
+                  }
+                )
+              }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Source
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.source }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Destination
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.destination }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              State
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.state }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Weight
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.weight.toFixed(2) }}kg
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Carrier
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.carrier }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Shipping Methods
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.shippingMethods.join(", ") }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Package
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{
+                props.orderData?.orderPackageTypes
+                  ?.map((orderPackage) => orderPackage.name)
+                  .join(", ")
+              }}
+            </td>
+          </tr>
         </thead>
       </table>
     </div>
   </div>
 </template>
 <script setup>
-
 import SpinnerComponent from "@/components/Spinner/SpinnerComponent.vue";
 
 const props = defineProps({
@@ -176,22 +180,25 @@ const props = defineProps({
   },
   orderData: {
     type: Object,
-    required: true
+    required: false,
+    default: () => ({})
   }
 });
-
-console.log(props.orderData);
 
 const packOrder = async () => {
   await useLazyAsyncData(
     "packOrder",
-    async () => { // Make the callback function async
-      const response = await $fetch(`/api/orders/${props.orderData.trackingNumber}/pack`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
+    async () => {
+      // Make the callback function async
+      const response = await $fetch(
+        `/api/orders/${props.orderData.trackingNumber}/pack`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
-      });
+      );
       return response;
     },
     {
@@ -201,5 +208,4 @@ const packOrder = async () => {
   //reload page
   location.reload();
 };
-
 </script>

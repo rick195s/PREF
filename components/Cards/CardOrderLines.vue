@@ -51,11 +51,11 @@ const keys = ref([
     label: "Quantity"
   },
   {
-    key: "price",
+    key: "productPrice",
     label: "Product Price"
   },
   {
-    key: "productPrice",
+    key: "price",
     label: "Total Price"
   }
 ]);
