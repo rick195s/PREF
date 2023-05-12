@@ -24,6 +24,11 @@ public class EJBExceptionMapper implements ExceptionMapper<EJBException> {
             return EntityNotFoundExceptionMapper.getResponse((EntityNotFoundException) cause);
         }
 
+
+        if (cause instanceof IllegalArgumentException) {
+            return IllegalArgumentExceptionMapper.getResponse((IllegalArgumentException) cause);
+        }
+
         return Response.serverError().entity(new ErrorDTO(e.getMessage())).build();
     }
 }

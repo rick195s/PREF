@@ -8,9 +8,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(
-        name = "category_observations"
-)
 @NamedQueries({
         @NamedQuery(
                 name = "getAllCategoryObservations",

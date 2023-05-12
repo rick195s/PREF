@@ -42,6 +42,9 @@ public class OrderLineProductPackageBean {
         }
 
         ProductPackageType productPackageType = productBean.getPrimaryPackageType(relation.getProduct().getId());
+        if (productPackageType == null) {
+            throw new EntityNotFoundException("Product package type not found.");
+        }
 
         OrderLineProductPackage orderLineProductPackage = new OrderLineProductPackage(productPackageType, relation);
 
