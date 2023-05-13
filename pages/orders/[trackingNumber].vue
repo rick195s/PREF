@@ -8,7 +8,10 @@
       <CardOrderPackages @add-order-package="addSelectedPackage($event)" />
     </div>
 
-    <div class="w-full lg:w-4/12 py-4" v-if="shouldRenderCardOrderPackages">
+    <div
+      class="w-full lg:w-4/12 md:px-4 py-4"
+      v-if="shouldRenderCardOrderPackages"
+    >
       <CardSelectedOrderPackages
         v-model="selectedPackages"
         @add-packages="associatePackagesWithOrder($event)"

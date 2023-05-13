@@ -14,7 +14,7 @@ import TableComponent from "@/components/Tables/TableComponent.vue";
 const props = defineProps({
   orderData: {
     type: Object,
-    required: true,
+    required: false,
     default: () => null
   },
   loading: {
@@ -55,17 +55,25 @@ const observations = ref([]);
 
 // Watch for changes in props.orderData and props.selectedProductPackages
 watchEffect(() => {
-  fetchData(props.orderData, props.selectedProductPackages, props.selectedOrderPackages);
+  fetchData(
+    props.orderData,
+    props.selectedProductPackages,
+    props.selectedOrderPackages
+  );
 });
 
 // Function to fetch multiple data based on orderData and selectedProductPackages
-async function fetchData(orderData, selectedProductPackages, selectedOrderPackages) {
+async function fetchData(
+  orderData,
+  selectedProductPackages,
+  selectedOrderPackages
+) {
   // Generate URLs for each combination of order package
   const urls = [];
   if (selectedOrderPackages) {
     selectedOrderPackages.forEach((productPackageId) => {
-        const url = `/api/observations/package/${productPackageId}`;
-        urls.push(url);
+      const url = `/api/observations/package/${productPackageId}`;
+      urls.push(url);
     });
   }
 
@@ -89,16 +97,21 @@ async function fetchData(orderData, selectedProductPackages, selectedOrderPackag
   const flattenedObservations = fetchedObservations.flat();
 
   // Sort the observations by date in descending order (most recent date appears first)
-  const sortedObservations = flattenedObservations.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedObservations = flattenedObservations.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   // Format the observations to have the keys needed for the table
   sortedObservations.forEach((element) => {
     // Format date and hour
-    element.date = new Date(element.date).toLocaleDateString("pt-pt") + " - " + new Date(element.date).toLocaleTimeString("pt-PT", {
-      hour12: false,
-      hour: "numeric",
-      minute: "numeric"
-    });
+    element.date =
+      new Date(element.date).toLocaleDateString("pt-pt") +
+      " - " +
+      new Date(element.date).toLocaleTimeString("pt-PT", {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+      });
 
     if (element.quantity) {
       element[element.phenomenonType] = element.quantity;
@@ -107,7 +120,10 @@ async function fetchData(orderData, selectedProductPackages, selectedOrderPackag
     }
 
     // Add the phenomenonType to the keys array if it doesn't exist
-    if (element.phenomenonType && !phenomenonTypes.value.includes(element.phenomenonType)) {
+    if (
+      element.phenomenonType &&
+      !phenomenonTypes.value.includes(element.phenomenonType)
+    ) {
       phenomenonTypes.value.push(element.phenomenonType);
       keys.value.push({
         key: element.phenomenonType,
@@ -129,17 +145,27 @@ async function fetchData(orderData, selectedProductPackages, selectedOrderPackag
   });
 
   // Remove phenomenonTypes that don't have key
-  phenomenonTypes.value = phenomenonTypes.value.filter((phenomenonType) => keys.value.some((key) => key.key === phenomenonType));
+  phenomenonTypes.value = phenomenonTypes.value.filter((phenomenonType) =>
+    keys.value.some((key) => key.key === phenomenonType)
+  );
 
   observations.value = sortedObservations;
 
-  //remove details in keys array, just to appear always in the end of the array
-  keys.value = keys.value.filter((key) => key.key !== "details");
-  //add details in keys array
-  keys.value.push({
-    key: "details",
-    label: "Details"
+  // Transform the details of an observation into keys
+  observations.value.forEach((observation) => {
+    const json = JSON.parse(observation.details);
+
+    Object.keys(json).forEach((key) => {
+      observation[key] = json[key];
+      if (!keys.value.some((k) => k.key === key)) {
+        keys.value.push({
+          key: key,
+          label: key
+        });
+      }
+    });
+
+    delete observation.details;
   });
 }
-
 </script>
