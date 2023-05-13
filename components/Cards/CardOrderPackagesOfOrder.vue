@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100">
-      <div class="break-words bg-white mb-6 shadow-lg rounded">
-        <div v-for="orderPackage in computedOrderPackages" :key="orderPackage.id" class="py-3 flex justify-between px-3">
+      <div v-for="orderPackage in computedOrderPackages" :key="orderPackage.id" class="break-words bg-white mb-6 shadow-lg rounded mx-4">
+        <div class="py-3 flex justify-between px-3">
           <span>{{ orderPackage.packageName }} - {{ orderPackage.id }}</span>
           <label class="checkbox-label">
             <input type="checkbox" v-model="orderPackage.checkedComputed" class="checkbox-input" @change="updateSelectedCheckboxes(orderPackage)" />
@@ -20,6 +20,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 
 const emit = defineEmits(['order-package-selected']);
