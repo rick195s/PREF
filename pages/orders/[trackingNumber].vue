@@ -4,15 +4,19 @@
       <CardOrderDetails :order-data="orderData" :loading="pending" />
     </div>
 
-    <div class="w-full lg:w-8/12 px-4" v-if="shouldRenderCardOrderPackages">
+    <div class="w-full lg:w-8/12" v-if="shouldRenderCardOrderPackages">
       <CardOrderPackages @add-order-package="addSelectedPackage($event)" />
     </div>
 
-    <div class="w-full lg:w-4/12 px-4" v-if="shouldRenderCardOrderPackages">
+    <div class="w-full lg:w-4/12 py-4" v-if="shouldRenderCardOrderPackages">
       <CardSelectedOrderPackages
         v-model="selectedPackages"
         @add-packages="associatePackagesWithOrder($event)"
       />
+    </div>
+
+    <div class="w-full">
+      <CardOrderLines :order-lines="orderData?.orderLines" :loading="pending" />
     </div>
 
     <NotificationToast
@@ -22,7 +26,6 @@
       @close="toastMessage = ''"
     />
   </div>
-  <CardOrderLines :order-lines="orderData?.orderLines" :loading="pending" />
 </template>
 
 <script setup>

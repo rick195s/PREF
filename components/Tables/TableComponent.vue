@@ -14,7 +14,7 @@
         <!-- Projects table -->
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>
-            <tr>
+            <tr v-if="!props.loading">
               <th
                 v-for="arrayKey in props.keys"
                 :key="arrayKey.key"
