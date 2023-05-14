@@ -17,9 +17,10 @@ import java.io.Serializable;
                 query = "SELECT o FROM Observation o ORDER BY o.id" // JPQL
         ),
         @NamedQuery(
-                name = "getAllPackageObservations",
-                query = "SELECT o FROM Observation o JOIN o.observablePackage op WHERE op.id = :observablePackageId"
-        )})
+                name= "getAllPackagesObservations",
+                query = "SELECT o FROM Observation o JOIN o.observablePackage op WHERE op.id IN :observablePackageIds"
+        )
+})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Observation implements Serializable {
 

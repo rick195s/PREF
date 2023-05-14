@@ -19,7 +19,7 @@ public class ObservationApiTest {
     @Test
     public void testGetObservationsFromSimplePackageType() throws IOException {
         Request request = new Request.Builder()
-                .url(baseUrl + "observations/package/1")
+                .url(baseUrl + "observations/package/?id=1")
                 .addHeader("Accept", "application/json")
                 .build();
 

@@ -48,9 +48,9 @@ public class ObservationService {
     }
 
     @GET
-    @Path("/package/{observablePackageId}")
-    public Response getAllObservationsFromPackage(@PathParam("observablePackageId") long observablePackageId) {
-        List<Observation> observations = observationBean.getAllPackageObservations(observablePackageId);
+    @Path("/package/")
+    public Response getAllObservationsFromPackage(@QueryParam("id") List<Long> observablePackagesIds) {
+        List<Observation> observations = observationBean.getAllPackagesObservations(observablePackagesIds);
 
         List<ObservationDTO> results = new ArrayList<>();
         for (Observation obs : observations) {
