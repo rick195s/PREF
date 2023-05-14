@@ -10,7 +10,6 @@
         @product-package-selected="updateSelectedPackages"
       />
       <CardObservations
-        :order-data="orderData"
         :loading="pending"
         :selected-packages="selectedPackages"
       />
@@ -28,8 +27,10 @@ const updateSelectedPackages = (payload) => {
   if (payload.checked) {
     selectedPackages.value.push(payload.packageId);
   } else {
-    selectedPackages.value = selectedPackages.value.filter(
-      (item) => item !== payload.packageId
+    // remove from selectedPackages
+    selectedPackages.value.splice(
+      selectedPackages.value.indexOf(payload.packageId),
+      1
     );
   }
 };

@@ -19,8 +19,7 @@ const props = defineProps({
   },
   selectedPackages: {
     type: Array,
-    required: true,
-    default: () => []
+    required: false
   }
 });
 
@@ -50,7 +49,11 @@ const url = computed(() => {
 
 const { data: observations, pending } = await useLazyAsyncData(
   "observations",
-  () => $fetch(url.value, {}),
+  () => {
+    if (props.selectedPackages.length > 0) {
+      return $fetch(url.value, {});
+    }
+  },
   {
     transform: (data) => {
       // Sort the observations by date in descending order (most recent date appears first)
