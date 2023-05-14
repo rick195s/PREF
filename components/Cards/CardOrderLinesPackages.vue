@@ -38,9 +38,10 @@ const props = defineProps({
 const products = computed(() => {
   return props.orderLines.flatMap((orderLine) =>
     orderLine.orderLineProductRelation.flatMap((item) => {
-      item.product.orderLineProductPackages.forEach((orderLinePackage) => {
+      item.product.orderLineProductPackages?.forEach((orderLinePackage) => {
         const packageType = item.product.productPackageTypes.find(
-          (packageType) => packageType.id === orderLinePackage.simplePackageTypeId
+          (packageType) =>
+            packageType.id === orderLinePackage.simplePackageTypeId
         );
         if (packageType) {
           orderLinePackage.packageName = packageType.name;
@@ -51,8 +52,7 @@ const products = computed(() => {
   );
 });
 
-
 const updateSelectedProductPackages = (payload) => {
-  emit('product-package-selected', payload);
+  emit("product-package-selected", payload);
 };
 </script>
