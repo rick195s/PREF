@@ -1,7 +1,7 @@
 <template>
   <TableComponent
     :data="observations"
-    :loading="props.loading"
+    :loading="pending || props.loading"
     :keys="keys"
     title="History"
   ></TableComponent>
@@ -12,22 +12,12 @@ import TableComponent from "@/components/Tables/TableComponent.vue";
 
 // Define the props
 const props = defineProps({
-  orderData: {
-    type: Object,
-    required: false,
-    default: () => null
-  },
   loading: {
     type: Boolean,
     required: true,
     default: () => true
   },
-  selectedProductPackages: {
-    type: Array,
-    required: true,
-    default: () => []
-  },
-  selectedOrderPackages: {
+  selectedPackages: {
     type: Array,
     required: true,
     default: () => []
@@ -50,122 +40,62 @@ const keys = ref([
   }
 ]);
 
-const phenomenonTypes = ref([]);
-const observations = ref([]);
-
-// Watch for changes in props.orderData and props.selectedProductPackages
-watchEffect(() => {
-  fetchData(
-    props.orderData,
-    props.selectedProductPackages,
-    props.selectedOrderPackages
-  );
+const url = computed(() => {
+  let newUrl = `/api/observations/package`;
+  if (props.selectedPackages.length > 0) {
+    newUrl += `?id=${props.selectedPackages.join("&id=")}`;
+  }
+  return newUrl;
 });
 
-// Function to fetch multiple data based on orderData and selectedProductPackages
-async function fetchData(
-  orderData,
-  selectedProductPackages,
-  selectedOrderPackages
-) {
-  // Generate URLs for each combination of order package
-  const urls = [];
-  if (selectedOrderPackages) {
-    selectedOrderPackages.forEach((productPackageId) => {
-      const url = `/api/observations/package/${productPackageId}`;
-      urls.push(url);
-    });
-  }
+const { data: observations, pending } = await useLazyAsyncData(
+  "observations",
+  () => $fetch(url.value, {}),
+  {
+    transform: (data) => {
+      // Sort the observations by date in descending order (most recent date appears first)
+      data = data.flat().sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  // Generate URLs for each combination of selected package
-  if (selectedProductPackages) {
-    selectedProductPackages.forEach((productPackageId) => {
-      if (!selectedOrderPackages.includes(productPackageId)) {
-        const url = `/api/observations/package/${productPackageId}`;
-        urls.push(url);
-      }
-    });
-  }
+      data.forEach((element) => {
+        element.date =
+          new Date(element.date).toLocaleDateString("pt-pt") +
+          " - " +
+          new Date(element.date).toLocaleTimeString("pt-PT", {
+            hour12: false,
+            hour: "numeric",
+            minute: "numeric"
+          });
 
-  // Fetch observations for each URL concurrently
-  const fetchPromises = urls.map((url) => $fetch(url, {}));
+        element[element.phenomenonType] = element.quantity ?? element.category;
 
-  // Wait for all fetches to complete
-  const fetchedObservations = await Promise.all(fetchPromises);
+        if (
+          element.phenomenonType &&
+          !keys.value.some((k) => k.key === element.phenomenonType)
+        ) {
+          keys.value.push({
+            key: element.phenomenonType,
+            label: element.phenomenonType
+          });
+        }
 
-  // Flatten the array of fetched observations (transform an array of arrays into a single array)
-  const flattenedObservations = fetchedObservations.flat();
+        // transform the details into a json object to be present in the table as column
+        const json = JSON.parse(element.details);
 
-  // Sort the observations by date in descending order (most recent date appears first)
-  const sortedObservations = flattenedObservations.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
-
-  // Format the observations to have the keys needed for the table
-  sortedObservations.forEach((element) => {
-    // Format date and hour
-    element.date =
-      new Date(element.date).toLocaleDateString("pt-pt") +
-      " - " +
-      new Date(element.date).toLocaleTimeString("pt-PT", {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric"
-      });
-
-    if (element.quantity) {
-      element[element.phenomenonType] = element.quantity;
-    } else if (element.category) {
-      element[element.phenomenonType] = element.category;
-    }
-
-    // Add the phenomenonType to the keys array if it doesn't exist
-    if (
-      element.phenomenonType &&
-      !phenomenonTypes.value.includes(element.phenomenonType)
-    ) {
-      phenomenonTypes.value.push(element.phenomenonType);
-      keys.value.push({
-        key: element.phenomenonType,
-        label: element.phenomenonType
-      });
-    }
-  });
-
-  // Remove keys from phenomenonTypes that don't exist in the observations ignore Date, simplePackageId and observerId
-  //if "HUMIDIY" is not present in any observation (don't has values), it will be removed from "phenomenonTypes" and "keys
-  keys.value = keys.value.filter((key) => {
-    // Check if the key is date, simplePackageId or observerId
-    if (["date", "observablePackageId", "observerId"].includes(key.key)) {
-      return true;
-    }
-
-    // Check if the key exists in any observation
-    return sortedObservations.some((observation) => observation[key.key]);
-  });
-
-  // Remove phenomenonTypes that don't have key
-  phenomenonTypes.value = phenomenonTypes.value.filter((phenomenonType) =>
-    keys.value.some((key) => key.key === phenomenonType)
-  );
-
-  observations.value = sortedObservations;
-
-  // Transform the details of an observation into keys
-  observations.value.forEach((observation) => {
-    const json = JSON.parse(observation.details);
-
-    Object.keys(json).forEach((key) => {
-      observation[key] = json[key];
-      if (!keys.value.some((k) => k.key === key)) {
-        keys.value.push({
-          key: key,
-          label: key
+        Object.keys(json).forEach((key) => {
+          element[key] = json[key];
+          if (!keys.value.some((k) => k.key === key)) {
+            keys.value.push({
+              key: key,
+              label: key
+            });
+          }
         });
-      }
-    });
+      });
 
-    delete observation.details;
-  });
-}
+      return data;
+    },
+    server: false,
+    watch: [props.selectedPackages]
+  }
+);
 </script>

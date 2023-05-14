@@ -1,11 +1,19 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 xl:mb-0 px-4">
-      <CardCardOrderPackagesOfOrder :order-packages="orderData?.orderPackages" @order-package-selected="updateSelectedOrderPackages"/>
-      <CardOrderLinePackages :order-lines="orderData?.orderLines" @product-package-selected="updateSelectedProductPackages" />
-      <CardObservations :order-data="orderData"
-                        :loading="pending" :selected-product-packages="selectedProductPackages" :selected-order-packages="selectedOrderPackages"/>
-
+      <CardCardOrderPackagesOfOrder
+        :order-packages="orderData?.orderPackages"
+        @order-package-selected="updateSelectedPackages"
+      />
+      <CardOrderLinePackages
+        :order-lines="orderData?.orderLines"
+        @product-package-selected="updateSelectedPackages"
+      />
+      <CardObservations
+        :order-data="orderData"
+        :loading="pending"
+        :selected-packages="selectedPackages"
+      />
     </div>
   </div>
 </template>
@@ -14,21 +22,15 @@ import CardOrderLinePackages from "~/components/Cards/CardOrderLinesPackages.vue
 import CardCardOrderPackagesOfOrder from "~/components/Cards/CardOrderPackagesOfOrder.vue";
 import CardObservations from "~/components/Cards/CardObservations.vue";
 
-const selectedProductPackages = ref([]);
-const selectedOrderPackages = ref([]);
-const updateSelectedProductPackages = (payload) => {
-  if(payload.checked){
-    selectedProductPackages.value.push(payload.packageId);
-  }else{
-    selectedProductPackages.value = selectedProductPackages.value.filter((item) => item !== payload.packageId);
-  }
-};
+const selectedPackages = ref([]);
 
-const updateSelectedOrderPackages = (payload) => {
-  if(payload.checked){
-    selectedOrderPackages.value.push(payload.packageId);
-  }else{
-    selectedOrderPackages.value = selectedOrderPackages.value.filter((item) => item !== payload.packageId);
+const updateSelectedPackages = (payload) => {
+  if (payload.checked) {
+    selectedPackages.value.push(payload.packageId);
+  } else {
+    selectedPackages.value = selectedPackages.value.filter(
+      (item) => item !== payload.packageId
+    );
   }
 };
 
@@ -67,7 +69,4 @@ const { data: orderData, pending } = await useLazyAsyncData(
     }
   }
 );
-
-console.log("ORDER DATA",orderData);
-
 </script>
