@@ -80,7 +80,9 @@ public class ObservationBean {
         return categoryObservation;
     }
 
-    public List<Observation> getAllPackageObservations(long observablePackageId) {
-        return (List<Observation>) entityManager.createNamedQuery("getAllPackageObservations").setParameter("observablePackageId", observablePackageId).getResultList();
+    public List<Observation> getAllPackagesObservations(List<Long> observablePackagesIds) {
+        return (List<Observation>) entityManager.createNamedQuery("getAllPackagesObservations")
+                .setParameter("observablePackageIds", observablePackagesIds)
+                .getResultList();
     }
 }
