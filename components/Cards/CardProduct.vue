@@ -7,7 +7,7 @@
       <div v-for="orderLineProductPackage in product.orderLineProductPackages" :key="orderLineProductPackage"
            class="py-3 flex justify-between px-3">
         <span>{{ orderLineProductPackage.packageName }} - {{ orderLineProductPackage.id }}</span>
-        <label class="checkbox-label">
+        <label v-if="product.isSmart" class="checkbox-label">
           <input type="checkbox" v-model="orderLineProductPackage.checked" class="checkbox-input"
                  @change="updateSelectedCheckboxes(orderLineProductPackage)" />
           <span class="checkbox-custom"></span>
@@ -74,7 +74,5 @@ const updateSelectedCheckboxes = (orderLineProductPackage) => {
     packageId: orderLineProductPackage.id
   });
 };
-
-console.log("PEEEEEEEEEEEEE", props.product)
 
 </script>

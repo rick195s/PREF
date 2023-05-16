@@ -42,6 +42,7 @@ const products = computed(() => {
         );
         if (packageType) {
           orderLinePackage.packageName = packageType.name;
+          orderLinePackage.isSmart = packageType.smart;
         }
       });
       return item.product;
@@ -62,8 +63,6 @@ const groupedProductsWithDuplicates = computed(() => {
 
   return groupedProductsArray;
 });
-
-console.log("cdgdfg", groupedProductsWithDuplicates)
 
 const updateSelectedProductPackages = (payload) => {
   emit("product-package-selected", payload);

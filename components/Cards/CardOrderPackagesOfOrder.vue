@@ -11,7 +11,7 @@
       <div v-for="orderPackage in computedOrderPackages" :key="orderPackage.id" class="break-words bg-white mb-6 shadow-lg rounded mx-4">
         <div class="py-3 flex justify-between px-3">
           <span>{{ orderPackage.packageName }} - {{ orderPackage.id }}</span>
-          <label class="checkbox-label">
+          <label v-if="orderPackage.isSmart" class="checkbox-label">
             <input type="checkbox" v-model="orderPackage.checkedComputed" class="checkbox-input" @change="updateSelectedCheckboxes(orderPackage)" />
             <span class="checkbox-custom"></span>
           </label>
