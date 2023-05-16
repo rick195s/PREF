@@ -63,6 +63,7 @@ const { data: orderData, pending } = await useLazyAsyncData(
         data.orderPackageTypes.forEach((item) => {
           if (item.id === element.simplePackageTypeId) {
             element.packageName = item.name;
+            element.isSmart = item.smart
           }
         });
       });
@@ -70,4 +71,5 @@ const { data: orderData, pending } = await useLazyAsyncData(
     }
   }
 );
+
 </script>
