@@ -13,7 +13,12 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "getAllOrderLineProductPackages",
                 query = "SELECT o FROM OrderLineProductPackage o ORDER BY o.id" // JPQL
-        )})
+        ),
+        @NamedQuery(
+                name = "getAllSmartOrderLineProductPackages",
+                query = "SELECT o FROM OrderLineProductPackage o WHERE o.simplePackageType.isSmart = true ORDER BY o.id" // JPQL
+        ),
+})
 public class OrderLineProductPackage extends ObservablePackage<ProductPackageType> implements Serializable {
 
     @ManyToOne
@@ -26,6 +31,10 @@ public class OrderLineProductPackage extends ObservablePackage<ProductPackageTyp
     public OrderLineProductPackage(ProductPackageType productPackage, OrderLineProductRelation orderLineProductRelation) {
         super(productPackage);
         this.orderLineProductRelation = orderLineProductRelation;
+    }
+
+    public OrderLineProductPackage(long id) {
+        super(id);
     }
 
     public OrderLineProductRelation getOrderLineProductRelation() {

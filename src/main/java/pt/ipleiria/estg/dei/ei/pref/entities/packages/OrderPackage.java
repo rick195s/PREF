@@ -13,12 +13,22 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "getAllOrderPackages",
                 query = "SELECT o FROM OrderPackage o ORDER BY o.id" // JPQL
-        )})
+        ),
+        @NamedQuery(
+                name = "getAllSmartOrderPackages",
+                query = "SELECT o FROM OrderPackage o WHERE o.simplePackageType.isSmart = true ORDER BY o.id" // JPQL
+        ),
+})
 public class OrderPackage extends ObservablePackage<OrderPackageType> implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+
+    public OrderPackage(long id) {
+        super(id);
+    }
 
     public OrderPackage() {
 

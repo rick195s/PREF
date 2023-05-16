@@ -7,7 +7,6 @@ import net.datafaker.Faker;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderLineProductPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageTypeBean;
-import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageTypeBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObserverBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
@@ -18,6 +17,8 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
+import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
@@ -27,8 +28,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -91,9 +91,13 @@ public class ConfigBean {
     }
 
     private void createProductPackages() {
-        List<OrderLineProductRelation> orderLineProductRelations = (List<OrderLineProductRelation>) entityManager.createNamedQuery("getAllOrderLineProductRelations").getResultList();
+        List<OrderLineProductRelation> orderLineProductRelations = (List<OrderLineProductRelation>) entityManager.createNamedQuery("getAllOrderLineProductRelations").setMaxResults(3000).getResultList();
+        int i = 0;
+        System.out.println("Tamanho order line product relations: "+ orderLineProductRelations.size());
         for (OrderLineProductRelation orderLineProductRelation : orderLineProductRelations) {
             orderLineProductPackageBean.createPrimaryPackage(orderLineProductRelation.getId());
+            i++;
+            System.out.println("ProductPackage " + i + " created");
         }
     }
 
@@ -148,11 +152,14 @@ public class ConfigBean {
 
         int max = allOrderPackageTypes.size() - 1;
         int min = 0;
+        int i = 0;
         for (Order order : orderBean.getAllOrders(0, 500)) {
             orderPackageBean.create(
                     allOrderPackageTypes.get(new Random().nextInt(max - min + 1) + min).getId(),
                     order.getTrackingNumber()
             );
+            i++;
+            System.out.println("Order package "+i+" created");
         }
     }
 
@@ -162,34 +169,76 @@ public class ConfigBean {
         observerBean.create("Location Sensor");
     }
 
-    private void createObservations(){
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String dateString = date.format(formatter);
+    private void createObservations() {
         Faker faker = new Faker();
-
-
         String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
+        createOrderPackageObservations(faker, details);
+        createProductPackageObservations(faker, details);
+
+        System.out.println("Observations created");
+    }
+
+    private void createOrderPackageObservations(Faker faker, String details) {
+
+        List<Observation> observations = new ArrayList<>();
         int i = 0;
-        for (OrderPackage orderPackage : orderPackageBean.getAllOrderPackages()) {
-            observationBean.create(PhenomenonType.LOCATION, 1, dateString,details, orderPackage.getId(), faker.address().cityName());
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(5, 30)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
-            i++;
-            System.out.println("Order package "+i+" criado");
-        }
+        for (OrderPackage orderPackage : orderPackageBean.getAllSmartOrderPackages()) {
 
-        i=0;
-        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllProductPackages(300)) {
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
-            i++;
-            System.out.println("Product package "+i+" criado");
-        }
+            Timestamp date1 = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(orderPackage.getOrder().getDate()));
+            Timestamp date2 = faker.date().future(4, TimeUnit.DAYS, date1);
 
+            observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date1.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
+            observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date2.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
+
+            for (int i1 = 0; i1 < faker.random().nextInt(5, 10); i1++) {
+                observations.add(new Observation(PhenomenonType.TEMPERATURE, new Observer(1),
+                        faker.date().future(4, TimeUnit.DAYS, date1).toString(),
+                        details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(5, 30))));
+
+                observations.add(new Observation(PhenomenonType.HUMIDITY, new Observer(2),
+                        faker.date().future(4, TimeUnit.DAYS, date2).toString(),
+                        details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(10, 80))));
+            }
+            if (observations.size() > 50){
+                observationBean.createMultipleObservations(observations);
+                observations.clear();
+            }
+            i++;
+            System.out.println("Order package observation "+i+" created");
+        }
+    }
+
+    private void createProductPackageObservations(Faker faker, String details) {
+        int minTemp = 10;
+        int maxTemp = 30;
+        int minHumidity = 10;
+        int maxHumidity = 80;
+
+        int i1 = 0;
+        List<Observation> observations = new ArrayList<>();
+
+        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllSmartProductPackages(500)) {
+            Timestamp date = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(productPackage.getOrderLineProductRelation().getOrderLine().getOrder().getDate()));
+
+            for (int i = 0; i < faker.random().nextInt(5, 10); i++) {
+                int temperature = faker.random().nextInt(minTemp, maxTemp);
+                int humidity = faker.random().nextInt(minHumidity, maxHumidity);
+
+                observations.add(new Observation(PhenomenonType.TEMPERATURE, new Observer(1),
+                        faker.date().future(4, TimeUnit.DAYS, date).toString(),
+                        details, new OrderLineProductPackage(productPackage.getId()), String.valueOf(temperature)));
+                observations.add(new Observation(PhenomenonType.TEMPERATURE, new Observer(2),
+                        faker.date().future(4, TimeUnit.DAYS, date).toString(),
+                        details, new OrderLineProductPackage(productPackage.getId()), String.valueOf(humidity)));
+            }
+            if (observations.size() > 50){
+                observationBean.createMultipleObservations(observations);
+                observations.clear();
+            }
+            i1++;
+            System.out.println("Product package observation "+i1+" created");
+        }
     }
 
     private void createOrderPackageTypes() {
@@ -208,18 +257,27 @@ public class ConfigBean {
     private void createOrders() {
         Faker faker = new Faker();
 
+        int minProductsPerOrder = 5;
+        int maxProductsPerOrder = 20;
+        int minProductQuantity = 2;
+        int maxProductQuantity = 10;
         Map<Long, Integer> productsQuantities = new HashMap<>();
-        productsQuantities.put(1L, 1);
-        productsQuantities.put(2L, 2);
 
-        for (int i = 0; i < 500; i++) {
+
+        for (int i = 0; i < 100; i++) {
+            productsQuantities.clear();
+            for (long j = 0; j < faker.random().nextInt(minProductsPerOrder, maxProductsPerOrder); j++) {
+                productsQuantities.put(j+1, faker.random().nextInt(minProductQuantity, maxProductQuantity));
+            }
             orderBean.create(
-                    faker.date().past(2, TimeUnit.DAYS).toString(),
+                    faker.date().past(100, TimeUnit.DAYS).toString(),
                     productsQuantities,
                     faker.address().cityName(),
                     faker.address().cityName(),
                     faker.company().name(),
                     List.of("air", "ground"));
+
+            System.out.println("Order "+i+" created");
         }
     }
 

@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Stateless
@@ -27,6 +28,13 @@ public class ObservationBean {
 
     public List<Observation> getAllObservations() {
         return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
+    }
+
+    @Transactional
+    public void createMultipleObservations(List<Observation> observations) {
+        for (Observation observation : observations) {
+            create(observation.getPhenomenonType(), observation.getObserver().getId(), observation.getDate(), observation.getDetails(), observation.getObservablePackage().getId(), observation.getValue());
+        }
     }
 
     public Observation create(PhenomenonType phenomenonType, long observerId, String date, String details, long observablePackageId, String value) {

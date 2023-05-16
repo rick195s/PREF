@@ -39,6 +39,10 @@ public class ObservablePackage<PackageType extends SimplePackageType> implements
         this.simplePackageType = simplePackageType;
     }
 
+    public ObservablePackage(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }

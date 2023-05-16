@@ -11,6 +11,7 @@ https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
             <property
                     name="javax.persistence.schema-generation.database.action"
                     value="drop-and-create" />
+            <property name="hibernate.jdbc.batch_size" value="50"/>
         </properties>
     </persistence-unit>
 </persistence>

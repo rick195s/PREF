@@ -24,7 +24,13 @@ public class OrderPackageBean {
     private OrderBean orderBean;
 
     public List<OrderPackage> getAllOrderPackages() {
-        return (List<OrderPackage>) entityManager.createNamedQuery("getAllOrderPackages").getResultList();
+        return (List<OrderPackage>) entityManager.createNamedQuery("getAllOrderPackages")
+                .getResultList();
+    }
+
+    public List<OrderPackage> getAllSmartOrderPackages() {
+        return (List<OrderPackage>) entityManager.createNamedQuery("getAllSmartOrderPackages")
+                .getResultList();
     }
 
     public OrderPackage findOrFail(long id) {

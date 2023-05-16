@@ -47,8 +47,21 @@ public class Observation implements Serializable {
     @JoinColumn(name = "observable_package_id")
     private ObservablePackage observablePackage;
 
+    @Transient
+    private String value;
+
     public Observation() {
 
+    }
+
+    public Observation( PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage observablePackage, String value) {
+
+        this.phenomenonType = phenomenonType;
+        this.observer = observer;
+        this.date = date;
+        this.details = details;
+        this.observablePackage = observablePackage;
+        this.value = value;
     }
 
     public Observation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage observablePackage) {
@@ -106,5 +119,13 @@ public class Observation implements Serializable {
 
     public void setObservablePackage(ObservablePackage observablePackage) {
         this.observablePackage = observablePackage;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
