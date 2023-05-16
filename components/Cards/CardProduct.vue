@@ -3,12 +3,16 @@
     <div class="py-3 text-center justify-center items-center border-b-4 border-blueGray-100">
       <h3 class="font-semibold text-base text-blueGray-700">{{ props.product.name }}</h3>
     </div>
-    <div v-for="orderLineProductPackage in props.product.orderLineProductPackages" :key="orderLineProductPackage" class="py-3 flex justify-between px-3">
-      <span>{{orderLineProductPackage.packageName}} - {{orderLineProductPackage.id}}</span>
-      <label class="checkbox-label">
-        <input type="checkbox" v-model="orderLineProductPackage.checked" class="checkbox-input" @change="updateSelectedCheckboxes(orderLineProductPackage)" />
-        <span class="checkbox-custom"></span>
-      </label>
+    <div v-for="product in props.product.products" :key="product.id">
+      <div v-for="orderLineProductPackage in product.orderLineProductPackages" :key="orderLineProductPackage"
+           class="py-3 flex justify-between px-3">
+        <span>{{ orderLineProductPackage.packageName }} - {{ orderLineProductPackage.id }}</span>
+        <label class="checkbox-label">
+          <input type="checkbox" v-model="orderLineProductPackage.checked" class="checkbox-input"
+                 @change="updateSelectedCheckboxes(orderLineProductPackage)" />
+          <span class="checkbox-custom"></span>
+        </label>
+      </div>
     </div>
   </div>
 </template>
@@ -59,14 +63,18 @@ const props = defineProps({
   product: {
     type: Object,
     required: true,
-    default: () => {}
+    default: () => {
+    }
   }
 });
 
 const updateSelectedCheckboxes = (orderLineProductPackage) => {
-  emit('product-package-selected', {
+  emit("product-package-selected", {
     checked: orderLineProductPackage.checked,
     packageId: orderLineProductPackage.id
   });
 };
+
+console.log("PEEEEEEEEEEEEE", props.product)
+
 </script>

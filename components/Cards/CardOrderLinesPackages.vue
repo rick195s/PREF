@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
-  >
+  <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
@@ -9,19 +7,18 @@
         </div>
       </div>
     </div>
-    <div
-      class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
-    >
+    <div class="grid lg:grid-cols-4 gap-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100">
       <CardProduct
-        v-for="product in products"
-        :key="product.id"
-        class="mx-4"
+        v-for="product in groupedProductsWithDuplicates"
+        :key="product"
         :product="product"
         @product-package-selected="updateSelectedProductPackages"
+        class="mb-4"
       />
     </div>
   </div>
 </template>
+
 <script setup>
 import CardProduct from "@/components/Cards/CardProduct.vue";
 
@@ -51,6 +48,22 @@ const products = computed(() => {
     })
   );
 });
+
+const groupedProductsWithDuplicates = computed(() => {
+  const groupedProductsMap = new Map();
+  products.value.forEach((product) => {
+    if (!groupedProductsMap.has(product.name)) {
+      groupedProductsMap.set(product.name, []);
+    }
+    groupedProductsMap.get(product.name).push(product);
+  });
+
+  const groupedProductsArray = Array.from(groupedProductsMap, ([name, products]) => ({ name, products }));
+
+  return groupedProductsArray;
+});
+
+console.log("cdgdfg", groupedProductsWithDuplicates)
 
 const updateSelectedProductPackages = (payload) => {
   emit("product-package-selected", payload);
