@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 xl:mb-0 px-4">
-      <CardCardOrderPackagesOfOrder
+      <CardOrderPackagesOfOrder
         :order-packages="orderData?.orderPackages"
         @order-package-selected="updateSelectedPackages"
       />
@@ -18,7 +18,7 @@
 </template>
 <script setup>
 import CardOrderLinePackages from "~/components/Cards/CardOrderLinesPackages.vue";
-import CardCardOrderPackagesOfOrder from "~/components/Cards/CardOrderPackagesOfOrder.vue";
+import CardOrderPackagesOfOrder from "~/components/Cards/CardOrderPackagesOfOrder.vue";
 import CardObservations from "~/components/Cards/CardObservations.vue";
 
 const selectedPackages = ref([]);
@@ -63,6 +63,7 @@ const { data: orderData, pending } = await useLazyAsyncData(
         data.orderPackageTypes.forEach((item) => {
           if (item.id === element.simplePackageTypeId) {
             element.packageName = item.name;
+            element.isSmart = item.smart
           }
         });
       });
@@ -70,4 +71,5 @@ const { data: orderData, pending } = await useLazyAsyncData(
     }
   }
 );
+
 </script>
