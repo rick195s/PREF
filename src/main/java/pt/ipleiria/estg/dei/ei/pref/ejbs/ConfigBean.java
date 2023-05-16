@@ -173,19 +173,23 @@ public class ConfigBean {
 
         int i = 0;
         for (OrderPackage orderPackage : orderPackageBean.getAllOrderPackages()) {
-            observationBean.create(PhenomenonType.LOCATION, 1, dateString,details, orderPackage.getId(), faker.address().cityName());
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(5, 30)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            if (orderPackage.getSimplePackageType().isSmart()) {
+                observationBean.create(PhenomenonType.LOCATION, 1, dateString, details, orderPackage.getId(), faker.address().cityName());
+                observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(5, 30)));
+                observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, orderPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            }
             i++;
             System.out.println("Order package "+i+" criado");
         }
 
         i=0;
         for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllProductPackages(300)) {
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString,details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
-            observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
-            observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            if (productPackage.getSimplePackageType().isSmart()) {
+                observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
+                observationBean.create(PhenomenonType.TEMPERATURE, 1, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 30)));
+                observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+                observationBean.create(PhenomenonType.HUMIDITY, 2, dateString, details, productPackage.getId(), String.valueOf(faker.random().nextInt(10, 80)));
+            }
             i++;
             System.out.println("Product package "+i+" criado");
         }
