@@ -272,6 +272,8 @@ public class ConfigBean {
 
     private void createOrders() {
         Faker faker = new Faker();
+        List<String> carriers = new ArrayList<>(List.of("DHL", "CTT", "DPD", "NACEX"));
+        List<String> sources = new ArrayList<>(List.of("Porto", "Coimbra", "Lisboa"));
 
         int minProductsPerOrder = 5;
         int maxProductsPerOrder = 20;
@@ -288,10 +290,10 @@ public class ConfigBean {
             orderBean.create(
                     faker.date().past(100, TimeUnit.DAYS).toString(),
                     productsQuantities,
+                    sources.get(faker.random().nextInt(0, sources.size()-1)),
                     faker.address().cityName(),
-                    faker.address().cityName(),
-                    faker.company().name(),
-                    List.of("air", "ground"));
+                    carriers.get(faker.random().nextInt(0, carriers.size()-1)),
+                    List.of("air", "ground").subList(0, faker.random().nextInt(1, 2)));
 
             System.out.println("Order "+i+" created");
         }
