@@ -15,4 +15,6 @@ RUN chmod 755 ${WILDFLY_HOME}/bin/*.sh
 
 USER jboss
 
+ENV JAVA_OPTS="$JAVA_OPTS -Djboss.as.management.blocking.timeout=600"
+
 ENTRYPOINT ${WILDFLY_HOME}/bin/start_wildfly.sh

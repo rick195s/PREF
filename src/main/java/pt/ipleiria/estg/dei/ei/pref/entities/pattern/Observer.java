@@ -30,6 +30,10 @@ public class Observer implements Serializable {
         observations = new LinkedList<>();
     }
 
+    public Observer(long id) {
+        this.id = id;
+    }
+
     public Observer(String type) {
         this.type = type;
         observations = new LinkedList<>();
