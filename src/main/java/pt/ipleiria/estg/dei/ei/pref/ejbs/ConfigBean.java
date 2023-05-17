@@ -183,29 +183,38 @@ public class ConfigBean {
 
         List<Observation> observations = new ArrayList<>();
         int i = 0;
-        for (OrderPackage orderPackage : orderPackageBean.getAllSmartOrderPackages()) {
+        List<OrderPackage> orderPackages =  orderPackageBean.getAllSmartOrderPackages();
+        int totalObser = 0 ;
+        for (OrderPackage orderPackage : orderPackages) {
 
-            Timestamp date1 = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(orderPackage.getOrder().getDate()));
-            Timestamp date2 = faker.date().future(4, TimeUnit.DAYS, date1);
+            // create observations in 80% of the order packages
+            if (faker.random().nextInt(1, 100) <= 80) {
+                Timestamp date1 = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(orderPackage.getOrder().getDate()));
+                Timestamp date2 = faker.date().future(4, TimeUnit.DAYS, date1);
 
-            observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date1.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
-            observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date2.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
+                Order order = orderPackage.getOrder();
+                order.setState(OrderState.IN_TRANSIT);
 
-            for (int i1 = 0; i1 < faker.random().nextInt(5, 10); i1++) {
-                observations.add(new Observation(PhenomenonType.TEMPERATURE, new Observer(1),
-                        faker.date().future(4, TimeUnit.DAYS, date1).toString(),
-                        details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(5, 30))));
+                observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date1.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
+                observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date2.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
 
-                observations.add(new Observation(PhenomenonType.HUMIDITY, new Observer(2),
-                        faker.date().future(4, TimeUnit.DAYS, date2).toString(),
-                        details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(10, 80))));
+                for (int i1 = 0; i1 < faker.random().nextInt(5, 10); i1++) {
+                    observations.add(new Observation(PhenomenonType.TEMPERATURE, new Observer(1),
+                            faker.date().future(4, TimeUnit.DAYS, date1).toString(),
+                            details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(5, 30))));
+
+                    observations.add(new Observation(PhenomenonType.HUMIDITY, new Observer(2),
+                            faker.date().future(4, TimeUnit.DAYS, date2).toString(),
+                            details, new OrderPackage(orderPackage.getId()), String.valueOf(faker.random().nextInt(10, 80))));
+                }
+                totalObser += observations.size();
+                if (totalObser >= orderPackages.size() || observations.size() > 50) {
+                    observationBean.createMultipleObservations(observations);
+                    observations.clear();
+                }
+                i++;
+                System.out.println("Order package observation " + i + " created");
             }
-            if (observations.size() > 50){
-                observationBean.createMultipleObservations(observations);
-                observations.clear();
-            }
-            i++;
-            System.out.println("Order package observation "+i+" created");
         }
     }
 
@@ -217,11 +226,16 @@ public class ConfigBean {
 
         int i1 = 0;
         List<Observation> observations = new ArrayList<>();
-
-        for (OrderLineProductPackage productPackage : orderLineProductPackageBean.getAllSmartProductPackages(500)) {
+        List<OrderLineProductPackage> orderLineProductPackages =  orderLineProductPackageBean.getAllSmartProductPackages(500);
+        int totalObser= 0 ;
+        for (OrderLineProductPackage productPackage : orderLineProductPackages) {
             Timestamp date = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(productPackage.getOrderLineProductRelation().getOrderLine().getOrder().getDate()));
 
+            Order order = productPackage.getOrderLineProductRelation().getOrderLine().getOrder();
+            order.setState(OrderState.IN_TRANSIT);
+
             for (int i = 0; i < faker.random().nextInt(5, 10); i++) {
+
                 int temperature = faker.random().nextInt(minTemp, maxTemp);
                 int humidity = faker.random().nextInt(minHumidity, maxHumidity);
 
@@ -232,7 +246,8 @@ public class ConfigBean {
                         faker.date().future(4, TimeUnit.DAYS, date).toString(),
                         details, new OrderLineProductPackage(productPackage.getId()), String.valueOf(humidity)));
             }
-            if (observations.size() > 50){
+            totalObser += observations.size();
+            if (totalObser >= orderLineProductPackages.size() ||  observations.size() > 50){
                 observationBean.createMultipleObservations(observations);
                 observations.clear();
             }
