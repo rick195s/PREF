@@ -183,6 +183,7 @@ public class ConfigBean {
 
         List<Observation> observations = new ArrayList<>();
         int i = 0;
+
         List<OrderPackage> orderPackages =  orderPackageBean.getAllSmartOrderPackages();
         int totalObser = 0 ;
         for (OrderPackage orderPackage : orderPackages) {
