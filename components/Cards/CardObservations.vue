@@ -95,6 +95,14 @@ const { data: observations, pending } = await useLazyAsyncData(
         });
       });
 
+      keys.value = keys.value.filter((column) => {
+        if (column.key === "date"  || column.key === "observablePackageId" || column.key === "observerId") {
+          return true;
+        }
+        return data.some((element) => element[column.key] !== undefined);
+      });
+
+
       return data;
     },
     server: false,
