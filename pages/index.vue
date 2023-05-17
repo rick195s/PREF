@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- <div class="flex flex-wrap">
+    <div class="flex flex-wrap">
       <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-        <CardLineChart />
-      </div>
-      <div class="w-full xl:w-4/12 px-4">
-        <CardBarChart />
+        <CardLineChart title="Average Temperatures to Destination" />
       </div>
     </div>
-    -->
+
     <div>
       <div class="w-full mb-12 xl:mb-0">
         <CardOrders />
@@ -17,7 +14,6 @@
   </div>
 </template>
 <script setup>
-import CardLineChart from "@/components/Cards/CardLineChart.vue";
-import CardBarChart from "@/components/Cards/CardBarChart.vue";
+import CardLineChart from "@/components/Charts/CardLineChart.vue";
 import CardOrders from "@/components/Cards/CardOrders.vue";
 </script>

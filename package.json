@@ -34,10 +34,11 @@
         "@popperjs/core": "2.11.6",
         "@tailwindcss/forms": "0.5.3",
         "@typescript-eslint/parser": "^5.56.0",
-        "chart.js": "2.9.4",
+        "chart.js": "^4.0.0",
         "core-js": "^3.29.0",
         "maplibre-gl": "^2.4.0",
         "typescript": "^5.0.2",
+        "vue-chartjs": "^5.2.0",
         "vuedraggable": "^4.1.0"
     }
 }
