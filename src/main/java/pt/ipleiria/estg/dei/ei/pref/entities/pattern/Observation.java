@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllObservations",
-                query = "SELECT o FROM Observation o ORDER BY o.id" // JPQL
+                query = "SELECT o FROM Observation o"
         ),
         @NamedQuery(
                 name= "getAllPackagesObservations",
@@ -47,7 +47,7 @@ public class Observation implements Serializable {
     @JoinColumn(name = "observable_package_id")
     private ObservablePackage observablePackage;
 
-    @Transient
+
     private String value;
 
     public Observation() {
@@ -64,14 +64,6 @@ public class Observation implements Serializable {
         this.value = value;
     }
 
-    public Observation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage observablePackage) {
-        this();
-        this.phenomenonType = phenomenonType;
-        this.observer = observer;
-        this.date = date;
-        this.details = details;
-        this.observablePackage = observablePackage;
-    }
 
     public long getId() {
         return id;

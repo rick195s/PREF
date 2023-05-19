@@ -1,16 +1,14 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -26,9 +24,33 @@ public class ObservationBean {
         return entityManager.find(Observation.class, id);
     }
 
-    public List<Observation> getAllObservations() {
-        return (List<Observation>) entityManager.createNamedQuery("getAllObservations").getResultList();
+    public List<Observation> getAllObservations(int offset, int limit, String sortField, boolean isAscending) {
+        String queryString;
+        if (!sortField.equals("date") && !sortField.equals("observer") && !sortField.equals("observablePackage")) {
+            PhenomenonType phenomenonType = PhenomenonType.valueOf(sortField);
+            queryString = "SELECT o FROM Observation o WHERE o.phenomenonType = :phenomenonType ORDER BY CAST(o.value as double)";
+
+        } else {
+            queryString ="SELECT o FROM Observation o ORDER BY o." + sortField;
+        }
+        if (!isAscending) {
+            queryString += " DESC";
+        }
+
+        TypedQuery<Observation> query = entityManager.createQuery(queryString, Observation.class);
+        if (!sortField.equals("date") && !sortField.equals("observer") && !sortField.equals("observablePackage")) {
+            PhenomenonType phenomenonType = PhenomenonType.valueOf(sortField);
+            query.setParameter("phenomenonType", phenomenonType);
+        }
+
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+
+        List<Observation> observations = query.getResultList();
+
+        return observations;
     }
+
 
     @Transactional
     public void createMultipleObservations(List<Observation> observations) {
@@ -46,7 +68,7 @@ public class ObservationBean {
             throw new EntityNotFoundException("Observable Package not found");
         }
 
-        if(!observablePackage.getSimplePackageType().isSmart()){
+        if (!observablePackage.getSimplePackageType().isSmart()) {
             throw new IllegalArgumentException("Package is not smart");
         }
 
@@ -96,5 +118,9 @@ public class ObservationBean {
         return (List<Observation>) entityManager.createNamedQuery("getAllPackagesObservations")
                 .setParameter("observablePackageIds", observablePackagesIds)
                 .getResultList();
+    }
+
+    public Long count() {
+        return entityManager.createQuery("SELECT COUNT(*) FROM " + Observation.class.getSimpleName(), Long.class).getSingleResult();
     }
 }

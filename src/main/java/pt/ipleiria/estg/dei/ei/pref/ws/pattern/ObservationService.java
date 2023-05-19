@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ws.pattern;
 
 
+import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.CategoryObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.ObservationDTO;
@@ -8,8 +9,10 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
+import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,20 +35,50 @@ public class ObservationService {
 
     @GET
     @Path("/")
-    public List<ObservationDTO> getAllObservations() {
-        List<ObservationDTO> observationDTOS = new LinkedList<>();
+    public Response getAllObservations(@BeanParam @Valid PageRequest pageRequest) {
+        List<Observation> observations;
 
-        List<Observation> observations = observationBean.getAllObservations();
+        Long count = observationBean.count();
+
+        if (pageRequest.getOffset() > count) {
+            return Response.ok(new PaginatedDTO<>(count)).build();
+        }
+
+        // Sorting
+        String sortField = pageRequest.getSortField();
+        String sortDirection = pageRequest.getSortDirection();
+        System.out.println("SORT FIELD: " + sortField);
+        System.out.println("SORT DIRECTION: " + pageRequest.getSort());
+        if (sortField == null) {
+            sortField = "date";
+            sortDirection = "asc";
+        }
+
+            boolean isAscending = sortDirection.equalsIgnoreCase("asc");
+
+        observations = observationBean.getAllObservations(pageRequest.getOffset(), pageRequest.getLimit(), sortField, isAscending);
+        if (observations == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (observations.isEmpty()) {
+            count = 0L;
+        }
+        List<ObservationDTO> convertedObservations = new ArrayList<>();
+
         for (Observation observation : observations) {
             if (observation.getPhenomenonType().isMeasurement()) {
-                observationDTOS.add(MeasurementObservationDTO.from((MeasurementObservation) observation));
+                convertedObservations.add(MeasurementObservationDTO.from((MeasurementObservation) observation));
             } else {
-                observationDTOS.add(CategoryObservationDTO.from((CategoryObservation) observation));
+                convertedObservations.add(CategoryObservationDTO.from((CategoryObservation) observation));
             }
         }
 
-        return observationDTOS;
+        var paginatedDTO = new PaginatedDTO<>(convertedObservations, count, pageRequest.getOffset());
+
+        return Response.ok(paginatedDTO).build();
     }
+
 
     @GET
     @Path("/package/")
