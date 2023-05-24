@@ -17,7 +17,16 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllOrders",
                 query = "SELECT o FROM Order o ORDER BY o.date DESC " // JPQL
-        )})
+        ),
+        @NamedQuery(
+                name = "getCarriers",
+                query = "SELECT DISTINCT o.carrier FROM Order o ORDER BY o.carrier ASC " // JPQL
+        ),
+        @NamedQuery(
+                name = "getAllOrdersByCarrier",
+                query = "SELECT o FROM Order o WHERE o.carrier = :carrier ORDER BY o.date DESC " // JPQL
+        )
+})
 public class Order {
 
     @Id

@@ -44,13 +44,13 @@ public class OrderService {
     public Response getAllOrders(@BeanParam @Valid PageRequest pageRequest) {
         List<Order> orders;
 
-        Long count = orderBean.count();
+        Long count = orderBean.count(pageRequest.getCarrier());
 
         if (pageRequest.getOffset() > count) {
             return Response.ok(new PaginatedDTO<>(count)).build();
         }
 
-        orders = orderBean.getAllOrders(pageRequest.getOffset(), pageRequest.getLimit());
+        orders = orderBean.getAllOrders(pageRequest.getOffset(), pageRequest.getLimit(), pageRequest.getCarrier());
         if (orders == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .build();
@@ -98,4 +98,9 @@ public class OrderService {
         return Response.ok(DetailedOrderDTO.from(orderBean.packOrder(trackingNumber))).build();
     }
 
+    @GET
+    @Path("/carriers")
+    public Response getCarriers() {
+        return Response.ok(orderBean.getCarriers()).build();
+    }
 }

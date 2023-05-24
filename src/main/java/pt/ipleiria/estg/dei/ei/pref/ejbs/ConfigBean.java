@@ -153,7 +153,7 @@ public class ConfigBean {
         int max = allOrderPackageTypes.size() - 1;
         int min = 0;
         int i = 0;
-        for (Order order : orderBean.getAllOrders(0, 500)) {
+        for (Order order : orderBean.getAllOrders(0, 500, null)) {
             orderPackageBean.create(
                     allOrderPackageTypes.get(new Random().nextInt(max - min + 1) + min).getId(),
                     order.getTrackingNumber()

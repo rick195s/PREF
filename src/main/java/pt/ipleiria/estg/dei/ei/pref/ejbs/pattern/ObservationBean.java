@@ -27,8 +27,8 @@ public class ObservationBean {
         return entityManager.find(Observation.class, id);
     }
 
-    public List<Observation> getAllObservations(int offset, int limit, String sortField, boolean isAscending, String searchDate, String searchObservablePackage, String searchObserver, String searchPhenomenon, String searchValue) {
-        String queryString = "SELECT o FROM Observation o";
+    public List<Observation> getAllObservations(int offset, int limit/*, String sortField, boolean isAscending, String searchDate, String searchObservablePackage, String searchObserver, String searchPhenomenon, String searchValue*/) {
+       /* String queryString = "SELECT o FROM Observation o";
         boolean hasWhereClause = false;
         Long observerId = null;
         Long observablePackageId = null;
@@ -129,6 +129,12 @@ public class ObservationBean {
         query.setMaxResults(limit);
 
         List<Observation> observations = query.getResultList();
+
+        return observations;*/
+        List<Observation> observations = (List<Observation>) entityManager.createNamedQuery("getAllObservations")
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
 
         return observations;
     }
