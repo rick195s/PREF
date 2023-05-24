@@ -21,6 +21,14 @@
                 class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
               >
                 {{ arrayKey.label }}
+                <template v-if="arrayKey.key === 'carrier'">
+                  <select class="ml-2" @change="updateCarrier($event.target.value)">
+                    <option value="">All</option>
+                    <option v-for="carrier in carriers" :key="carrier" :value="carrier">
+                      {{ carrier }}
+                    </option>
+                  </select>
+                </template>
               </th>
               <th
                 v-if="hasActions()"
@@ -60,7 +68,6 @@
               >
                 {{ record[arrayKey.key] }}
               </td>
-
               <td
                 v-if="hasActions()"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -138,7 +145,15 @@ const props = defineProps({
   actions: {
     type: Boolean,
     default: true
-  }
+  },
+  updateCarrier: {
+    type: Function,
+    default: () => {}
+  },
+  carriers: {
+    type: Object,
+    default: []
+  },
 });
 
 const hasActions = () => {
