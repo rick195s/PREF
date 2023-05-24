@@ -65,9 +65,10 @@ const { data: orderData, pending } = await useLazyAsyncData(
           "x" +
           element.product.height;
         element.weight = element.product.weight + "kg";
-        element.price = element.product.price * element.quantity + "€";
+        element.price =
+          (element.product.price * element.quantity).toFixed(2) + "€";
         element.category = element.product.category;
-        element.productPrice = element.productPrice + "€";
+        element.productPrice = element.productPrice.toFixed(2) + "€";
       });
       return data;
     }
