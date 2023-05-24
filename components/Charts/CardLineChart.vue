@@ -1,6 +1,7 @@
 <template>
   <div
-    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700"
+    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
+    style="background-color: #333333"
   >
     <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
       <div class="flex flex-wrap items-center">
@@ -15,25 +16,62 @@
     <div class="p-4 flex-auto">
       <!-- Chart -->
       <div class="relative h-350-px">
-        <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+        <Line ref="linechart" :options="chartOptions" :data="chartData" />
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { Bar } from "vue-chartjs";
+import { Line } from "vue-chartjs";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
+
+Chart.defaults.color = "rgba(255,255,255,.7)";
+
 const props = defineProps({
   title: {
     type: String,
     required: true
+  },
+  labels: {
+    type: Array,
+    required: true
+  },
+  datasets: {
+    type: Array,
+    required: true
   }
 });
-const chartData = ref({
-  labels: ["January", "February", "March"],
-  datasets: [{ data: [40, 20, 12] }]
+
+const linechart = ref(null);
+
+const chartOptions = computed(() => {
+  return {
+    maintainAspectRatio: false,
+    responsive: true,
+    tension: 0.4,
+
+    plugins: {
+      legend: {
+        labels: {
+          color: "rgb(255, 255, 255)"
+        },
+        align: "end",
+        position: "bottom"
+      },
+      tooltip: {
+        mode: "index",
+        intersect: false
+      }
+    }
+  };
 });
 
-const chartOptions = ref({
-  responsive: true
+const chartData = computed(() => {
+  return {
+    labels: props.labels,
+    datasets: props.datasets
+  };
 });
 </script>
