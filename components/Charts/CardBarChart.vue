@@ -48,30 +48,30 @@ const defaultDatasets = ref([
     label: "DPD",
     backgroundColor: "#e30613",
     data: [
-      { x: "Porto", y: 12 },
-      { x: "Lisboa", y: -2 },
-      { x: "Coimbra", y: 13 },
-      { x: "Amarante", y: 3 },
-      { x: "Viseu", y: -4 }
+      { x: "Fátima", y: 12 },
+      { x: "Seia", y: -2 },
+      { x: "Esposende", y: 13 },
+      { x: "Viseu", y: 3 },
+      { x: "Bragança", y: -4 }
     ]
   },
   {
     label: "CTT",
     backgroundColor: "#4c51bf",
     data: [
-      { x: "Porto", y: 11 },
-      { x: "Lisboa", y: -4 },
-      { x: "Coimbra", y: 12 },
-      { x: "Amarante", y: 8 }
+      { x: "Fátima", y: 11 },
+      { x: "Seia", y: -4 },
+      { x: "Esposende", y: 12 },
+      { x: "Viseu", y: 8 }
     ]
   },
   {
     label: "NACEX",
     backgroundColor: "#808080",
     data: [
-      { x: "Lisboa", y: 1 },
-      { x: "Coimbra", y: 12 },
-      { x: "Amarante", y: 10 },
+      { x: "Fátima", y: 1 },
+      { x: "Seia", y: 12 },
+      { x: "Esposende", y: 10 },
       { x: "Viseu", y: -1 }
     ]
   },
@@ -79,10 +79,10 @@ const defaultDatasets = ref([
     label: "DHL",
     backgroundColor: "#fca510",
     data: [
-      { x: "Porto", y: 11 },
-      { x: "Lisboa", y: 2 },
-      { x: "Coimbra", y: 3 },
-      { x: "Amarante", y: 8 }
+      { x: "Fátima", y: 11 },
+      { x: "Seia", y: 2 },
+      { x: "Esposende", y: 3 },
+      { x: "Viseu", y: 8 }
     ]
   }
 ]);
