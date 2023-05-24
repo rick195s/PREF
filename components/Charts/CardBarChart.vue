@@ -36,55 +36,87 @@ import {
 Chart.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const props = defineProps({
-  title: {
+  selectedCarrier: {
     type: String,
-    required: true
+    required: false,
+    default: null
   }
 });
-const chartData = ref({
-  datasets: [
-    {
-      label: "DPD",
-      backgroundColor: "#e30613",
-      data: [
-        { x: "Porto", y: 12 },
-        { x: "Lisboa", y: -2 },
-        { x: "Coimbra", y: 13 },
-        { x: "Amarante", y: 3 },
-        { x: "Viseu", y: -4 }
-      ]
-    },
-    {
-      label: "CTT",
-      backgroundColor: "#4c51bf",
-      data: [
-        { x: "Porto", y: 11 },
-        { x: "Lisboa", y: -4 },
-        { x: "Coimbra", y: 12 },
-        { x: "Amarante", y: 8 }
-      ]
-    },
-    {
-      label: "NACEX",
-      backgroundColor: "#808080",
-      data: [
-        { x: "Lisboa", y: 1 },
-        { x: "Coimbra", y: 12 },
-        { x: "Amarante", y: 10 },
-        { x: "Viseu", y: -1 }
-      ]
-    },
-    {
-      label: "DHL",
-      backgroundColor: "#fca510",
-      data: [
-        { x: "Porto", y: 11 },
-        { x: "Lisboa", y: 2 },
-        { x: "Coimbra", y: 3 },
-        { x: "Amarante", y: 8 }
-      ]
+
+const defaultDatasets = ref([
+  {
+    label: "DPD",
+    backgroundColor: "#e30613",
+    data: [
+      { x: "Porto", y: 12 },
+      { x: "Lisboa", y: -2 },
+      { x: "Coimbra", y: 13 },
+      { x: "Amarante", y: 3 },
+      { x: "Viseu", y: -4 }
+    ]
+  },
+  {
+    label: "CTT",
+    backgroundColor: "#4c51bf",
+    data: [
+      { x: "Porto", y: 11 },
+      { x: "Lisboa", y: -4 },
+      { x: "Coimbra", y: 12 },
+      { x: "Amarante", y: 8 }
+    ]
+  },
+  {
+    label: "NACEX",
+    backgroundColor: "#808080",
+    data: [
+      { x: "Lisboa", y: 1 },
+      { x: "Coimbra", y: 12 },
+      { x: "Amarante", y: 10 },
+      { x: "Viseu", y: -1 }
+    ]
+  },
+  {
+    label: "DHL",
+    backgroundColor: "#fca510",
+    data: [
+      { x: "Porto", y: 11 },
+      { x: "Lisboa", y: 2 },
+      { x: "Coimbra", y: 3 },
+      { x: "Amarante", y: 8 }
+    ]
+  }
+]);
+
+watch(
+  () => props.selectedCarrier,
+  () => {
+    const datasets = [];
+
+    switch (props.selectedCarrier) {
+      case "DHL":
+        datasets.push(defaultDatasets.value[3]);
+        break;
+      case "DPD":
+        datasets.push(defaultDatasets.value[0]);
+        break;
+
+      case "CTT":
+        datasets.push(defaultDatasets.value[1]);
+        break;
+
+      case "NACEX":
+        datasets.push(defaultDatasets.value[2]);
+        break;
+      default:
+        datasets.push(...defaultDatasets.value);
+        break;
     }
-  ]
+    chartData.value = { datasets: datasets };
+  }
+);
+
+const chartData = ref({
+  datasets: defaultDatasets.value
 });
 
 const chartOptions = ref({
