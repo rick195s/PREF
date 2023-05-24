@@ -1,18 +1,33 @@
 <template>
-  <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+  <div
+    class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+  >
     <div class="rounded-t mb-0 px-4 py-3 border-0">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-          <h3 class="font-semibold text-base text-blueGray-700">Order Packages</h3>
+          <h3 class="font-semibold text-base text-blueGray-700">
+            Order Packages
+          </h3>
         </div>
       </div>
     </div>
-    <div class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100">
-      <div v-for="orderPackage in computedOrderPackages" :key="orderPackage.id" class="break-words bg-white mb-6 shadow-lg rounded mx-4">
+    <div
+      class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
+    >
+      <div
+        v-for="orderPackage in computedOrderPackages"
+        :key="orderPackage.id"
+        class="break-words bg-white mb-6 shadow-lg rounded mx-4"
+      >
         <div class="py-3 flex justify-between px-3">
           <span>{{ orderPackage.packageName }} - {{ orderPackage.id }}</span>
-          <label v-if="orderPackage.isSmart" class="checkbox-label">
-            <input type="checkbox" v-model="orderPackage.checkedComputed" class="checkbox-input" @change="updateSelectedCheckboxes(orderPackage)" />
+          <label v-if="orderPackage.hasObservations" class="checkbox-label">
+            <input
+              v-model="orderPackage.checkedComputed"
+              type="checkbox"
+              class="checkbox-input"
+              @change="updateSelectedCheckboxes(orderPackage)"
+            />
             <span class="checkbox-custom"></span>
           </label>
         </div>
@@ -22,8 +37,7 @@
 </template>
 
 <script setup>
-
-const emit = defineEmits(['order-package-selected']);
+const emit = defineEmits(["order-package-selected"]);
 
 const props = defineProps({
   orderPackages: {
@@ -33,10 +47,7 @@ const props = defineProps({
   }
 });
 
-const loading = ref(false);
-
 const computedOrderPackages = computed(() => {
-
   return props.orderPackages.map((orderPackage) => {
     return {
       ...orderPackage,
@@ -55,14 +66,12 @@ watch(computedOrderPackages, (newOrderPackages) => {
 });
 
 const updateSelectedCheckboxes = (orderPackage) => {
-  emit('order-package-selected', {
+  emit("order-package-selected", {
     checked: orderPackage.checkedComputed,
     packageId: orderPackage.id
   });
 };
-
 </script>
-
 
 <style scoped>
 .checkbox-label {
@@ -101,4 +110,3 @@ const updateSelectedCheckboxes = (orderPackage) => {
   transform: rotate(45deg);
 }
 </style>
-

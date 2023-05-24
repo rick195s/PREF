@@ -35,6 +35,15 @@ const updateSelectedPackages = (payload) => {
   }
 };
 
+const packageIds = ref([]);
+const urlPackagesHasObservations = computed(() => {
+  let newUrl = `/api/observations/packages-has-observations`;
+  if (packageIds.value.length > 0) {
+    newUrl += `?id=${packageIds.value.join("&id=")}`;
+  }
+  return newUrl;
+});
+
 const { data: orderData, pending } = await useLazyAsyncData(
   "orderData",
   () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
@@ -57,19 +66,42 @@ const { data: orderData, pending } = await useLazyAsyncData(
           element.category = item.product.category;
           //adicionar array orderLineProductPackages to product
           item.product.orderLineProductPackages = item.orderLineProductPackages;
+          item.product.orderLineProductPackages.forEach((productPackage) => {
+            packageIds.value.push(productPackage.id);
+            productPackage.hasObservations = false;
+          });
         });
       });
       data.orderPackages.forEach((element) => {
+        packageIds.value.push(element.id);
+        element.hasObservations = true;
+
         data.orderPackageTypes.forEach((item) => {
           if (item.id === element.simplePackageTypeId) {
             element.packageName = item.name;
-            element.isSmart = item.smart
+            element.isSmart = item.smart;
           }
         });
       });
+
+      $fetch(urlPackagesHasObservations.value, {}).then(
+        (packageIdsWithObservations) => {
+          data.orderLines.forEach((element) => {
+            element.orderLineProductRelation.forEach((item) => {
+              item.product.orderLineProductPackages.forEach(
+                (productPackage) => {
+                  if (packageIdsWithObservations.includes(productPackage.id)) {
+                    productPackage.hasObservations = true;
+                  }
+                }
+              );
+            });
+          });
+        }
+      );
+
       return data;
     }
   }
 );
-
 </script>
