@@ -171,7 +171,7 @@ public class ConfigBean {
 
     private void createObservations() {
         Faker faker = new Faker();
-        String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
+        String details = "{\"custom_column\": \"value1\"}";
 
         createOrderPackageObservations(faker, details);
         createProductPackageObservations(faker, details);
@@ -271,7 +271,9 @@ public class ConfigBean {
     }
 
     private void createOrders() {
-        Faker faker = new Faker();
+        Faker faker = new Faker(new Locale("pt-PT"));
+        List<String> carriers = new ArrayList<>(List.of("DHL", "CTT", "DPD", "NACEX"));
+        List<String> sources = new ArrayList<>(List.of("Porto", "Coimbra", "Lisboa"));
 
         int minProductsPerOrder = 5;
         int maxProductsPerOrder = 20;
@@ -285,13 +287,15 @@ public class ConfigBean {
             for (long j = 0; j < faker.random().nextInt(minProductsPerOrder, maxProductsPerOrder); j++) {
                 productsQuantities.put(j+1, faker.random().nextInt(minProductQuantity, maxProductQuantity));
             }
+
+
             orderBean.create(
                     faker.date().past(100, TimeUnit.DAYS).toString(),
                     productsQuantities,
+                    sources.get(faker.random().nextInt(0, sources.size()-1)),
                     faker.address().cityName(),
-                    faker.address().cityName(),
-                    faker.company().name(),
-                    List.of("air", "ground"));
+                    carriers.get(faker.random().nextInt(0, carriers.size()-1)),
+                    List.of("air", "ground").subList(0, faker.random().nextInt(1, 2)));
 
             System.out.println("Order "+i+" created");
         }

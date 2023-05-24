@@ -30,6 +30,7 @@ public class Observation implements Serializable {
     private long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private PhenomenonType phenomenonType;
 
     @NotNull
