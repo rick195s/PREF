@@ -46,17 +46,17 @@ public class ObservationService {
         }
 
         // Sorting
-        String sortField = pageRequest.getSortField();
+       /* String sortField = pageRequest.getSortField();
         String sortDirection = pageRequest.getSortDirection();
         if (sortField == null) {
             sortField = "date";
             sortDirection = "asc";
         }
 
-        boolean isAscending = sortDirection.equalsIgnoreCase("asc");
-        observations = observationBean.getAllObservations(pageRequest.getOffset(), pageRequest.getLimit(), sortField, isAscending,
+        boolean isAscending = sortDirection.equalsIgnoreCase("asc");*/
+        observations = observationBean.getAllObservations(pageRequest.getOffset(), pageRequest.getLimit()/*, sortField, isAscending,
                 pageRequest.getSearchDate(), pageRequest.getSearchObservablePackage(), pageRequest.getSearchObserver(),
-                pageRequest.getSearchPhenomenon(), pageRequest.getSearchValue());
+                pageRequest.getSearchPhenomenon(), pageRequest.getSearchValue()*/);
 
         if (observations == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
