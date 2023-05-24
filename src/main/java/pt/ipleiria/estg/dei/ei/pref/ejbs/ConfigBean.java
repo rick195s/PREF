@@ -171,7 +171,7 @@ public class ConfigBean {
 
     private void createObservations() {
         Faker faker = new Faker();
-        String details = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
+        String details = "{\"custom_column\": \"value1\"}";
 
         createOrderPackageObservations(faker, details);
         createProductPackageObservations(faker, details);
@@ -288,14 +288,12 @@ public class ConfigBean {
                 productsQuantities.put(j+1, faker.random().nextInt(minProductQuantity, maxProductQuantity));
             }
 
-            String address = faker.address().cityName();
-            address = address.substring(0, address.lastIndexOf(","));
 
             orderBean.create(
                     faker.date().past(100, TimeUnit.DAYS).toString(),
                     productsQuantities,
                     sources.get(faker.random().nextInt(0, sources.size()-1)),
-                    address,
+                    faker.address().cityName(),
                     carriers.get(faker.random().nextInt(0, carriers.size()-1)),
                     List.of("air", "ground").subList(0, faker.random().nextInt(1, 2)));
 
