@@ -21,7 +21,7 @@ public class MeasurementObservation extends Observation implements Serializable 
     public MeasurementObservation() {
     }
     public MeasurementObservation(PhenomenonType phenomenonType, Observer observer, String date, String details, ObservablePackage<SimplePackageType> observablePackage, Quantity quantity) {
-        super(phenomenonType, observer, date, details, observablePackage);
+        super(phenomenonType, observer, date, details, observablePackage, String.valueOf(quantity.getValue()));
         this.quantity = quantity;
     }
 

@@ -15,7 +15,7 @@ public class CategoryObservationDTO extends ObservationDTO implements Serializab
     }
 
     public CategoryObservationDTO(long id, PhenomenonType phenomenonType, long observerId, String date, String details, long observablePackageId, String category) {
-        super(id, phenomenonType, observerId, date, details, observablePackageId);
+        super(id, phenomenonType, observerId, date, details, observablePackageId, category);
         this.category = category;
     }
 
