@@ -72,12 +72,24 @@ public class OrderBean {
         return order;
     }
 
-    public List<Order> getAllOrders(int offset, int limit) {
-        List<Order> orders = (List<Order>) entityManager.createNamedQuery("getAllOrders")
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
+    public List<Order> getAllOrders(int offset, int limit, String carrier) {
+        List<Order> orders = null;
 
+        System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+        if (carrier != null && !carrier.isEmpty()) {
+            System.out.println("DUVIDOOOOOOOOOOOOOOOOOOOOOOOOOOOSOOOOOOOOOOOOOOOO?");
+            orders = (List<Order>) entityManager.createNamedQuery("getAllOrdersByCarrier")
+                    .setParameter("carrier", carrier)
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .getResultList();
+        }else {
+             orders = (List<Order>) entityManager.createNamedQuery("getAllOrders")
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .getResultList();
+        }
+        System.out.println("AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII?");
         for (Order order : orders) {
             initializeOrder(order);
         }
@@ -98,8 +110,14 @@ public class OrderBean {
         }
     }
 
-    public Long count() {
-        return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
+    public Long count(String carrier) {
+        if (carrier != null && !carrier.isEmpty()) {
+            return entityManager.createQuery("SELECT COUNT(*) FROM Order o WHERE o.carrier = :carrier", Long.class)
+                .setParameter("carrier", carrier)
+                .getSingleResult();
+
+        }
+            return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
     }
 
     public Order packOrder(long trackingNumber) {
@@ -117,5 +135,9 @@ public class OrderBean {
         order.setState(OrderState.PACKED);
 
         return order;
+    }
+
+    public Object getCarriers() {
+        return entityManager.createNamedQuery("getCarriers").getResultList();
     }
 }

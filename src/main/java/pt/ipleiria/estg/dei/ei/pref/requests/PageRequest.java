@@ -23,11 +23,8 @@ public class PageRequest {
     @Max(50)
     private int limit;
 
-    @QueryParam("sort")
-    private String sort;
-
-    @QueryParam("search")
-    private String search;
+    @QueryParam("carrier")
+    private String carrier;
 
     public int getOffset() {
         return offset;
@@ -45,144 +42,16 @@ public class PageRequest {
         this.limit = limit;
     }
 
-    public String getSort() {
-        return sort;
+    //for get all orders
+
+    public String getCarrier() {
+    	return carrier;
     }
-
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setCarrier(String carrier) {
+    	this.carrier = carrier;
     }
-
-    public String getSortField() {
-        if (sort != null && !sort.isEmpty()) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode sortJson = objectMapper.readTree(sort);
-
-                // Extract the sort field
-                return sortJson.get("key").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSortDirection() {
-        if (sort != null && !sort.isEmpty()) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode sortJson = objectMapper.readTree(sort);
-
-                // Extract the sort direction
-                return sortJson.get("order").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearchDate() {
-        System.out.println(search);
-    	if (search != null && !search.isEmpty() && !search.equals("{}")) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode searchJson = objectMapper.readTree(search);
-
-                // Extract the sort direction
-                return searchJson.get("date").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearchObservablePackage() {
-    	if (search != null && !search.isEmpty() && !search.equals("{}")) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode searchJson = objectMapper.readTree(search);
-
-                // Extract the sort direction
-                return searchJson.get("observablePackage").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearchObserver() {
-    	if (search != null && !search.isEmpty() && !search.equals("{}")) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode searchJson = objectMapper.readTree(search);
-
-                // Extract the sort direction
-                return searchJson.get("observer").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearchPhenomenon() {
-    	if (search != null && !search.isEmpty() && !search.equals("{}")) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode searchJson = objectMapper.readTree(search);
-
-                // Extract the sort direction
-                return searchJson.get("phenomenonType").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearchValue() {
-    	if (search != null && !search.isEmpty() && !search.equals("{}")) {
-            try {
-                // Parse the sort parameter as JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode searchJson = objectMapper.readTree(search);
-
-                // Extract the sort direction
-                return searchJson.get("value").asText();
-            } catch (IOException e) {
-                // Handle JSON parsing exception
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String getSearch() {
-    	return search;
-    }
-
-    public void setSearch(String search) {
-    	this.search = search;
-    }
-
     @Override
     public String toString() {
-        return "PageRequest { offset: " + offset + ", limit:" + limit + ", sortBy:" + sort + ", search:" + search + " }";
+        return "PageRequest { offset: " + offset + ", limit:" + limit + ", carrier:" + carrier + " }";
     }
 }
