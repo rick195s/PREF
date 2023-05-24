@@ -10,6 +10,21 @@
             <i class="fas fa-chevron-left -ml-px"></i>
           </a>
         </li>
+        <li v-if="showFirstPageButton">
+          <a
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
+            @click="changePage(1)"
+          >
+            1
+          </a>
+        </li>
+        <li v-if="showFirstPageButton">
+          <a
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
+          >
+            ...
+          </a>
+        </li>
         <li v-for="page in pages()" :key="page" @click="changePage(page)">
           <a
             class="first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500"
@@ -22,7 +37,21 @@
             {{ page }}
           </a>
         </li>
-
+        <li v-if="showLastDots">
+          <a
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
+          >
+            ...
+          </a>
+        </li>
+        <li v-if="showLastPageButton">
+          <a
+            class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
+            @click="changePage(props.total / props.perPage)"
+          >
+            {{ props.total / props.perPage }}
+          </a>
+        </li>
         <li>
           <a
             v-if="hasNext"
@@ -61,8 +90,8 @@ const hasNext = ref(null);
 
 const pages = () => {
   totalPages.value = Math.ceil(props.total / props.perPage);
-  hasPrev.value = props.currentPage != 1;
-  hasNext.value = props.currentPage != totalPages.value;
+  hasPrev.value = props.currentPage !== 1;
+  hasNext.value = props.currentPage !== totalPages.value;
 
   const pagesArray = [];
   let startPage = Math.max(1, props.currentPage - 2);
@@ -79,10 +108,29 @@ const pages = () => {
 };
 
 function changePage(page) {
-  if (page != props.currentPage) {
-    hasNext.value = page != totalPages.value;
-    hasPrev.value = page != 1;
+  if (page !== props.currentPage) {
+    if (page < 1) {
+      page = 1;
+    } else if (page > totalPages.value) {
+      page = totalPages.value;
+    }
+
+    hasNext.value = page !== totalPages.value;
+    hasPrev.value = page !== 1;
     emit("changePage", page);
   }
 }
+
+const showFirstPageButton = computed(() => {
+  return totalPages.value && totalPages.value > 5 && props.currentPage > 3;
+});
+
+const showLastPageButton = computed(() => {
+  return totalPages.value !== null && totalPages.value > 5 && props.currentPage < totalPages.value - 2;
+});
+
+const showLastDots = computed(() => {
+  return totalPages.value !== null && totalPages.value > 5 && props.currentPage < totalPages.value - 3;
+});
+
 </script>
