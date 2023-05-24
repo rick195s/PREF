@@ -1,7 +1,7 @@
 <template>
   <v-data-table-server
     v-model:per-page="perPage"
-    :search="search"
+    :search="search.value"
     :headers="headers"
     :items-length="observations?.metadata.totalCount"
     :items="observations?.data"
@@ -9,7 +9,43 @@
     class="elevation-1"
     item-value="date"
     @update:options="loadItems"
-  ></v-data-table-server>
+  >
+    <template v-slot:tfoot>
+      <tr>
+        <td>
+          <v-text-field v-model="date" hide-details label="Search Date" class="ma-2"
+                        density="compact" type="date" variant="solo-inverted"></v-text-field>
+        </td>
+        <td>
+          <v-text-field v-model="observablePackage"
+                        type="number" hide-details label="Search Observable Package" class="ma-2"
+                        density="compact" variant="solo-inverted"></v-text-field>
+        </td>
+        <td>
+          <v-text-field v-model="observer" hide-details label="Search Observer"
+                        type="number"
+                        density="compact" variant="solo-inverted"></v-text-field>
+        </td>
+        <td v-if="phenomenonTypes">
+          <v-combobox
+            label="Select Phenomenon Type"
+            hide-details
+            class="ma-2"
+            v-model="selectedComboBox"
+            :items="phenomenonTypes"
+            :value="selectedComboBox"
+            density="compact"
+            variant="solo-inverted"
+          ></v-combobox>
+        </td>
+        <td v-if="selectedComboBox.length > 0">
+          <v-text-field v-model="value" hide-details label="Search Value" class="ma-2"
+                        density="compact" variant="solo-inverted"></v-text-field>
+        </td>
+      </tr>
+    </template>
+
+  </v-data-table-server>
 </template>
 
 
@@ -18,8 +54,16 @@ const offset = ref(0);
 const perPage = ref(10);
 const sortedBy = ref([]);
 
+const date = ref("");
+const observer = ref("");
+const observablePackage = ref("");
+const phenomenonType = ref("");
+const value = ref("");
+const selected = ref([]);
+const selectedComboBox = ref([]);
+
 const loading = ref(true);
-const search = ref("");
+const search = ref({});
 
 const headers = ref([
   {
@@ -39,6 +83,15 @@ const headers = ref([
   }
 ]);
 
+watch([date, observablePackage, observer, selectedComboBox, value], () => {
+  attributeValueToSearch();
+});
+
+const { data: phenomenonTypes } = await useLazyAsyncData(
+  "phenomenonTypes",
+  () => $fetch(`/api/observations/phenomenonTypes`)
+);
+
 const { data: observations, pending } = await useLazyAsyncData(
   "observations",
   () =>
@@ -47,12 +100,12 @@ const { data: observations, pending } = await useLazyAsyncData(
         offset: offset.value,
         limit: perPage.value,
         sort: sortedBy.value,
+        search: search.value
       }
     }),
   {
     server: false,
     transform: (data) => {
-      console.log("DATA",data);
       data.data.forEach((element) => {
         element.date =
           new Date(element.date).toLocaleDateString("pt-pt") +
@@ -70,14 +123,14 @@ const { data: observations, pending } = await useLazyAsyncData(
         element[element.phenomenonType] = element.quantity ?? element.category;
 
         if (element.phenomenonType && !headers.value.some((k) => k.key === element.phenomenonType)) {
-          if (element.category){
+          if (element.category) {
             headers.value.push({
               title: element.phenomenonType,
               align: "end",
               sortable: false,
               key: element.phenomenonType
             });
-          }else {
+          } else {
             headers.value.push({
               title: element.phenomenonType,
               align: "end",
@@ -102,7 +155,7 @@ const { data: observations, pending } = await useLazyAsyncData(
       });
 
       headers.value = headers.value.filter((column) => {
-        if (column.key === "date" || column.key === "observablePackageId" || column.key === "observerId") {
+        if (column.key === "date" || column.key === "observablePackage" || column.key === "observer") {
           return true;
         }
         return data.data.some((element) => element[column.key] !== undefined);
@@ -110,16 +163,19 @@ const { data: observations, pending } = await useLazyAsyncData(
 
       return data;
     },
-    watch: [offset, perPage, sortedBy]
+    watch: [offset, perPage, sortedBy, search]
   }
 );
+
+const attributeValueToSearch = () => {
+  search.value = { date: date.value, observablePackage: observablePackage.value, observer: observer.value, phenomenonType: selectedComboBox.value, value: value.value };
+};
+
 const loadItems = ({ page, itemsPerPage, sortBy }) => {
   loading.value = true;
   offset.value = (page - 1) * itemsPerPage;
   perPage.value = itemsPerPage;
-  if (sortBy.length !== 0) {
-    sortedBy.value = sortBy;
-  }
+  sortedBy.value = sortBy;
   loading.value = false;
 };
 
