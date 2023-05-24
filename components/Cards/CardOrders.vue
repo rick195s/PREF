@@ -1,19 +1,18 @@
 <template>
   <TableComponent
-  :data="orders?.data"
-  :per-page="perPage"
-  :loading="pending"
-  :total="orders?.metadata.totalCount"
-  :current-page="currentPage"
-  :keys="keys"
-  :carriers="carrierOptions"
-  title="Orders"
-  paginated
-  :update-carrier="updateCarrier"
-  @change-page="offset = ($event - 1) * perPage"
+    :data="orders?.data"
+    :per-page="perPage"
+    :loading="pending"
+    :total="orders?.metadata.totalCount"
+    :current-page="currentPage"
+    :keys="keys"
+    :carriers="carrierOptions"
+    title="Orders"
+    paginated
+    :update-carrier="updateCarrier"
+    @change-page="offset = ($event - 1) * perPage"
   >
   </TableComponent>
-
 </template>
 
 <script setup>
@@ -26,7 +25,6 @@ const currentPage = computed(() =>
 );
 
 const carrierFilter = ref("");
-const carrierOptions = ref([]);
 
 const keys = [
   {
@@ -43,7 +41,7 @@ const keys = [
   },
   {
     key: "carrier",
-    label: "Carrier",
+    label: "Carrier"
   },
   {
     key: "temperatureMax",
@@ -67,17 +65,15 @@ const keys = [
   }
 ];
 
-const fetchCarrierOptions = async () => {
-  try {
-    const response = await fetch('/api/orders/carriers');
-    const data = await response.json();
-    carrierOptions.value = data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+const emit = defineEmits(["selectedCarrier"]);
 
-fetchCarrierOptions();
+const { data: carrierOptions } = await useLazyAsyncData(
+  "orderCarriers",
+  () => $fetch("/api/orders/carriers", {}),
+  {
+    server: false
+  }
+);
 
 const { data: orders, pending } = await useLazyAsyncData(
   "orders",
@@ -92,7 +88,7 @@ const { data: orders, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
-      console.log("DATA",data);
+      console.log("DATA", data);
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";
         element.orderDate =
@@ -106,7 +102,7 @@ const { data: orders, pending } = await useLazyAsyncData(
         //randomize max temperature
         element.temperatureMax = Math.random() * (21 - 5) + 5;
         //randomize min temperature
-        element.temperatureMin = Math.random() * (5 - (-20)) + (-20);
+        element.temperatureMin = Math.random() * (5 - -20) + -20;
         element.temperatureMin = element.temperatureMin.toFixed(2) + "ºC";
         element.temperatureMax = element.temperatureMax.toFixed(2) + "ºC";
         element.actions = [
@@ -129,6 +125,6 @@ const { data: orders, pending } = await useLazyAsyncData(
 
 function updateCarrier(item) {
   carrierFilter.value = item;
+  emit("selectedCarrier", item);
 }
-
 </script>
