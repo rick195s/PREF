@@ -46,10 +46,6 @@ public class ObservationBean {
             throw new EntityNotFoundException("Observable Package not found");
         }
 
-        if(!observablePackage.getSimplePackageType().isSmart()){
-            throw new IllegalArgumentException("Package is not smart");
-        }
-
         // validate json
         try {
             ObjectMapper mapper = new ObjectMapper();
