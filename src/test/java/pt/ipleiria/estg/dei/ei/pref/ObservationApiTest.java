@@ -82,5 +82,22 @@ public class ObservationApiTest {
         }
     }
 
+    @Test
+    public void testGetPackagesHasObservations() throws IOException {
+        Request request = new Request.Builder()
+                .url(baseUrl + "observations/packages-has-observations/?id=1&id=28")
+                .addHeader("Accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("Request URL: " + request.url());
+            System.out.println("Response Body:");
+            if (response.body() != null) {
+                printJsonResponse(response.body().string());
+            }
+            assertEquals(200, response.code());
+        }
+    }
+
 
 }

@@ -99,6 +99,14 @@ public class ObservationService {
         return Response.ok(results).build();
     }
 
+    @GET
+    @Path("/packages-has-observations/")
+    public Response getPackagesHasObservations(@QueryParam("id") List<Long> observablePackagesIds) {
+        // the id of packages with observations will be returned
+        // used to check if a package has observations
+        return Response.ok(observationBean.packagesHasObservations(observablePackagesIds)).build();
+    }
+
     @POST
     @Path("/")
     public Response createObservation(ObservationDTO observationDTO) {

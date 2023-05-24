@@ -60,7 +60,7 @@ public class ConfigBean {
     @EJB
     OrderLineProductPackageBean orderLineProductPackageBean;
 
-    @PostConstruct
+    //@PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
@@ -184,7 +184,7 @@ public class ConfigBean {
         List<Observation> observations = new ArrayList<>();
         int i = 0;
 
-        List<OrderPackage> orderPackages =  orderPackageBean.getAllSmartOrderPackages();
+        List<OrderPackage> orderPackages =  orderPackageBean.getAllOrderPackages();
         int totalObser = 0 ;
         for (OrderPackage orderPackage : orderPackages) {
 
@@ -227,7 +227,7 @@ public class ConfigBean {
 
         int i1 = 0;
         List<Observation> observations = new ArrayList<>();
-        List<OrderLineProductPackage> orderLineProductPackages =  orderLineProductPackageBean.getAllSmartProductPackages(500);
+        List<OrderLineProductPackage> orderLineProductPackages =  orderLineProductPackageBean.getAllProductPackages(500);
         int totalObser= 0 ;
         for (OrderLineProductPackage productPackage : orderLineProductPackages) {
             Timestamp date = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(productPackage.getOrderLineProductRelation().getOrderLine().getOrder().getDate()));
