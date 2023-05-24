@@ -24,21 +24,24 @@ const props = defineProps({
 });
 
 // Define the initial keys
-const keys = ref([
-  {
-    key: "date",
-    label: "Date"
-  },
-  {
-    key: "observablePackageId",
-    label: "Observable Package ID"
-  },
-  {
-    key: "observerId",
-    label: "Observer ID"
-  }
-]);
+const keys = ref([]);
 
+const setDefaultKeys = () => {
+  keys.value = [
+    {
+      key: "date",
+      label: "Date"
+    },
+    {
+      key: "observablePackageId",
+      label: "Observable Package ID"
+    },
+    {
+      key: "observerId",
+      label: "Observer ID"
+    }
+  ];
+};
 const url = computed(() => {
   let newUrl = `/api/observations/package`;
   if (props.selectedPackages.length > 0) {
@@ -56,6 +59,7 @@ const { data: observations, pending } = await useLazyAsyncData(
   },
   {
     transform: (data) => {
+      setDefaultKeys();
       // Sort the observations by date in descending order (most recent date appears first)
       data = data.flat().sort((a, b) => new Date(b.date) - new Date(a.date));
 
