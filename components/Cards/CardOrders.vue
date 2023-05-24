@@ -46,6 +46,14 @@ const keys = [
     label: "Carrier",
   },
   {
+    key: "temperatureMax",
+    label: "Temperature Max"
+  },
+  {
+    key: "temperatureMin",
+    label: "Temperature Min"
+  },
+  {
     key: "source",
     label: "Source"
   },
@@ -69,7 +77,7 @@ const fetchCarrierOptions = async () => {
   }
 };
 
-fetchCarrierOptions(); // Busca dos carriers
+fetchCarrierOptions();
 
 const { data: orders, pending } = await useLazyAsyncData(
   "orders",
@@ -84,6 +92,7 @@ const { data: orders, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
+      console.log("DATA",data);
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";
         element.orderDate =
@@ -94,6 +103,12 @@ const { data: orders, pending } = await useLazyAsyncData(
             hour: "numeric",
             minute: "numeric"
           });
+        //randomize max temperature
+        element.temperatureMax = Math.random() * (21 - 5) + 5;
+        //randomize min temperature
+        element.temperatureMin = Math.random() * (5 - (-20)) + (-20);
+        element.temperatureMin = element.temperatureMin.toFixed(2) + "ºC";
+        element.temperatureMax = element.temperatureMax.toFixed(2) + "ºC";
         element.actions = [
           {
             to: `/orders/${element.trackingNumber}`,
