@@ -1,16 +1,21 @@
 <template>
   <TableComponent
-    :data="orders?.data"
-    :per-page="perPage"
-    :loading="pending"
-    :total="orders?.metadata.totalCount"
-    :current-page="currentPage"
-    :keys="keys"
-    title="Orders"
-    paginated
-    @change-page="offset = ($event - 1) * perPage"
-  ></TableComponent>
+  :data="orders?.data"
+  :per-page="perPage"
+  :loading="pending"
+  :total="orders?.metadata.totalCount"
+  :current-page="currentPage"
+  :keys="keys"
+  :carriers="carrierOptions"
+  title="Orders"
+  paginated
+  :update-carrier="updateCarrier"
+  @change-page="offset = ($event - 1) * perPage"
+  >
+  </TableComponent>
+
 </template>
+
 <script setup>
 import TableComponent from "@/components/Tables/TableComponent.vue";
 
@@ -19,6 +24,9 @@ const perPage = ref(10);
 const currentPage = computed(() =>
   offset.value == 0 ? 1 : offset.value / perPage.value + 1
 );
+
+const carrierFilter = ref("");
+const carrierOptions = ref([]);
 
 const keys = [
   {
@@ -35,7 +43,7 @@ const keys = [
   },
   {
     key: "carrier",
-    label: "Carrier"
+    label: "Carrier",
   },
   {
     key: "source",
@@ -51,13 +59,26 @@ const keys = [
   }
 ];
 
+const fetchCarrierOptions = async () => {
+  try {
+    const response = await fetch('/api/orders/carriers');
+    const data = await response.json();
+    carrierOptions.value = data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+fetchCarrierOptions(); // Busca dos carriers
+
 const { data: orders, pending } = await useLazyAsyncData(
   "orders",
   () =>
     $fetch(`/api/orders`, {
       params: {
         offset: offset.value,
-        limit: perPage.value
+        limit: perPage.value,
+        carrier: carrierFilter.value
       }
     }),
   {
@@ -82,13 +103,17 @@ const { data: orders, pending } = await useLazyAsyncData(
             to: `/orders/history/${element.trackingNumber}`,
             icon: "fa-regular fa-file-alt"
           }
-
         ];
       });
 
       return data;
     },
-    watch: [offset, perPage]
+    watch: [offset, perPage, carrierFilter]
   }
 );
+
+function updateCarrier(item) {
+  carrierFilter.value = item;
+}
+
 </script>
