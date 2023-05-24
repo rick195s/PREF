@@ -163,6 +163,11 @@ const pages = ref([
     name: "Create Product",
     route: "/products/create",
     icon: "fas fa-circle-plus"
+  },
+  {
+    name: "Observations",
+    route: "/observations/observations",
+    icon: "fas fa-eye"
   }
 ]);
 </script>
