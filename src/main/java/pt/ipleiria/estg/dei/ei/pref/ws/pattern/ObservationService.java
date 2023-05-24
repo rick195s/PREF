@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.pref.ejbs.pattern.ObservationBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.CategoryObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.MeasurementObservation;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observation;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
@@ -47,16 +48,16 @@ public class ObservationService {
         // Sorting
         String sortField = pageRequest.getSortField();
         String sortDirection = pageRequest.getSortDirection();
-        System.out.println("SORT FIELD: " + sortField);
-        System.out.println("SORT DIRECTION: " + pageRequest.getSort());
         if (sortField == null) {
             sortField = "date";
             sortDirection = "asc";
         }
 
-            boolean isAscending = sortDirection.equalsIgnoreCase("asc");
+        boolean isAscending = sortDirection.equalsIgnoreCase("asc");
+        observations = observationBean.getAllObservations(pageRequest.getOffset(), pageRequest.getLimit(), sortField, isAscending,
+                pageRequest.getSearchDate(), pageRequest.getSearchObservablePackage(), pageRequest.getSearchObserver(),
+                pageRequest.getSearchPhenomenon(), pageRequest.getSearchValue());
 
-        observations = observationBean.getAllObservations(pageRequest.getOffset(), pageRequest.getLimit(), sortField, isAscending);
         if (observations == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -64,6 +65,7 @@ public class ObservationService {
         if (observations.isEmpty()) {
             count = 0L;
         }
+
         List<ObservationDTO> convertedObservations = new ArrayList<>();
 
         for (Observation observation : observations) {
@@ -115,6 +117,16 @@ public class ObservationService {
         }
 
         return Response.status(Response.Status.CREATED).entity(MeasurementObservationDTO.from((MeasurementObservation) observation)).build();
+    }
+
+    @GET
+    @Path("/phenomenonTypes")
+    public Response getPhenomenonTypes() {
+        List<String> phenomenonTypes = new LinkedList<>();
+        for (PhenomenonType phenomenonType : PhenomenonType.values()) {
+            phenomenonTypes.add(phenomenonType.name());
+        }
+        return Response.ok(phenomenonTypes).build();
     }
 
 }
