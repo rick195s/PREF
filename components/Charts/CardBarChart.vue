@@ -48,7 +48,7 @@ const defaultDatasets = ref([
     label: "DPD",
     backgroundColor: "#e30613",
     data: [
-      { x: "Fátima", y: 12 },
+      { x: "Fátima", y: 8 },
       { x: "Seia", y: -2 },
       { x: "Esposende", y: 13 },
       { x: "Viseu", y: 3 },
@@ -59,7 +59,7 @@ const defaultDatasets = ref([
     label: "CTT",
     backgroundColor: "#4c51bf",
     data: [
-      { x: "Fátima", y: 11 },
+      { x: "Fátima", y: 7 },
       { x: "Seia", y: -4 },
       { x: "Esposende", y: 12 },
       { x: "Viseu", y: 8 }
@@ -69,17 +69,18 @@ const defaultDatasets = ref([
     label: "NACEX",
     backgroundColor: "#808080",
     data: [
-      { x: "Fátima", y: 1 },
-      { x: "Seia", y: 12 },
+      { x: "Fátima", y: 4 },
+      { x: "Seia", y: 1 },
       { x: "Esposende", y: 10 },
-      { x: "Viseu", y: -1 }
+      { x: "Viseu", y: 5 },
+      { x: "Bragança", y: -2 }
     ]
   },
   {
     label: "DHL",
     backgroundColor: "#fca510",
     data: [
-      { x: "Fátima", y: 11 },
+      { x: "Fátima", y: 9 },
       { x: "Seia", y: 2 },
       { x: "Esposende", y: 3 },
       { x: "Viseu", y: 8 }
