@@ -80,7 +80,6 @@ const createProduct = async (formData) => {
     newProduct.productPackages = selectedPackages.value.map(({ id }) => ({
       id: id
     }));
-    console.log(newProduct);
     loading.value = true;
     const { pending } = await useLazyAsyncData(
       "createProduct",
