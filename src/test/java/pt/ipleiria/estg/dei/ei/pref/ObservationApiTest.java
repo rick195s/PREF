@@ -84,10 +84,21 @@ public class ObservationApiTest {
 
     @Test
     public void testGetPackagesHasObservations() throws IOException {
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("ids", new int[]{1, 2});
+
+        String requestBodyJson = new ObjectMapper().writeValueAsString(requestBody);
+
+        // Create HTTP request
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBodyJson);
         Request request = new Request.Builder()
-                .url(baseUrl + "observations/packages-has-observations/?id=1&id=28")
+                .url(baseUrl + "observations/packages-has-observations/")
+                .post(body)
                 .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
                 .build();
+
 
         try (Response response = client.newCall(request).execute()) {
             System.out.println("Request URL: " + request.url());
