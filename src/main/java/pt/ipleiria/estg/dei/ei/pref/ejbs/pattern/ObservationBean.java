@@ -1,8 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs.pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
-import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.pattern.*;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
@@ -225,5 +223,11 @@ public class ObservationBean {
 
     public Long count() {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Observation.class.getSimpleName(), Long.class).getSingleResult();
+    }
+
+    public Object packagesHasObservations(List<Long> observablePackagesIds) {
+        return entityManager.createQuery("SELECT o.id FROM ObservablePackage o WHERE o.id IN :observablePackagesIds AND  o.observations IS NOT EMPTY")
+                .setParameter("observablePackagesIds", observablePackagesIds)
+                .getResultList();
     }
 }

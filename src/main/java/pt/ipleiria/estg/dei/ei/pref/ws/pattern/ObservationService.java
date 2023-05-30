@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ws.pattern;
 
 
+import okhttp3.RequestBody;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.CategoryObservationDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.pattern.MeasurementObservationDTO;
@@ -13,11 +14,17 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.PhenomenonType;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -97,6 +104,33 @@ public class ObservationService {
         }
 
         return Response.ok(results).build();
+    }
+
+    // post because the query string is too long
+    @POST
+    @Path("/packages-has-observations/")
+    public Response getPackagesHasObservations(String requestBody) {
+        // the id of packages with observations will be returned
+        // used to check if a package has observations
+
+        JsonReader reader = Json.createReader(new StringReader(requestBody));
+        JsonObject jsonObject = reader.readObject();
+
+        // get the ids of the packages
+        // {
+        //   "ids": [1,2]
+        //}
+
+        List<Long> observablePackagesIds = new ArrayList<>();
+        for (int i = 0; i < jsonObject.getJsonArray("ids").size(); i++) {
+            observablePackagesIds.add(jsonObject.getJsonArray("ids").getJsonNumber(i).longValue());
+        }
+
+        if (observablePackagesIds.isEmpty()) {
+            return Response.ok(new HashMap<>()).build();
+        }
+
+        return Response.ok(observationBean.packagesHasObservations(observablePackagesIds)).build();
     }
 
     @POST
