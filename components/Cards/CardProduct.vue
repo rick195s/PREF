@@ -96,7 +96,7 @@ const showSelectAllButton = computed(() => {
   // Check if one of the products is smart
   return props.product.products.some((product) => {
     return product.orderLineProductPackages.some((orderLineProductPackage) => {
-      return orderLineProductPackage.isSmart;
+      return orderLineProductPackage.hasObservations;
     });
   });
 });
