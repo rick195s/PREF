@@ -75,9 +75,7 @@ public class OrderBean {
     public List<Order> getAllOrders(int offset, int limit, String carrier) {
         List<Order> orders = null;
 
-        System.out.println("whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
         if (carrier != null && !carrier.isEmpty()) {
-            System.out.println("DUVIDOOOOOOOOOOOOOOOOOOOOOOOOOOOSOOOOOOOOOOOOOOOO?");
             orders = (List<Order>) entityManager.createNamedQuery("getAllOrdersByCarrier")
                     .setParameter("carrier", carrier)
                     .setFirstResult(offset)
@@ -89,7 +87,6 @@ public class OrderBean {
                     .setMaxResults(limit)
                     .getResultList();
         }
-        System.out.println("AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII?");
         for (Order order : orders) {
             initializeOrder(order);
         }

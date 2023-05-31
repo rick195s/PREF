@@ -60,7 +60,7 @@ public class ConfigBean {
     @EJB
     OrderLineProductPackageBean orderLineProductPackageBean;
 
-    //@PostConstruct
+    @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
