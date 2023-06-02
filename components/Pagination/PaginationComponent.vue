@@ -47,9 +47,9 @@
         <li v-if="showLastPageButton">
           <a
             class="cursor-pointer first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-red-500 bg-white text-red-500"
-            @click="changePage(props.total / props.perPage)"
+            @click="changePage(totalPages)"
           >
-            {{ props.total / props.perPage }}
+            {{ totalPages }}
           </a>
         </li>
         <li>
@@ -126,11 +126,18 @@ const showFirstPageButton = computed(() => {
 });
 
 const showLastPageButton = computed(() => {
-  return totalPages.value !== null && totalPages.value > 5 && props.currentPage < totalPages.value - 2;
+  return (
+    totalPages.value !== null &&
+    totalPages.value > 5 &&
+    props.currentPage < totalPages.value - 2
+  );
 });
 
 const showLastDots = computed(() => {
-  return totalPages.value !== null && totalPages.value > 5 && props.currentPage < totalPages.value - 3;
+  return (
+    totalPages.value !== null &&
+    totalPages.value > 5 &&
+    props.currentPage < totalPages.value - 3
+  );
 });
-
 </script>
