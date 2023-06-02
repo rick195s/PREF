@@ -35,7 +35,7 @@ public class OrderPackageTypeService {
     }
 
     @GET
-    @Path("/suggestPackage")
+    @Path("/suggest-package")
     public Response suggestPackage() {
         return Response.ok(OrderPackageTypeDTO.from(orderPackageTypeBean.suggestPackage())).build();
     }
