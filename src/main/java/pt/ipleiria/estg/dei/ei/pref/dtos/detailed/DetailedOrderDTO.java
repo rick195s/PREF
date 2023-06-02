@@ -11,28 +11,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DetailedOrderDTO implements Serializable {
-    private long trackingNumber;
+    private String id;
     private String orderDate;
     private List<OrderLineDTO> orderLines;
-    private String source;
-    private String destination;
-    private OrderState state;
     private float weight;
     private String carrier;
-    private List<String> shippingMethods;
+    private String shippingMethod;
     private List<OrderPackageDTO> orderPackages;
     private List<OrderPackageTypeDTO> orderPackageTypes;
 
-    public DetailedOrderDTO(long trackingNumber, String orderDate, List<OrderLineDTO> orderLines, String source, String destination, OrderState state, float weight, String carrier, List<String> shippingMethods, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes) {
-        this.trackingNumber = trackingNumber;
+    public DetailedOrderDTO(String id, String orderDate, List<OrderLineDTO> orderLines, float weight, String carrier, String shippingMethod, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes) {
+        this.id = id;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
-        this.source = source;
-        this.destination = destination;
-        this.state = state;
         this.weight = weight;
         this.carrier = carrier;
-        this.shippingMethods = shippingMethods;
+        this.shippingMethod = shippingMethod;
         this.orderPackages = orderPackages;
         this.orderPackageTypes = orderPackageTypes;
     }
@@ -40,12 +34,12 @@ public class DetailedOrderDTO implements Serializable {
     public DetailedOrderDTO() {
     }
 
-    public long getTrackingNumber() {
-        return trackingNumber;
+    public String getId() {
+        return id;
     }
 
-    public void setTrackingNumber(long trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrderDate() {
@@ -64,14 +58,6 @@ public class DetailedOrderDTO implements Serializable {
         this.orderLines = orderLines;
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
     public float getWeight() {
         return weight;
     }
@@ -88,28 +74,12 @@ public class DetailedOrderDTO implements Serializable {
         this.carrier = carrier;
     }
 
-    public List<String> getShippingMethods() {
-        return shippingMethods;
+    public String getShippingMethod() {
+        return shippingMethod;
     }
 
-    public void setShippingMethods(List<String> shippingMethods) {
-        this.shippingMethods = shippingMethods;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public OrderState getState() {
-        return state;
-    }
-
-    public void setState(OrderState state) {
-        this.state = state;
+    public void setShippingMethod(String shippingMethod) {
+        this.shippingMethod = shippingMethod;
     }
 
     public List<OrderPackageDTO> getOrderPackages() {
@@ -130,15 +100,12 @@ public class DetailedOrderDTO implements Serializable {
 
     public static DetailedOrderDTO from(Order order) {
         return new DetailedOrderDTO(
-                order.getTrackingNumber(),
+                order.getId(),
                 order.getDate(),
                 OrderLineDTO.from(order.getOrderLines()),
-                order.getSource(),
-                order.getDestination(),
-                order.getState(),
                 order.getWeight(),
                 order.getCarrier(),
-                order.getShippingMethods(),
+                order.getShippingMethod(),
                 order.getOrderPackages() != null ? OrderPackageDTO.fromOrderPackageList(order.getOrderPackages()) : null,
                 order.getOrderPackageTypes() != null ? OrderPackageTypeDTO.fromOrderPackageType(order.getOrderPackageTypes()) : null
         );

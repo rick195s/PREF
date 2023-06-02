@@ -37,13 +37,13 @@ public class OrderPackageBean {
         return entityManager.find(OrderPackage.class, id);
     }
 
-    public OrderPackage create(long orderPackageTypeId, long orderTrackingNumber) {
+    public OrderPackage create(long orderPackageTypeId, String orderId) {
         OrderPackageType orderPackageType = orderPackageTypeBean.findOrFail(orderPackageTypeId);
         if (orderPackageType == null) {
             throw new EntityNotFoundException("Order package type not found");
         }
 
-        Order order = orderBean.findOrFail(orderTrackingNumber);
+        Order order = orderBean.findOrFail(orderId);
         if (order == null) {
             throw new EntityNotFoundException("Order not found");
         }

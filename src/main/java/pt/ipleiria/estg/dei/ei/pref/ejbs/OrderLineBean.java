@@ -20,7 +20,7 @@ public class OrderLineBean {
     private EntityManager entityManager;
 
     public OrderLine create(int quantity, float productPrice, Product product, Order order) throws MyIllegalArgumentException, MyEntityNotFoundException {
-        OrderLine orderLine = new OrderLine(quantity, productPrice, order);
+        OrderLine orderLine = new OrderLine(quantity, productPrice, order, "");
         entityManager.persist(orderLine);
 
         Hibernate.initialize(product.getProductPackageRelations());

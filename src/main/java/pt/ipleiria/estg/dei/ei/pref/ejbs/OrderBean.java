@@ -1,15 +1,11 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import org.hibernate.Hibernate;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
-import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.SimplePackageTypeBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
@@ -40,7 +36,7 @@ public class OrderBean {
     @EJB
     private OrderPackageBean orderPackageBean;
 
-    public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, List<String> shippingMethods) throws MyIllegalArgumentException, MyEntityNotFoundException {
+    public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, String shippingMethod) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
         float weight = 0;
@@ -48,7 +44,7 @@ public class OrderBean {
             weight += product.getWeight() * productsQuantities.get(product.getId());
         }
 
-        Order order = new Order(date, source, destination, weight, carrier, shippingMethods, OrderState.PENDING);
+        Order order = new Order(date, weight, carrier, shippingMethod, "", "", "","", "", "", "", 1 );
 
         List<OrderLine> orderLines = products.stream().map(product ->
                 orderLineBean.create(productsQuantities.get(product.getId()), product.getPrice(), product, order)).collect(Collectors.toList());
@@ -65,8 +61,8 @@ public class OrderBean {
     }
 
 
-    public Order findOrFail(long trackingNumber) {
-        Order order = entityManager.getReference(Order.class, trackingNumber);
+    public Order findOrFail(String id) {
+        Order order = entityManager.getReference(Order.class, id);
         initializeOrder(order);
 
         return order;
@@ -95,7 +91,7 @@ public class OrderBean {
 
     private void initializeOrder(Order order) {
         Hibernate.initialize(order.getOrderLines());
-        Hibernate.initialize(order.getShippingMethods());
+        Hibernate.initialize(order.getShippingMethod());
         Hibernate.initialize(order.getOrderPackages());
 
         for (OrderLine orderLine : order.getOrderLines()) {
@@ -117,19 +113,16 @@ public class OrderBean {
             return entityManager.createQuery("SELECT COUNT(*) FROM " + Order.class.getSimpleName(), Long.class).getSingleResult();
     }
 
-    public Order packOrder(long trackingNumber) {
-        Order order = findOrFail(trackingNumber);
+    public Order packOrder(String id) {
+        Order order = findOrFail(id);
 
         if (order == null) {
             throw new EntityNotFoundException("Order not found");
         }
-        if (order.getState() == OrderState.PACKED) {
-            throw new IllegalArgumentException("Order is already packed");
-        }
+
         if (order.getOrderPackages().size() == 0) {
             throw new IllegalArgumentException("Order has no packages associated");
         }
-        order.setState(OrderState.PACKED);
 
         return order;
     }

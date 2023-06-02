@@ -22,7 +22,6 @@ import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -156,7 +155,7 @@ public class ConfigBean {
         for (Order order : orderBean.getAllOrders(0, 500, null)) {
             orderPackageBean.create(
                     allOrderPackageTypes.get(new Random().nextInt(max - min + 1) + min).getId(),
-                    order.getTrackingNumber()
+                    order.getId()
             );
             i++;
             System.out.println("Order package "+i+" created");
@@ -194,7 +193,6 @@ public class ConfigBean {
                 Timestamp date2 = faker.date().future(4, TimeUnit.DAYS, date1);
 
                 Order order = orderPackage.getOrder();
-                order.setState(OrderState.IN_TRANSIT);
 
                 observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date1.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
                 observations.add(new Observation(PhenomenonType.LOCATION, new Observer(1), date2.toString(), details, new OrderPackage(orderPackage.getId()), faker.address().cityName()));
@@ -233,7 +231,6 @@ public class ConfigBean {
             Timestamp date = faker.date().future(1, TimeUnit.DAYS, Timestamp.valueOf(productPackage.getOrderLineProductRelation().getOrderLine().getOrder().getDate()));
 
             Order order = productPackage.getOrderLineProductRelation().getOrderLine().getOrder();
-            order.setState(OrderState.IN_TRANSIT);
 
             for (int i = 0; i < faker.random().nextInt(5, 10); i++) {
 
@@ -295,7 +292,7 @@ public class ConfigBean {
                     sources.get(faker.random().nextInt(0, sources.size()-1)),
                     faker.address().cityName(),
                     carriers.get(faker.random().nextInt(0, carriers.size()-1)),
-                    List.of("air", "ground").subList(0, faker.random().nextInt(1, 2)));
+                    List.of("air", "ground").get(faker.random().nextInt(0, 1)));
 
             System.out.println("Order "+i+" created");
         }

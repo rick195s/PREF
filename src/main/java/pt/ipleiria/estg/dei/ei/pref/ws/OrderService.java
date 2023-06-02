@@ -8,14 +8,12 @@ import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.requests.PageRequest;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,8 +33,8 @@ public class OrderService {
 
     @GET
     @Path("/{trackingNumber}")
-    public Response get(@PathParam("trackingNumber") long trackingNumber) {
-        return Response.ok(DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber))).build();
+    public Response get(@PathParam("trackingNumber") String id) {
+        return Response.ok(DetailedOrderDTO.from(orderBean.findOrFail(id))).build();
     }
 
     @GET
@@ -75,27 +73,27 @@ public class OrderService {
             map.put(productQuantityDTO.getProductId(), productQuantityDTO.getQuantity());
         }
 
-        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethods());
+        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethod());
 
         return Response
-                .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getTrackingNumber())))
+                .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getId())))
                 .status(Response.Status.CREATED).build();
     }
 
     @PATCH
     @Path("/{trackingNumber}")
-    public Response associatePackageWithOrder(@PathParam("trackingNumber") long trackingNumber, OrderPackageTypeDTO orderPackageTypeDTO) {
-        orderPackageBean.create(orderPackageTypeDTO.getId(), trackingNumber);
+    public Response associatePackageWithOrder(@PathParam("trackingNumber") String orderId, OrderPackageTypeDTO orderPackageTypeDTO) {
+        orderPackageBean.create(orderPackageTypeDTO.getId(), orderId);
 
-        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(trackingNumber));
+        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(orderId));
 
         return Response.ok(detailedOrderDTO).build();
     }
 
     @PATCH
     @Path("/{trackingNumber}/pack")
-    public Response packOrder(@PathParam("trackingNumber") long trackingNumber) {
-        return Response.ok(DetailedOrderDTO.from(orderBean.packOrder(trackingNumber))).build();
+    public Response packOrder(@PathParam("trackingNumber") String id) {
+        return Response.ok(DetailedOrderDTO.from(orderBean.packOrder(id))).build();
     }
 
     @GET

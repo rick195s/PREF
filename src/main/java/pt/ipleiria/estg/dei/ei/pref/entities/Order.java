@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
@@ -31,58 +32,70 @@ public class Order {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tracking_number")
-    private long trackingNumber;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name="id")
+    private String id;
 
     private String date;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLines;
 
-    private String source;
-
-    private String destination;
-
     // in kg
     private float weight;
 
     private String carrier;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
-    @CollectionTable(name = "shipping_methods", joinColumns = @JoinColumn(name = "tracking_number"))
-    private List<String> shippingMethods;
-
-    @Enumerated(EnumType.STRING)
-    private OrderState state;
+    @Column(name="shipping_method")
+    private String shippingMethod;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderPackage> orderPackages;
 
+    private String channel;
+
+    private String store;
+
+    private String distribution_center;
+
+    private String cp_destiny;
+
+    private String feedback;
+
+    private String delivery_date_hour;
+
+    private String prev_delivery_date_hour;
+
+    private int volume_number;
+
     public Order() {
         this.orderLines = new LinkedList<>();
-        this.shippingMethods = new LinkedList<>();
         this.orderPackages = new LinkedList<>();
     }
 
-    public Order(String date, String source, String destination, float weight, String carrier, List<String> shippingMethods, OrderState state) {
+    public Order(String date, float weight, String carrier, String shippingMethod, String channel, String store, String distribution_center, String cp_destiny, String feedback, String delivery_date_hour, String prev_delivery_date_hour, int volume_number){
         this();
         this.date = date;
-        this.source = source;
-        this.destination = destination;
         this.weight = weight;
         this.carrier = carrier;
-        this.state = state;
-        this.shippingMethods = shippingMethods;
-        this.orderPackages = new LinkedList<>();
+        this.shippingMethod = shippingMethod;
+        this.channel = channel;
+        this.store = store;
+        this.distribution_center = distribution_center;
+        this.cp_destiny = cp_destiny;
+        this.feedback = feedback;
+        this.delivery_date_hour = delivery_date_hour;
+        this.prev_delivery_date_hour = prev_delivery_date_hour;
+        this.volume_number = volume_number;
     }
 
-    public long getTrackingNumber() {
-        return trackingNumber;
+    public String getId() {
+        return id;
     }
 
-    public void setTrackingNumber(long trackingNumber) {
-        this.trackingNumber = trackingNumber;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -105,30 +118,6 @@ public class Order {
         this.orderLines.add(orderLine);
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public OrderState getState() {
-        return state;
-    }
-
-    public void setState(OrderState state) {
-        this.state = state;
-    }
-
     public float getWeight() {
         return weight;
     }
@@ -143,6 +132,70 @@ public class Order {
 
     public void setCarrier(String carrier) {
         this.carrier = carrier;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getStore() {
+        return store;
+    }
+
+    public void setStore(String store) {
+        this.store = store;
+    }
+
+    public String getDistribution_center() {
+        return distribution_center;
+    }
+
+    public void setDistribution_center(String distribution_center) {
+        this.distribution_center = distribution_center;
+    }
+
+    public String getCp_destiny() {
+        return cp_destiny;
+    }
+
+    public void setCp_destiny(String cp_destiny) {
+        this.cp_destiny = cp_destiny;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getDelivery_date_hour() {
+        return delivery_date_hour;
+    }
+
+    public void setDelivery_date_hour(String delivery_date_hour) {
+        this.delivery_date_hour = delivery_date_hour;
+    }
+
+    public String getPrev_delivery_date_hour() {
+        return prev_delivery_date_hour;
+    }
+
+    public void setPrev_delivery_date_hour(String prev_delivery_date_hour) {
+        this.prev_delivery_date_hour = prev_delivery_date_hour;
+    }
+
+    public int getVolume_number() {
+        return volume_number;
+    }
+
+    public void setVolume_number(int volume_number) {
+        this.volume_number = volume_number;
     }
 
     public List<OrderPackage> getOrderPackages() {
@@ -167,15 +220,11 @@ public class Order {
         this.orderPackages.add(orderPackage);
     }
 
-    public List<String> getShippingMethods() {
-        return shippingMethods;
+    public String getShippingMethod() {
+        return shippingMethod;
     }
 
-    public void addShippingMethod(String shippingMethod) {
-        this.shippingMethods.add(shippingMethod);
-    }
-
-    public void removeShippingMethod(String shippingMethod) {
-        this.shippingMethods.remove(shippingMethod);
+    public void setShippingMethod(String shippingMethod) {
+        this.shippingMethod = shippingMethod;
     }
 }
