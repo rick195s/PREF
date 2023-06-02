@@ -6,8 +6,6 @@ import java.util.List;
 public class OrderDTO implements Serializable {
 
     private List<ProductQuantityDTO> productsQuantities;
-    private String source;
-    private String destination;
     private String carrier;
     private String shippingMethod;
 
@@ -16,8 +14,6 @@ public class OrderDTO implements Serializable {
 
     public OrderDTO(List<ProductQuantityDTO> productsQuantities, String source, String destination, String carrier, String shippingMethod) {
         this.productsQuantities = productsQuantities;
-        this.source = source;
-        this.destination = destination;
         this.carrier = carrier;
         this.shippingMethod = shippingMethod;
     }
@@ -28,22 +24,6 @@ public class OrderDTO implements Serializable {
 
     public void setProductsQuantities(List<ProductQuantityDTO> productsQuantities) {
         this.productsQuantities = productsQuantities;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
     }
 
     public String getCarrier() {

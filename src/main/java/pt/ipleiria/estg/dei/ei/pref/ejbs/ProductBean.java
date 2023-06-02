@@ -5,7 +5,6 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelationPK;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
 
 import javax.ejb.Stateless;
@@ -18,16 +17,13 @@ public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Product create(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, HashSet<Long> productPackagesIds){
+    public Product create(String name, float length, float width, float height, HashSet<Long> productPackagesIds, String type){
         Product product = new Product(
                 name,
-                category,
-                price,
-                weight,
-                validityRange,
                 length,
                 width,
-                height
+                height,
+                type
         );
 
         entityManager.persist(product);
@@ -53,7 +49,7 @@ public class ProductBean {
         return product;
     }
 
-    public Product findOrFail(long id){
+    public Product findOrFail(String id){
         Product product = entityManager.find(Product.class, id);
         if(product == null){
             throw new RuntimeException("Product with id " + id + " not found");
@@ -86,7 +82,7 @@ public class ProductBean {
         return entityManager.createQuery("SELECT COUNT(*) FROM " + Product.class.getSimpleName(), Long.class).getSingleResult();
     }
 
-    public ProductPackageType getPrimaryPackageType(long productId) {
+    public ProductPackageType getPrimaryPackageType(String productId) {
          return (ProductPackageType) entityManager.createNamedQuery("getPackageTypeOfProduct")
                  .setParameter("productId", productId)
                  .setParameter("level", ProductPackageLevel.PRIMARY)

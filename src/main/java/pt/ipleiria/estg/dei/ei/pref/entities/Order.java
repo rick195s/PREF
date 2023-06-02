@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.ei.pref.entities;
 import org.hibernate.annotations.GenericGenerator;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,7 +33,6 @@ public class Order {
     @NotNull
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name="id")
     private String id;
 
     private String date;

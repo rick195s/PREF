@@ -1,9 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos;
 
-import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,21 +9,13 @@ import java.util.stream.Collectors;
 
 public class ProductDTO implements Serializable {
 
-    private long id;
+    private String id;
 
     private String name;
 
-    private ProductCategory category;
+    private String type;
 
-    private float price;
-
-    // in kg
-    private float weight;
-
-    // in days
-    private int validityRange;
-
-    // dimensions of the product in cm
+    // dimensions of the product in mm
     private float length;
     private float width;
     private float height;
@@ -35,24 +25,21 @@ public class ProductDTO implements Serializable {
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height, List<ProductPackageTypeDTO> productPackageTypes) {
+    public ProductDTO(String id, String name, float length, float width, float height, List<ProductPackageTypeDTO> productPackageTypes, String type) {
         this.id = id;
         this.name = name;
-        this.category = category;
-        this.price = price;
-        this.weight = weight;
-        this.validityRange = validityRange;
         this.length = length;
         this.width = width;
         this.height = height;
         this.productPackageTypes = productPackageTypes;
+        this.type = type;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,38 +49,6 @@ public class ProductDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ProductCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public int getValidityRange() {
-        return validityRange;
-    }
-
-    public void setValidityRange(int validityRange) {
-        this.validityRange = validityRange;
     }
 
     public float getLength() {
@@ -124,6 +79,14 @@ public class ProductDTO implements Serializable {
         this.productPackageTypes.add(productPackageType);
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public List<ProductPackageTypeDTO> getProductPackageTypes() {
         return productPackageTypes;
     }
@@ -132,14 +95,11 @@ public class ProductDTO implements Serializable {
         return new ProductDTO(
                 product.getId(),
                 product.getName(),
-                product.getCategory(),
-                product.getPrice(),
-                product.getWeight(),
-                product.getValidityRange(),
                 product.getLength(),
                 product.getWidth(),
                 product.getHeight(),
-                detailed ? product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null : null
+                detailed ? product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null : null,
+                product.getType()
         );
     }
 

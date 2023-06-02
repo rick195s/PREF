@@ -4,7 +4,6 @@ import pt.ipleiria.estg.dei.ei.pref.dtos.OrderLineDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.io.Serializable;
 import java.util.List;

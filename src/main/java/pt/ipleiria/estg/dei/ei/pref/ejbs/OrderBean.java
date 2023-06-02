@@ -7,7 +7,6 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
 
@@ -36,18 +35,13 @@ public class OrderBean {
     @EJB
     private OrderPackageBean orderPackageBean;
 
-    public Order create(String date, Map<Long, Integer> productsQuantities, String source, String destination, String carrier, String shippingMethod) throws MyIllegalArgumentException, MyEntityNotFoundException {
+    public Order create(String date, Map<String, Integer> productsQuantities, String carrier, String shippingMethod) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
-        float weight = 0;
-        for (Product product : products) {
-            weight += product.getWeight() * productsQuantities.get(product.getId());
-        }
-
-        Order order = new Order(date, weight, carrier, shippingMethod, "", "", "","", "", "", "", 1 );
+        Order order = new Order(date, 0, carrier, shippingMethod, "", "", "","", "", "", "", 1 );
 
         List<OrderLine> orderLines = products.stream().map(product ->
-                orderLineBean.create(productsQuantities.get(product.getId()), product.getPrice(), product, order)).collect(Collectors.toList());
+                orderLineBean.create(productsQuantities.get(product.getId()), 1, product, order)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 

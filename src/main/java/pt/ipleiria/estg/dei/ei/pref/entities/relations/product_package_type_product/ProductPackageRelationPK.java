@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_pro
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class ProductPackageRelationPK implements Serializable {
@@ -10,12 +11,12 @@ public class ProductPackageRelationPK implements Serializable {
     private long productPackageId;
 
     @Column(name = "product_id")
-    private long productId;
+    private String productId;
 
     public ProductPackageRelationPK() {
     }
 
-    public ProductPackageRelationPK(long productPackageId, long productId) {
+    public ProductPackageRelationPK(long productPackageId, String productId) {
         this.productPackageId = productPackageId;
         this.productId = productId;
     }
@@ -28,13 +29,13 @@ public class ProductPackageRelationPK implements Serializable {
         ProductPackageRelationPK that = (ProductPackageRelationPK) o;
 
         if (productPackageId != that.productPackageId) return false;
-        return productId == that.productId;
+        return Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
         int result = (int) (productPackageId ^ (productPackageId >>> 32));
-        result = 31 * result + (int) (productId ^ (productId >>> 32));
+        result = 31 * result + (productId != null ? productId.hashCode() : 0);
         return result;
     }
 }

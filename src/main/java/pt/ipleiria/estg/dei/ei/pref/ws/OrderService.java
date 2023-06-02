@@ -68,12 +68,12 @@ public class OrderService {
     public Response createOrder(OrderDTO orderDTO){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Map<Long, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         for (ProductQuantityDTO productQuantityDTO : orderDTO.getProductsQuantities()) {
             map.put(productQuantityDTO.getProductId(), productQuantityDTO.getQuantity());
         }
 
-        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getSource(), orderDTO.getDestination(), orderDTO.getCarrier(), orderDTO.getShippingMethod());
+        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getCarrier(), orderDTO.getShippingMethod());
 
         return Response
                 .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getId())))

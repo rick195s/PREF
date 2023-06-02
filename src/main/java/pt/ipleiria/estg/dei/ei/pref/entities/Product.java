@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.ei.pref.entities;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductCategory;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -20,23 +19,13 @@ import java.util.List;
         )})
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private ProductCategory category;
+    private String type;
 
-    private float price;
-
-    // in kg
-    private float weight;
-
-    // in days
-    private int validityRange;
-
-    // dimensions of the product in cm
+    // dimensions of the product in mm
     private float length;
     private float width;
     private float height;
@@ -47,16 +36,13 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProductPackageRelation> productPackageRelations;
 
-    public Product(String name, ProductCategory category, float price, float weight, int validityRange, float length, float width, float height) {
+    public Product(String name, float length, float width, float height, String type) {
         this();
         this.name = name;
-        this.category = category;
-        this.price = price;
-        this.weight = weight;
-        this.validityRange = validityRange;
         this.length = length;
         this.width = width;
         this.height = height;
+        this.type = type;
     }
 
     public Product() {
@@ -64,11 +50,11 @@ public class Product {
         this.productPackageRelations = new LinkedList<>();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,38 +64,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ProductCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public int getValidityRange() {
-        return validityRange;
-    }
-
-    public void setValidityRange(int validityRange) {
-        this.validityRange = validityRange;
     }
 
     public float getLength() {
@@ -134,6 +88,14 @@ public class Product {
 
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<ProductPackageRelation> getProductPackageRelations() {

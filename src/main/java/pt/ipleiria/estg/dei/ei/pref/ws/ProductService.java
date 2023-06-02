@@ -59,14 +59,11 @@ public class ProductService {
 
         Product product = productBean.create(
                 productDTO.getName(),
-                productDTO.getCategory(),
-                productDTO.getPrice(),
-                productDTO.getWeight(),
-                productDTO.getValidityRange(),
                 productDTO.getLength(),
                 productDTO.getWidth(),
                 productDTO.getHeight(),
-                productPackagesIds
+                productPackagesIds,
+                productDTO.getType()
         );
 
 

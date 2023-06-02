@@ -119,7 +119,7 @@ public class ConfigBean {
                 for (int i = 0; i < new Random().nextInt(max - min + 1) + min; i++) {
                     productPackagesByType.add(productPackageTypes.get(new Random().nextInt(productPackageTypes.size())).getId());
                 }
-                productBean.create(product.getName(), product.getCategory(), product.getPrice(), product.getWeight(), product.getValidityRange(), product.getLength(), product.getWidth(), product.getHeight(), productPackagesByType);
+                productBean.create(product.getName(), product.getLength(), product.getWidth(), product.getHeight(), productPackagesByType, product.getType());
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -270,27 +270,24 @@ public class ConfigBean {
     private void createOrders() {
         Faker faker = new Faker(new Locale("pt-PT"));
         List<String> carriers = new ArrayList<>(List.of("DHL", "CTT", "DPD", "NACEX"));
-        List<String> sources = new ArrayList<>(List.of("Porto", "Coimbra", "Lisboa"));
 
         int minProductsPerOrder = 5;
         int maxProductsPerOrder = 20;
         int minProductQuantity = 2;
         int maxProductQuantity = 10;
-        Map<Long, Integer> productsQuantities = new HashMap<>();
+        Map<String, Integer> productsQuantities = new HashMap<>();
 
 
         for (int i = 0; i < 100; i++) {
             productsQuantities.clear();
             for (long j = 0; j < faker.random().nextInt(minProductsPerOrder, maxProductsPerOrder); j++) {
-                productsQuantities.put(j+1, faker.random().nextInt(minProductQuantity, maxProductQuantity));
+                productsQuantities.put("NUT00/1512760163", faker.random().nextInt(minProductQuantity, maxProductQuantity));
             }
 
 
             orderBean.create(
                     faker.date().past(100, TimeUnit.DAYS).toString(),
                     productsQuantities,
-                    sources.get(faker.random().nextInt(0, sources.size()-1)),
-                    faker.address().cityName(),
                     carriers.get(faker.random().nextInt(0, carriers.size()-1)),
                     List.of("air", "ground").get(faker.random().nextInt(0, 1)));
 
