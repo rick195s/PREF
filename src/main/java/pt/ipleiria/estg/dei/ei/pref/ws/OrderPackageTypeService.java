@@ -27,7 +27,7 @@ public class OrderPackageTypeService {
 
     @GET
     @Path("{id}")
-    public Response get(@PathParam("id") long id) {
+    public Response get(@PathParam("id") String id) {
         return Response.ok(OrderPackageTypeDTO.from(orderPackageTypeBean.findOrFail(id))).build();
     }
 }

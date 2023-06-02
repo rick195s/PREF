@@ -17,7 +17,7 @@ public class ProductBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Product create(String name, float length, float width, float height, HashSet<Long> productPackagesIds, String type){
+    public Product create(String name, float length, float width, float height, HashSet<String> productPackagesIds, String type){
         Product product = new Product(
                 name,
                 length,
@@ -29,7 +29,7 @@ public class ProductBean {
         entityManager.persist(product);
         // packages order in hash influence in the type of package (primary, secondary, etc-)
         int i = 0;
-        for (Long productPackageId : productPackagesIds) {
+        for (String productPackageId : productPackagesIds) {
             if (i>= ProductPackageLevel.values().length){
                 break;
             }

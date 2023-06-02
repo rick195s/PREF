@@ -51,7 +51,7 @@ public class ProductService {
     @POST
     @Path("/")
     public Response createProduct(ProductDTO productDTO){
-        HashSet<Long> productPackagesIds = new HashSet<>();
+        HashSet<String> productPackagesIds = new HashSet<>();
         for (ProductPackageTypeDTO productPackageTypeDTO : productDTO.getProductPackageTypes()) {
             productPackagesIds.add(productPackageTypeDTO.getId());
         }

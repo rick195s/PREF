@@ -8,35 +8,24 @@ import java.util.stream.Collectors;
 
 public class ProductPackageDTO {
 
-    private long id;
-    private String name;
-
+    private String id;
     // filled with the ProductPackageRelation.type
     private ProductPackageLevel packageType;
 
     public ProductPackageDTO() {
     }
 
-    public ProductPackageDTO(long id, String name, ProductPackageLevel packageType) {
+    public ProductPackageDTO(String id, ProductPackageLevel packageType) {
         this.id = id;
-        this.name = name;
         this.packageType = packageType;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public ProductPackageLevel getPackageType() {
@@ -50,7 +39,6 @@ public class ProductPackageDTO {
     public static ProductPackageDTO from(ProductPackageType productPackageType) {
         return new ProductPackageDTO(
                 productPackageType.getId(),
-                productPackageType.getName(),
                 productPackageType.getType()
         );
     }

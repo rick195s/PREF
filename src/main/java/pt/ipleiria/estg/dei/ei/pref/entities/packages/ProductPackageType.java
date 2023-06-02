@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_product.ProductPackageRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.ProductPackageLevel;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,8 +24,8 @@ public class ProductPackageType extends SimplePackageType implements Serializabl
     public ProductPackageType() {
     }
 
-    public ProductPackageType(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
-        super(name, cost, dimension, isSustainable, resistance, isSmart);
+    public ProductPackageType(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length, ProductPackageLevel type) {
+        super(id, cost, isSustainable, isSmart, shape, width, height, length);
     }
 
     public ProductPackageLevel getType() {

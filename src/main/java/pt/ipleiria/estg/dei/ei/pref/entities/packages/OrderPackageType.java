@@ -1,7 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -22,8 +20,7 @@ public class OrderPackageType extends SimplePackageType implements Serializable 
 
     }
 
-    public OrderPackageType(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
-        super(name, cost, dimension, isSustainable, resistance, isSmart);
+    public OrderPackageType(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
+        super(id, cost, isSustainable, isSmart, shape, width, height, length);
     }
-
 }

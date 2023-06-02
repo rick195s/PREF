@@ -12,7 +12,7 @@ public class OrderPackageTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderPackageType findOrFail(long id) {
+    public OrderPackageType findOrFail(String id) {
         return entityManager.find(OrderPackageType.class, id);
     }
 

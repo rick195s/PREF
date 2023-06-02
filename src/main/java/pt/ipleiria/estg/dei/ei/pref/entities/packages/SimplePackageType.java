@@ -1,7 +1,5 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -21,21 +19,13 @@ import java.util.List;
 public class SimplePackageType implements Serializable {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @NotNull
-    private String name;
-    @NotNull
+    private String id;
+
     private double cost;
-    @NotNull
-    private String dimension;
 
     @NotNull
     @Column(name = "is_sustainable")
     private boolean isSustainable;
-
-    @NotNull
-    private ResistenceType resistance;
 
     @NotNull
     @Column(name = "is_smart")
@@ -44,34 +34,34 @@ public class SimplePackageType implements Serializable {
     @OneToMany(mappedBy = "simplePackageType", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ObservablePackage> observablePackages;
 
+    private String shape;
+
+    private float width;
+    private float height;
+    private float length;
+
     public SimplePackageType() {
         observablePackages = new LinkedList<>();
     }
 
-    public SimplePackageType(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
+    public SimplePackageType(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
         this();
-        this.name = name;
+        this.id = id;
         this.cost = cost;
-        this.dimension = dimension;
         this.isSustainable = isSustainable;
-        this.resistance = resistance;
         this.isSmart = isSmart;
+        this.shape = shape;
+        this.width = width;
+        this.height = height;
+        this.length = length;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean isSustainable() {
@@ -90,12 +80,36 @@ public class SimplePackageType implements Serializable {
         isSmart = smart;
     }
 
-    public String getDimension() {
-        return dimension;
+    public float getWidth() {
+        return width;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
+
+    public String getShape() {
+        return shape;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
     }
 
     public double getCost() {
@@ -104,14 +118,6 @@ public class SimplePackageType implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public ResistenceType getResistance() {
-        return resistance;
-    }
-
-    public void setResistance(ResistenceType resistance) {
-        this.resistance = resistance;
     }
 
     public List<ObservablePackage> getObservablePackages() {

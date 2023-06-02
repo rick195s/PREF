@@ -37,7 +37,7 @@ public class OrderPackageBean {
         return entityManager.find(OrderPackage.class, id);
     }
 
-    public OrderPackage create(long orderPackageTypeId, String orderId) {
+    public OrderPackage create(String orderPackageTypeId, String orderId) {
         OrderPackageType orderPackageType = orderPackageTypeBean.findOrFail(orderPackageTypeId);
         if (orderPackageType == null) {
             throw new EntityNotFoundException("Order package type not found");
