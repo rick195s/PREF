@@ -107,11 +107,11 @@ const { data: orders, pending } = await useLazyAsyncData(
         element.temperatureMax = element.temperatureMax.toFixed(2) + "ºC";
         element.actions = [
           {
-            to: `/orders/${element.trackingNumber}`,
+            to: `/orders/${element.id}`,
             icon: "fa-regular fa-pen-to-square"
           },
           {
-            to: `/orders/history/${element.trackingNumber}`,
+            to: `/orders/history/${element.id}`,
             icon: "fa-regular fa-file-alt"
           }
         ];
