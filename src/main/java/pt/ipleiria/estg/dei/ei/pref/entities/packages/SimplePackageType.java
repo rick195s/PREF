@@ -34,26 +34,16 @@ public class SimplePackageType implements Serializable {
     @OneToMany(mappedBy = "simplePackageType", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ObservablePackage> observablePackages;
 
-    private String shape;
-
-    private float width;
-    private float height;
-    private float length;
-
     public SimplePackageType() {
         observablePackages = new LinkedList<>();
     }
 
-    public SimplePackageType(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
+    public SimplePackageType(String id, double cost, boolean isSustainable, boolean isSmart) {
         this();
         this.id = id;
         this.cost = cost;
         this.isSustainable = isSustainable;
         this.isSmart = isSmart;
-        this.shape = shape;
-        this.width = width;
-        this.height = height;
-        this.length = length;
     }
 
     public String getId() {
@@ -78,38 +68,6 @@ public class SimplePackageType implements Serializable {
 
     public void setSmart(boolean smart) {
         isSmart = smart;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    public float getLength() {
-        return length;
-    }
-
-    public void setLength(float length) {
-        this.length = length;
-    }
-
-    public String getShape() {
-        return shape;
-    }
-
-    public void setShape(String shape) {
-        this.shape = shape;
     }
 
     public double getCost() {

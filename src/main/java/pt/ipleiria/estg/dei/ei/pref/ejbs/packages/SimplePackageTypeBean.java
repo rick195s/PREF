@@ -21,9 +21,9 @@ public class SimplePackageTypeBean {
         return (List<SimplePackageType>) entityManager.createNamedQuery("getAllSimplePackageTypes").getResultList();
     }
 
-    public SimplePackageType create(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
+    public SimplePackageType create(String id, double cost, boolean isSustainable, boolean isSmart) {
         // create simple package and persist it
-        SimplePackageType simplePackageType = new SimplePackageType(  id,  cost,  isSustainable,  isSmart,  shape,  width,  height,  length);
+        SimplePackageType simplePackageType = new SimplePackageType(id,  cost,  isSustainable,  isSmart);
 
         entityManager.persist(simplePackageType);
 

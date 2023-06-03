@@ -11,23 +11,15 @@ public class SimplePackageTypeDTO implements Serializable {
     private double cost;
     private boolean isSustainable;
     private boolean isSmart;
-    private String shape;
-    private float width;
-    private float height;
-    private float length;
 
     public SimplePackageTypeDTO() {
     }
 
-    public SimplePackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
+    public SimplePackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart) {
         this.id = id;
         this.cost = cost;
         this.isSustainable = isSustainable;
         this.isSmart = isSmart;
-        this.shape = shape;
-        this.width = width;
-        this.height = height;
-        this.length = length;
     }
 
     public String getId() {
@@ -62,48 +54,12 @@ public class SimplePackageTypeDTO implements Serializable {
         isSmart = smart;
     }
 
-    public String getShape() {
-        return shape;
-    }
-
-    public void setShape(String shape) {
-        this.shape = shape;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    public float getLength() {
-        return length;
-    }
-
-    public void setLength(float length) {
-        this.length = length;
-    }
-
     public static SimplePackageTypeDTO from(SimplePackageType simplePackageType) {
         return new SimplePackageTypeDTO(
                 simplePackageType.getId(),
                 simplePackageType.getCost(),
                 simplePackageType.isSustainable(),
-                simplePackageType.isSmart(),
-                simplePackageType.getShape(),
-                simplePackageType.getWidth(),
-                simplePackageType.getHeight(),
-                simplePackageType.getLength()
+                simplePackageType.isSmart()
                 );
     }
 

@@ -8,12 +8,21 @@ import java.util.stream.Collectors;
 
 public class OrderPackageTypeDTO extends SimplePackageTypeDTO implements Serializable {
 
+    private float width;
+    private float height;
+    private float length;
+    private String shape;
+
 
     public OrderPackageTypeDTO() {
     }
 
-    public OrderPackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
-        super(id, cost, isSustainable, isSmart, shape, width, height, length);
+    public OrderPackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, float width, float height, float length, String shape) {
+        super(id, cost, isSustainable, isSmart);
+        this.width = width;
+        this.height = height;
+        this.length = length;
+        this.shape = shape;
     }
 
     public static OrderPackageTypeDTO from(OrderPackageType orderPackageType) {
@@ -22,10 +31,10 @@ public class OrderPackageTypeDTO extends SimplePackageTypeDTO implements Seriali
                 orderPackageType.getCost(),
                 orderPackageType.isSustainable(),
                 orderPackageType.isSmart(),
-                orderPackageType.getShape(),
                 orderPackageType.getWidth(),
                 orderPackageType.getHeight(),
-                orderPackageType.getLength()
+                orderPackageType.getLength(),
+                orderPackageType.getShape()
                 );
     }
 

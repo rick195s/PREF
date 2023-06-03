@@ -28,10 +28,11 @@ public class ProductPackageRelation {
     private Product product;
 
     @ManyToOne
-    @MapsId("product_package_id")
-    @JoinColumn(name = "product_package_id")
+    @MapsId("product_package_type_id")
+    @JoinColumn(name = "product_package_type_id")
     private ProductPackageType productPackageType;
 
+    @Enumerated(EnumType.STRING)
     private ProductPackageLevel type;
 
     public ProductPackageRelation() {

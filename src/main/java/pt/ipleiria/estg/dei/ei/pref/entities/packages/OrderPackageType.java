@@ -16,11 +16,54 @@ import java.io.Serializable;
 })
 
 public class OrderPackageType extends SimplePackageType implements Serializable {
+
+    private float width;
+    private float height;
+    private float length;
+    private String shape;
+
+
     public OrderPackageType() {
 
     }
 
     public OrderPackageType(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
-        super(id, cost, isSustainable, isSmart, shape, width, height, length);
+        super(id, cost, isSustainable, isSmart);
+        this.width = width;
+        this.height = height;
+        this.length = length;
+        this.shape = shape;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
+
+    public String getShape() {
+        return shape;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
     }
 }

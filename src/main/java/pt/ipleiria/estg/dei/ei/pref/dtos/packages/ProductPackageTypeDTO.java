@@ -9,11 +9,21 @@ import java.util.stream.Collectors;
 public class ProductPackageTypeDTO extends SimplePackageTypeDTO implements Serializable {
 
 
+    private String name;
+
+    private String composition;
+
+    private String discard;
+
+
     public ProductPackageTypeDTO() {
     }
 
-    public ProductPackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, String shape, float width, float height, float length) {
-        super(id, cost, isSustainable, isSmart, shape, width, height, length);
+    public ProductPackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, String name, String composition, String discard) {
+        super(id, cost, isSustainable, isSmart);
+        this.name = name;
+        this.composition = composition;
+        this.discard = discard;
     }
 
     public static ProductPackageTypeDTO from(ProductPackageType productPackageType) {
@@ -22,10 +32,9 @@ public class ProductPackageTypeDTO extends SimplePackageTypeDTO implements Seria
                 productPackageType.getCost(),
                 productPackageType.isSustainable(),
                 productPackageType.isSmart(),
-                productPackageType.getShape(),
-                productPackageType.getWidth(),
-                productPackageType.getHeight(),
-                productPackageType.getLength()
+                productPackageType.getName(),
+                productPackageType.getComposition(),
+                productPackageType.getDiscard()
         );
     }
 
