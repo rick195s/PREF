@@ -31,20 +31,8 @@ const keys = ref([
     label: "Name"
   },
   {
-    key: "validityRange",
-    label: "Validity Range"
-  },
-  {
     key: "dimensions",
     label: "Dimensions"
-  },
-  {
-    key: "weight",
-    label: "Weight"
-  },
-  {
-    key: "category",
-    label: "Category"
   },
   {
     key: "quantity",
