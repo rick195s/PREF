@@ -39,7 +39,7 @@ const packageIds = ref([]);
 
 const { data: orderData } = await useLazyAsyncData(
   "orderData",
-  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
+  () => $fetch(`/api/orders/${useRoute().params.id}`, {}),
   {
     server: false,
     transform: (data) => {

@@ -14,64 +14,72 @@
         <!-- Projects table -->
         <table class="items-center w-full bg-transparent border-collapse">
           <thead>
-          <tr v-if="!props.loading">
-            <th
-              v-for="arrayKey in props.keys"
-              :key="arrayKey.key"
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              {{ arrayKey.label }}
-              <template v-if="arrayKey.key === 'carrier'">
-                <select class="ml-2" v-model="selectedCarrier" @change="updateCarrier">
-                  <option value="">All</option>
-                  <option v-for="carrier in props.carriers" :key="carrier" :value="carrier">
-                    {{ carrier }}
-                  </option>
-                </select>
-              </template>
-            </th>
-            <th
-              v-if="hasActions()"
-              class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-            >
-              Actions
-            </th>
-          </tr>
+            <tr v-if="!props.loading">
+              <th
+                v-for="arrayKey in props.keys"
+                :key="arrayKey.key"
+                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              >
+                {{ arrayKey.label }}
+                <template v-if="arrayKey.key === 'carrier'">
+                  <select
+                    class="ml-2"
+                    v-model="selectedCarrier"
+                    @change="updateCarrier"
+                  >
+                    <option value="">All</option>
+                    <option
+                      v-for="carrier in props.carriers"
+                      :key="carrier"
+                      :value="carrier"
+                    >
+                      {{ carrier }}
+                    </option>
+                  </select>
+                </template>
+              </th>
+              <th
+                v-if="hasActions()"
+                class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              >
+                Actions
+              </th>
+            </tr>
           </thead>
           <tbody v-if="props.loading">
-          <tr class="w-full">
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
-              colspan="8"
-            >
-              <SpinnerComponent></SpinnerComponent>
-            </td>
-          </tr>
+            <tr class="w-full">
+              <td
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
+                colspan="8"
+              >
+                <SpinnerComponent></SpinnerComponent>
+              </td>
+            </tr>
           </tbody>
 
           <tbody v-else-if="!props.data || props.data.length === 0">
-          <tr class="w-full">
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
-              colspan="8"
-            >
-              No data found
-            </td>
-          </tr>
+            <tr class="w-full">
+              <td
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4 text-center font-bold mx-auto"
+                colspan="8"
+              >
+                No data found
+              </td>
+            </tr>
           </tbody>
           <tbody v-else>
-          <tr v-for="record in props.data" :key="record">
-            <td
-              v-for="arrayKey in props.keys"
-              :key="arrayKey.key"
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ record[arrayKey.key] }}
-            </td>
-            <td
-              v-if="hasActions()"
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
+            <tr v-for="record in props.data" :key="record">
+              <td
+                v-for="arrayKey in props.keys"
+                :key="arrayKey.key"
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              >
+                {{ record[arrayKey.key] }}
+              </td>
+              <td
+                v-if="hasActions()"
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              >
                 <span v-for="action in record.actions" :key="action">
                   <NuxtLink v-if="action.to" :to="action.to">
                     <button
@@ -90,13 +98,13 @@
                     <i :class="action.icon"></i>
                   </button>
                 </span>
-            </td>
-          </tr>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
       <PaginationComponent
-        v-if="paginated && props.data != null"
+        v-if="!props.loading && paginated && props.data != null"
         :total="props.total"
         :per-page="props.perPage"
         :current-page="currentPage"
@@ -153,7 +161,7 @@ const props = defineProps({
   carriers: {
     type: Object,
     default: []
-  },
+  }
 });
 const selectedCarrier = ref("");
 const hasActions = () => {
@@ -168,6 +176,4 @@ const hasActions = () => {
 const updateCarrier = () => {
   props.updateCarrier(selectedCarrier.value);
 };
-
-
 </script>

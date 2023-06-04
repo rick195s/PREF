@@ -28,8 +28,8 @@ const carrierFilter = ref("");
 
 const keys = [
   {
-    key: "trackingNumber",
-    label: "Tracking Number"
+    key: "store",
+    label: "Store"
   },
   {
     key: "orderDate",
@@ -52,16 +52,8 @@ const keys = [
     label: "Temperature Min"
   },
   {
-    key: "source",
-    label: "Source"
-  },
-  {
-    key: "destination",
-    label: "Destination"
-  },
-  {
-    key: "state",
-    label: "State"
+    key: "cp_destiny",
+    label: "Código Postal Destino"
   }
 ];
 
@@ -91,14 +83,7 @@ const { data: orders, pending } = await useLazyAsyncData(
       console.log("DATA", data);
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";
-        element.orderDate =
-          new Date(element.orderDate).toLocaleDateString("pt-pt") +
-          " - " +
-          new Date(element.orderDate).toLocaleTimeString("pt-PT", {
-            hour12: false,
-            hour: "numeric",
-            minute: "numeric"
-          });
+
         //randomize max temperature
         element.temperatureMax = Math.random() * (21 - 5) + 5;
         //randomize min temperature

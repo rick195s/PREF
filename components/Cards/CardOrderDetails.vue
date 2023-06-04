@@ -146,7 +146,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.shippingMethods.join(", ") }}
+              {{ props.orderData?.shippingMethods }}
             </td>
           </tr>
           <tr>
