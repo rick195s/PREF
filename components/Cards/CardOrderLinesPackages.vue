@@ -12,7 +12,11 @@
     <div
       class="grid lg:grid-cols-4 gap-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
     >
+      <div v-if="props.loading">
+        <SpinnerComponent></SpinnerComponent>
+      </div>
       <CardProduct
+        v-else
         v-for="product in groupedProductsWithDuplicates"
         :key="product"
         :product="product"
@@ -25,10 +29,16 @@
 
 <script setup>
 import CardProduct from "@/components/Cards/CardProduct.vue";
+import SpinnerComponent from "@/components/Spinner/SpinnerComponent.vue";
 
 const emit = defineEmits(["product-package-selected"]);
 
 const props = defineProps({
+  loading: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
   orderLines: {
     type: Array,
     required: true,

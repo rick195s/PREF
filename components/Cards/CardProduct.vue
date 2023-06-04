@@ -25,7 +25,7 @@
         class="py-3 flex justify-between px-3"
       >
         <span
-          >{{ orderLineProductPackage.packageName }} -
+          >{{ orderLineProductPackage.simplePackageTypeId }} -
           {{ orderLineProductPackage.id }}</span
         >
         <label
