@@ -39,7 +39,7 @@ public class PackageApiTest {
     @Test
     public void testGetPackageDetails() throws IOException {
         Request request = new Request.Builder()
-                .url(baseUrl + "packages/1")
+                .url(baseUrl + "packages/120x070x210")
                 .addHeader("Accept", "application/json")
                 .build();
 

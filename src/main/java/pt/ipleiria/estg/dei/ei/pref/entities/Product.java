@@ -106,8 +106,8 @@ public class Product {
         List<ProductPackageType> packages = new LinkedList<>();
 
         for (ProductPackageRelation relation : productPackageRelations) {
-            ProductPackageType productPackageType = relation.getProductPackage();
-            productPackageType.setType(relation.getType());
+            ProductPackageType productPackageType = relation.getProductPackageType();
+            productPackageType.setProductPackageLevel(relation.getProductPackageLevel());
             packages.add(productPackageType);
         }
         return packages;

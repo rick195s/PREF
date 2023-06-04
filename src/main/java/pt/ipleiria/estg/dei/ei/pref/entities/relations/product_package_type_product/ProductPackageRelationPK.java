@@ -7,8 +7,8 @@ import java.util.Objects;
 
 @Embeddable
 public class ProductPackageRelationPK implements Serializable {
-    @Column(name = "product_package_id")
-    private String productPackageId;
+    @Column(name = "product_package_type_id")
+    private String productPackageTypeId;
 
     @Column(name = "product_id")
     private String productId;
@@ -16,8 +16,24 @@ public class ProductPackageRelationPK implements Serializable {
     public ProductPackageRelationPK() {
     }
 
-    public ProductPackageRelationPK(String productPackageId, String productId) {
-        this.productPackageId = productPackageId;
+    public ProductPackageRelationPK(String productPackageTypeId, String productId) {
+        this.productPackageTypeId = productPackageTypeId;
+        this.productId = productId;
+    }
+
+    public String getProductPackageTypeId() {
+        return productPackageTypeId;
+    }
+
+    public void setProductPackageTypeId(String productPackageTypeId) {
+        this.productPackageTypeId = productPackageTypeId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -28,14 +44,14 @@ public class ProductPackageRelationPK implements Serializable {
 
         ProductPackageRelationPK that = (ProductPackageRelationPK) o;
 
-        if (!Objects.equals(productPackageId, that.productPackageId))
+        if (!Objects.equals(productPackageTypeId, that.productPackageTypeId))
             return false;
         return Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        int result = productPackageId != null ? productPackageId.hashCode() : 0;
+        int result = productPackageTypeId != null ? productPackageTypeId.hashCode() : 0;
         result = 31 * result + (productId != null ? productId.hashCode() : 0);
         return result;
     }

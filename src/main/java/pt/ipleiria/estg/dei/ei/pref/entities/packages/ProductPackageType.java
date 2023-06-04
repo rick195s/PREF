@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductPackageType extends SimplePackageType implements Serializable {
     @Transient
     // Aux property, real type is in ProductPackageRelation
-    private ProductPackageLevel type;
+    private ProductPackageLevel productPackageLevel;
 
     private String name;
 
@@ -62,11 +62,11 @@ public class ProductPackageType extends SimplePackageType implements Serializabl
         this.discard = discard;
     }
 
-    public ProductPackageLevel getType() {
-        return type;
+    public ProductPackageLevel getProductPackageLevel() {
+        return productPackageLevel;
     }
 
-    public void setType(ProductPackageLevel type) {
-        this.type = type;
+    public void setProductPackageLevel(ProductPackageLevel productPackageLevel) {
+        this.productPackageLevel = productPackageLevel;
     }
 }

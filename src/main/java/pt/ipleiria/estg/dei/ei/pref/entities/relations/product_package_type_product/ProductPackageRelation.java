@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(
                 name = "getPackageTypeOfProduct",
-                query = "SELECT ppr.productPackageType FROM ProductPackageRelation ppr WHERE ppr.product.id = :productId AND ppr.type = :level"
+                query = "SELECT ppr.productPackageType FROM ProductPackageRelation ppr WHERE ppr.product.id = :productId AND ppr.productPackageLevel = :level"
         )})
 // ManyToMany relation between products and product packages.
 // Needed because of extra column "type" in the relation.
@@ -23,26 +23,27 @@ public class ProductPackageRelation {
     private ProductPackageRelationPK id;
 
     @ManyToOne
-    @MapsId("product_id")
+    @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @MapsId("product_package_type_id")
+    @MapsId("productPackageTypeId")
     @JoinColumn(name = "product_package_type_id")
     private ProductPackageType productPackageType;
 
     @Enumerated(EnumType.STRING)
-    private ProductPackageLevel type;
+    @Column(name = "level")
+    private ProductPackageLevel productPackageLevel;
 
     public ProductPackageRelation() {
     }
 
-    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackageType productPackageType, ProductPackageLevel type) {
+    public ProductPackageRelation(ProductPackageRelationPK id, Product product, ProductPackageType productPackageType, ProductPackageLevel productPackageLevel) {
         this.id = id;
         this.product = product;
         this.productPackageType = productPackageType;
-        this.type = type;
+        this.productPackageLevel = productPackageLevel;
     }
 
     public ProductPackageRelationPK getId() {
@@ -61,19 +62,19 @@ public class ProductPackageRelation {
         this.product = product;
     }
 
-    public ProductPackageType getProductPackage() {
+    public ProductPackageType getProductPackageType() {
         return productPackageType;
     }
 
-    public void setProductPackage(ProductPackageType productPackageType) {
+    public void setProductPackageType(ProductPackageType productPackageType) {
         this.productPackageType = productPackageType;
     }
 
-    public ProductPackageLevel getType() {
-        return type;
+    public ProductPackageLevel getProductPackageLevel() {
+        return productPackageLevel;
     }
 
-    public void setType(ProductPackageLevel type) {
-        this.type = type;
+    public void setProductPackageLevel(ProductPackageLevel productPackageLevel) {
+        this.productPackageLevel = productPackageLevel;
     }
 }
