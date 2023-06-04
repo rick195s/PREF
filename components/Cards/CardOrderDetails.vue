@@ -75,7 +75,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.prev_delivery_date_hour }}
+              {{ props.orderData?.prevDeliveryDateHour }}
             </td>
           </tr>
           <tr>
@@ -87,7 +87,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.distribution_center }}
+              {{ props.orderData?.distributionCenter }}
             </td>
           </tr>
           <tr>
@@ -99,7 +99,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.cp_destiny }}
+              {{ props.orderData?.cpDestiny }}
             </td>
           </tr>
           <tr>

@@ -52,7 +52,7 @@ const keys = [
     label: "Temperature Min"
   },
   {
-    key: "cp_destiny",
+    key: "cpDestiny",
     label: "Código Postal Destino"
   }
 ];
