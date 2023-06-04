@@ -22,11 +22,17 @@ import pt.ipleiria.estg.dei.ei.pref.entities.pattern.Observer;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +40,10 @@ import java.util.concurrent.TimeUnit;
 @Startup
 @Singleton
 public class ConfigBean {
+
+    @Resource(lookup = "java:/PrefDS")
+    private DataSource dataSource;
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -59,33 +69,54 @@ public class ConfigBean {
     @EJB
     OrderLineProductPackageBean orderLineProductPackageBean;
 
-    //@PostConstruct
+    @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
+        syncSequences("order_line_product_relations_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLineProductRelation o").getSingleResult()+1);
+        syncSequences("order_lines_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLine o").getSingleResult()+1);
+        // update hibernate_sequences table
+        updateHibernateSequences();
+
         createObservers();
         System.out.println("Observers created");
-
-        createProductPackages();
-        System.out.println("ProductPackages created");
+/*
 
         createObservations();
         System.out.println("Observations created");
 
+ */
+
     }
 
-    private void createProductPackages() {
-        List<OrderLineProductRelation> orderLineProductRelations = (List<OrderLineProductRelation>) entityManager.createNamedQuery("getAllOrderLineProductRelations").setMaxResults(3000).getResultList();
-        int i = 0;
-        System.out.println("Tamanho order line product relations: "+ orderLineProductRelations.size());
-        for (OrderLineProductRelation orderLineProductRelation : orderLineProductRelations) {
-            orderLineProductPackageBean.createPrimaryPackage(orderLineProductRelation.getId());
-            i++;
-            System.out.println("ProductPackage " + i + " created");
+    private void updateHibernateSequences() {
+        // updated because observable packages uses this and ids can be out of sync
+        long nextValOrderPackage = (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderPackage o").getSingleResult() +1;
+        long nextValOrderLineProductPackage = (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLineProductPackage o").getSingleResult()+1;
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement("UPDATE hibernate_sequences SET next_val = "+Math.max(nextValOrderPackage, nextValOrderLineProductPackage)+" WHERE sequence_name = 'default'")) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private void syncSequences(String sequenceName, long nextValue) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement("ALTER SEQUENCE " + sequenceName + " RESTART WITH " + nextValue)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     private void createObservers() {
+        if (observerBean.getAllObservers().size() > 0) {
+            return;
+        }
         observerBean.create("Temperature Sensor");
         observerBean.create("Humidity Sensor");
         observerBean.create("Location Sensor");

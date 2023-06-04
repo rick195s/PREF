@@ -15,6 +15,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,17 +69,28 @@ public class OrderService {
     @Path("/")
     public Response createOrder(OrderDTO orderDTO){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Map<String, Integer> map = new HashMap<>();
+
+        // Add values to the map
         for (ProductQuantityDTO productQuantityDTO : orderDTO.getProductsQuantities()) {
             map.put(productQuantityDTO.getProductId(), productQuantityDTO.getQuantity());
         }
 
-        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getCarrier(), orderDTO.getShippingMethod());
+        // Create the LocalDateTime object
+        LocalDateTime dateTime = LocalDateTime.now().plusDays(1);
+        String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        // Use the formattedDateTime in your order creation
+        Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getCarrier(),
+                orderDTO.getShippingMethod(), orderDTO.getChannel(),
+                orderDTO.getStore(), orderDTO.getDistributionCenter(),
+                orderDTO.getCpDestiny(), formattedDateTime,
+                orderDTO.getVolumeNumber());
 
         return Response
                 .ok(OrderDTO.from(orderBean.findOrFail(order.getId()), true))
-                .status(Response.Status.CREATED).build();
+                .status(Response.Status.CREATED)
+                .build();
     }
 
     @PATCH

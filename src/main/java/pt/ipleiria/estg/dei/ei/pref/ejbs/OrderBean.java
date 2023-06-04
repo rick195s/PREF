@@ -15,6 +15,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,13 +37,14 @@ public class OrderBean {
     @EJB
     private OrderPackageBean orderPackageBean;
 
-    public Order create(String date, Map<String, Integer> productsQuantities, String carrier, String shippingMethod) throws MyIllegalArgumentException, MyEntityNotFoundException {
+    public Order create(String date, Map<String, Integer> productsQuantities, String carrier, String shippingMethod, String channel, String store, String distributionCenter, String cpDestiny, String prevDeliveryDateHour, int volumeNumber) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
-        Order order = new Order(date, 0, carrier, shippingMethod, "", "", "","", "", "", "", 1 );
+        Order order = new Order(date, 0, carrier, shippingMethod, channel, store, distributionCenter,cpDestiny, null, null, prevDeliveryDateHour, volumeNumber);
 
+        String date30Days = LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<OrderLine> orderLines = products.stream().map(product ->
-                orderLineBean.create(productsQuantities.get(product.getId()), 1, product, order)).collect(Collectors.toList());
+                orderLineBean.create(productsQuantities.get(product.getId()), 1, product, order, date30Days)).collect(Collectors.toList());
 
         orderLines.forEach(order::addOrderLine);
 

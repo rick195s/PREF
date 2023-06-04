@@ -20,12 +20,12 @@ public class OrderDTO {
     private List<OrderPackageTypeDTO> orderPackageTypes;
     private String channel;
     private String store;
-    private String distribution_center;
-    private String cp_destiny;
+    private String distributionCenter;
+    private String cpDestiny;
     private String feedback;
-    private String delivery_date_hour;
-    private String prev_delivery_date_hour;
-    private int volume_number;
+    private String deliveryDateHour;
+    private String prevDeliveryDateHour;
+    private int volumeNumber;
     private List<ProductQuantityDTO> productsQuantities;
 
     public OrderDTO() {
@@ -34,7 +34,7 @@ public class OrderDTO {
         this.orderPackageTypes = new LinkedList<>();
     }
 
-    public OrderDTO(String id, String orderDate, List<OrderLineDTO> orderLines, float weight, String carrier, String shippingMethod, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes, String channel, String store, String distribution_center, String cp_destiny, String feedback, String delivery_date_hour, String prev_delivery_date_hour, int volume_number) {
+    public OrderDTO(String id, String orderDate, List<OrderLineDTO> orderLines, float weight, String carrier, String shippingMethod, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes, String channel, String store, String distributionCenter, String cpDestiny, String feedback, String deliveryDateHour, String prevDeliveryDateHour, int volumeNumber) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
@@ -45,12 +45,12 @@ public class OrderDTO {
         this.orderPackageTypes = orderPackageTypes;
         this.channel = channel;
         this.store = store;
-        this.distribution_center = distribution_center;
-        this.cp_destiny = cp_destiny;
+        this.distributionCenter = distributionCenter;
+        this.cpDestiny = cpDestiny;
         this.feedback = feedback;
-        this.delivery_date_hour = delivery_date_hour;
-        this.prev_delivery_date_hour = prev_delivery_date_hour;
-        this.volume_number = volume_number;
+        this.deliveryDateHour = deliveryDateHour;
+        this.prevDeliveryDateHour = prevDeliveryDateHour;
+        this.volumeNumber = volumeNumber;
     }
 
     public String getId() {
@@ -133,20 +133,20 @@ public class OrderDTO {
         this.store = store;
     }
 
-    public String getDistribution_center() {
-        return distribution_center;
+    public String getDistributionCenter() {
+        return distributionCenter;
     }
 
-    public void setDistribution_center(String distribution_center) {
-        this.distribution_center = distribution_center;
+    public void setDistributionCenter(String distributionCenter) {
+        this.distributionCenter = distributionCenter;
     }
 
-    public String getCp_destiny() {
-        return cp_destiny;
+    public String getCpDestiny() {
+        return cpDestiny;
     }
 
-    public void setCp_destiny(String cp_destiny) {
-        this.cp_destiny = cp_destiny;
+    public void setCpDestiny(String cpDestiny) {
+        this.cpDestiny = cpDestiny;
     }
 
     public String getFeedback() {
@@ -157,28 +157,28 @@ public class OrderDTO {
         this.feedback = feedback;
     }
 
-    public String getDelivery_date_hour() {
-        return delivery_date_hour;
+    public String getDeliveryDateHour() {
+        return deliveryDateHour;
     }
 
-    public void setDelivery_date_hour(String delivery_date_hour) {
-        this.delivery_date_hour = delivery_date_hour;
+    public void setDeliveryDateHour(String deliveryDateHour) {
+        this.deliveryDateHour = deliveryDateHour;
     }
 
-    public String getPrev_delivery_date_hour() {
-        return prev_delivery_date_hour;
+    public String getPrevDeliveryDateHour() {
+        return prevDeliveryDateHour;
     }
 
-    public void setPrev_delivery_date_hour(String prev_delivery_date_hour) {
-        this.prev_delivery_date_hour = prev_delivery_date_hour;
+    public void setPrevDeliveryDateHour(String prevDeliveryDateHour) {
+        this.prevDeliveryDateHour = prevDeliveryDateHour;
     }
 
-    public int getVolume_number() {
-        return volume_number;
+    public int getVolumeNumber() {
+        return volumeNumber;
     }
 
-    public void setVolume_number(int volume_number) {
-        this.volume_number = volume_number;
+    public void setVolumeNumber(int volumeNumber) {
+        this.volumeNumber = volumeNumber;
     }
 
     public List<ProductQuantityDTO> getProductsQuantities() {
@@ -201,12 +201,12 @@ public class OrderDTO {
                 detailed ? order.getOrderPackageTypes() != null ? OrderPackageTypeDTO.fromOrderPackageType(order.getOrderPackageTypes()) : null: new LinkedList<>(),
                 order.getChannel(),
                 order.getStore(),
-                order.getDistribution_center(),
-                order.getCp_destiny(),
+                order.getDistributionCenter(),
+                order.getCpDestiny(),
                 order.getFeedback(),
-                order.getDelivery_date_hour(),
-                order.getPrev_delivery_date_hour(),
-                order.getVolume_number()
+                order.getDeliveryDateHour(),
+                order.getPrevDeliveryDateHour(),
+                order.getVolumeNumber()
         );
     }
 

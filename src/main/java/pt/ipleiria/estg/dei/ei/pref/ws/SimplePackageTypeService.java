@@ -24,7 +24,7 @@ public class SimplePackageTypeService {
 
     @GET
     @Path("{id}")
-    public Response get(@PathParam("id") long id) {
+    public Response get(@PathParam("id") String id) {
         return Response.ok(SimplePackageTypeDTO.from(simplePackageTypeBean.findOrFail(id))).build();
     }
 

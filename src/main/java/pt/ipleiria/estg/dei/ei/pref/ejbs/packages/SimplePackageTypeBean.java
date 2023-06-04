@@ -13,7 +13,7 @@ public class SimplePackageTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SimplePackageType findOrFail(long id) {
+    public SimplePackageType findOrFail(String id) {
         return entityManager.find(SimplePackageType.class, id);
     }
 
