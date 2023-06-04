@@ -14,13 +14,20 @@
     <div
       class="grid lg:grid-cols-4 px-4 py-3 text-blueGray-500 align-middle border border-solid border-blueGray-100 bg-slate-100"
     >
+      <div v-if="props.loading">
+        <SpinnerComponent></SpinnerComponent>
+      </div>
       <div
         v-for="orderPackage in computedOrderPackages"
+        v-else
         :key="orderPackage.id"
         class="break-words bg-white mb-6 shadow-lg rounded mx-4"
       >
         <div class="py-3 flex justify-between px-3">
-          <span>{{ orderPackage.packageName }} - {{ orderPackage.id }}</span>
+          <span
+            >type {{ orderPackage.simplePackageTypeId }} -
+            {{ orderPackage.id }}</span
+          >
           <label v-if="orderPackage.hasObservations" class="checkbox-label">
             <input
               v-model="orderPackage.checkedComputed"
@@ -37,9 +44,16 @@
 </template>
 
 <script setup>
+import SpinnerComponent from "@/components/Spinner/SpinnerComponent.vue";
+
 const emit = defineEmits(["order-package-selected"]);
 
 const props = defineProps({
+  loading: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
   orderPackages: {
     type: Array,
     required: true,

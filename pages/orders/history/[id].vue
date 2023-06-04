@@ -4,13 +4,15 @@
       <CardOrderPackagesOfOrder
         :order-packages="orderDataWithDetails?.orderPackages"
         @order-package-selected="updateSelectedPackages"
+        :loading="pending"
       />
       <CardOrderLinePackages
         :order-lines="orderDataWithDetails?.orderLines"
         @product-package-selected="updateSelectedPackages"
+        :loading="pending"
       />
       <CardObservations
-        :loading="pending"
+        :loading="hasObservationsPending"
         :selected-packages="selectedPackages"
       />
     </div>
@@ -37,12 +39,13 @@ const updateSelectedPackages = (payload) => {
 
 const packageIds = ref([]);
 
-const { data: orderData } = await useLazyAsyncData(
+const { data: orderData, pending } = await useLazyAsyncData(
   "orderData",
-  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
+  () => $fetch(`/api/orders/${useRoute().params.id}`, {}),
   {
     server: false,
     transform: (data) => {
+      console.log(data);
       data.orderPackages.forEach((orderPackage) => {
         packageIds.value.push(orderPackage.id);
       });
@@ -82,35 +85,36 @@ const { data: orderData } = await useLazyAsyncData(
   }
 );
 
-const { data: orderDataWithDetails, pending } = await useLazyAsyncData(
-  "orderDataWithDetails",
-  () =>
-    $fetch("/api/observations/packages-has-observations/", {
-      method: "POST",
-      body: JSON.stringify({ ids: packageIds.value })
-    }),
-  {
-    server: false,
-    watch: orderData,
-    transform: (data) => {
-      const orderDataTemp = orderData.value;
-      orderDataTemp.orderPackages.forEach((element) => {
-        if (data.includes(element.id)) {
-          element.hasObservations = true;
-        }
-      });
-      orderDataTemp.orderLines.forEach((element) => {
-        element.orderLineProductRelation.forEach((item) => {
-          item.product.orderLineProductPackages.forEach((productPackage) => {
-            if (data.includes(productPackage.id)) {
-              productPackage.hasObservations = true;
-            }
+const { data: orderDataWithDetails, pending: hasObservationsPending } =
+  await useLazyAsyncData(
+    "packagesHasObservations",
+    () =>
+      $fetch("/api/observations/packages-has-observations/", {
+        method: "POST",
+        body: JSON.stringify({ ids: packageIds.value })
+      }),
+    {
+      server: false,
+      watch: orderData,
+      transform: (data) => {
+        const orderDataTemp = orderData.value;
+        orderDataTemp.orderPackages.forEach((element) => {
+          if (data.includes(element.id)) {
+            element.hasObservations = true;
+          }
+        });
+        orderDataTemp.orderLines.forEach((element) => {
+          element.orderLineProductRelation.forEach((item) => {
+            item.product.orderLineProductPackages.forEach((productPackage) => {
+              if (data.includes(productPackage.id)) {
+                productPackage.hasObservations = true;
+              }
+            });
           });
         });
-      });
 
-      return orderDataTemp;
+        return orderDataTemp;
+      }
     }
-  }
-);
+  );
 </script>

@@ -49,10 +49,11 @@ const addSelectedPackage = (selectedPackage) => {
 
 const { data: orderData, pending } = await useLazyAsyncData(
   "orderData",
-  () => $fetch(`/api/orders/${useRoute().params.trackingNumber}`, {}),
+  () => $fetch(`/api/orders/${useRoute().params.id}`, {}),
   {
     server: false,
     transform: (data) => {
+      console.log(data);
       data.orderLines.forEach((element) => {
         element.productId = element.product.id;
         element.productName = element.product.name;
@@ -65,8 +66,7 @@ const { data: orderData, pending } = await useLazyAsyncData(
           element.product.height;
         element.weight = element.product.weight + "kg";
         element.price =
-          (element.product.price * element.quantity).toFixed(2) + "€";
-        element.category = element.product.category;
+          (element.productPrice * element.quantity).toFixed(2) + "€";
         element.productPrice = element.productPrice.toFixed(2) + "€";
       });
       return data;
@@ -87,25 +87,22 @@ const associatePackagesWithOrder = async () => {
         "addPackage",
         async () => {
           // Make the callback function async
-          const response = await $fetch(
-            `/api/orders/${orderData.value.trackingNumber}`,
-            {
-              method: "PATCH",
-              body: JSON.stringify({
-                id: selectedPackage.id
-              }),
-              onResponseError: ({ request, options, response }) => {
-                toastMessage.value = response._data?.reason;
-                toastType.value = "error";
-              },
-              onResponse: ({ request, response, options }) => {
-                toastMessage.value = "Packages added successfully";
-                toastType.value = "success";
-                //reload page
-                location.reload();
-              }
+          const response = await $fetch(`/api/orders/${orderData.value.id}`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              id: selectedPackage.id
+            }),
+            onResponseError: ({ request, options, response }) => {
+              toastMessage.value = response._data?.reason;
+              toastType.value = "error";
+            },
+            onResponse: ({ request, response, options }) => {
+              toastMessage.value = "Packages added successfully";
+              toastType.value = "success";
+              //reload page
+              location.reload();
             }
-          );
+          });
           return response;
         },
         {
