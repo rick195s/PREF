@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.pref.dtos.packages.ProductPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,7 +99,7 @@ public class ProductDTO implements Serializable {
                 product.getLength(),
                 product.getWidth(),
                 product.getHeight(),
-                detailed ? product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null : null,
+                detailed ? product.getProductPackages() != null ? ProductPackageTypeDTO.fromProductPackageType(product.getProductPackages()) : null : new LinkedList<>(),
                 product.getType()
         );
     }

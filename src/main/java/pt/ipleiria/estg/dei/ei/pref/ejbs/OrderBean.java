@@ -77,15 +77,12 @@ public class OrderBean {
                     .setMaxResults(limit)
                     .getResultList();
         }
-        for (Order order : orders) {
-            initializeOrder(order);
-        }
+
         return orders;
     }
 
     private void initializeOrder(Order order) {
         Hibernate.initialize(order.getOrderLines());
-        Hibernate.initialize(order.getShippingMethod());
         Hibernate.initialize(order.getOrderPackages());
 
         for (OrderLine orderLine : order.getOrderLines()) {

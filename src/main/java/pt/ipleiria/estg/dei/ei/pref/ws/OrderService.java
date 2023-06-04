@@ -1,8 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.requests.OrderDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
+import pt.ipleiria.estg.dei.ei.pref.dtos.OrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.PaginatedDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.OrderBean;
@@ -34,7 +33,7 @@ public class OrderService {
     @GET
     @Path("/{trackingNumber}")
     public Response get(@PathParam("trackingNumber") String id) {
-        return Response.ok(DetailedOrderDTO.from(orderBean.findOrFail(id))).build();
+        return Response.ok(OrderDTO.from(orderBean.findOrFail(id),true)).build();
     }
 
     @GET
@@ -58,7 +57,7 @@ public class OrderService {
             count = 0L;
         }
 
-        var paginatedDTO = new PaginatedDTO<>(DetailedOrderDTO.from(orders), count, pageRequest.getOffset());
+        var paginatedDTO = new PaginatedDTO<>(OrderDTO.from(orders, false), count, pageRequest.getOffset());
 
         return Response.ok(paginatedDTO).build();
     }
@@ -76,7 +75,7 @@ public class OrderService {
         Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getCarrier(), orderDTO.getShippingMethod());
 
         return Response
-                .ok(DetailedOrderDTO.from(orderBean.findOrFail(order.getId())))
+                .ok(OrderDTO.from(orderBean.findOrFail(order.getId()), true))
                 .status(Response.Status.CREATED).build();
     }
 
@@ -84,16 +83,13 @@ public class OrderService {
     @Path("/{trackingNumber}")
     public Response associatePackageWithOrder(@PathParam("trackingNumber") String orderId, OrderPackageTypeDTO orderPackageTypeDTO) {
         orderPackageBean.create(orderPackageTypeDTO.getId(), orderId);
-
-        DetailedOrderDTO detailedOrderDTO = DetailedOrderDTO.from(orderBean.findOrFail(orderId));
-
-        return Response.ok(detailedOrderDTO).build();
+        return Response.ok(OrderDTO.from(orderBean.findOrFail(orderId), true)).build();
     }
 
     @PATCH
     @Path("/{trackingNumber}/pack")
     public Response packOrder(@PathParam("trackingNumber") String id) {
-        return Response.ok(DetailedOrderDTO.from(orderBean.packOrder(id))).build();
+        return Response.ok(OrderDTO.from(orderBean.packOrder(id), true)).build();
     }
 
     @GET
