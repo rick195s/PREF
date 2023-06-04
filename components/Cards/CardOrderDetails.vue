@@ -34,12 +34,24 @@
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Tracking Number
+              Id
             </th>
             <td
               class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.trackingNumber }}
+              {{ props.orderData?.id }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              FEEDBACK
+            </th>
+            <td
+              class="px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.feedback }}
             </td>
           </tr>
           <tr>
@@ -51,66 +63,55 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{
-                new Date(props.orderData?.orderDate).toLocaleDateString("pt-pt")
-              }}
+              {{ props.orderData?.orderDate }}
             </td>
           </tr>
           <tr>
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Hour
+              Prev. Delivery Date
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{
-                new Date(props.orderData?.orderDate).toLocaleTimeString(
-                  "pt-PT",
-                  {
-                    hour12: false,
-                    hour: "numeric",
-                    minute: "numeric"
-                  }
-                )
-              }}
+              {{ props.orderData?.prev_delivery_date_hour }}
             </td>
           </tr>
           <tr>
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Source
+              Distribution Center
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.source }}
+              {{ props.orderData?.distribution_center }}
             </td>
           </tr>
           <tr>
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Destination
+              CP Destination
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.destination }}
+              {{ props.orderData?.cp_destiny }}
             </td>
           </tr>
           <tr>
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              State
+              Store
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.state }}
+              {{ props.orderData?.store }}
             </td>
           </tr>
           <tr>
@@ -141,26 +142,42 @@
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Shipping Methods
+              Shipping Method
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.shippingMethods }}
+              {{ props.orderData?.shippingMethod }}
             </td>
           </tr>
           <tr>
             <th
               class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
             >
-              Package
+              Package Types
             </th>
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               {{
                 props.orderData?.orderPackageTypes
-                  ?.map((orderPackage) => orderPackage.name)
+                  ?.map((orderPackage) => orderPackage.id)
+                  .join(", ")
+              }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              Packages Id Used
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{
+                props.orderData?.orderPackages
+                  ?.map((orderPackage) => orderPackage.id)
                   .join(", ")
               }}
             </td>
