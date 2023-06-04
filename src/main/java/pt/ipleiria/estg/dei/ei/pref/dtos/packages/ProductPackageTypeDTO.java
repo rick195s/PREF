@@ -1,9 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.packages;
 
-import pt.ipleiria.estg.dei.ei.pref.entities.Product;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,22 +9,32 @@ import java.util.stream.Collectors;
 public class ProductPackageTypeDTO extends SimplePackageTypeDTO implements Serializable {
 
 
+    private String name;
+
+    private String composition;
+
+    private String discard;
+
+
     public ProductPackageTypeDTO() {
     }
 
-    public ProductPackageTypeDTO(long id, String name, double cost, String dimension, boolean isSustainable, ResistenceType resistance, boolean isSmart) {
-        super(id, name, cost, dimension, isSustainable, resistance, isSmart);
+    public ProductPackageTypeDTO(String id, double cost, boolean isSustainable, boolean isSmart, String name, String composition, String discard) {
+        super(id, cost, isSustainable, isSmart);
+        this.name = name;
+        this.composition = composition;
+        this.discard = discard;
     }
 
     public static ProductPackageTypeDTO from(ProductPackageType productPackageType) {
         return new ProductPackageTypeDTO(
                 productPackageType.getId(),
-                productPackageType.getName(),
                 productPackageType.getCost(),
-                productPackageType.getDimension(),
                 productPackageType.isSustainable(),
-                productPackageType.getResistance(),
-                productPackageType.isSmart()
+                productPackageType.isSmart(),
+                productPackageType.getName(),
+                productPackageType.getComposition(),
+                productPackageType.getDiscard()
         );
     }
 

@@ -1,9 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,12 +9,12 @@ import java.util.stream.Collectors;
 public class OrderPackageDTO implements Serializable {
 
     private long id;
-    private long simplePackageTypeId;
+    private String simplePackageTypeId;
 
     public OrderPackageDTO() {
     }
 
-    public OrderPackageDTO(long id, long simplePackageTypeId){
+    public OrderPackageDTO(long id, String simplePackageTypeId){
         this.id = id;
         this.simplePackageTypeId = simplePackageTypeId;
     }
@@ -37,11 +34,11 @@ public class OrderPackageDTO implements Serializable {
         this.id = id;
     }
 
-    public long getSimplePackageTypeId() {
+    public String getSimplePackageTypeId() {
         return simplePackageTypeId;
     }
 
-    public void setSimplePackageTypeId(long simplePackageTypeId) {
+    public void setSimplePackageTypeId(String simplePackageTypeId) {
         this.simplePackageTypeId = simplePackageTypeId;
     }
 

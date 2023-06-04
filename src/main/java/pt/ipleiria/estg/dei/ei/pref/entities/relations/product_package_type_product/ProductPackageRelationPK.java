@@ -3,20 +3,37 @@ package pt.ipleiria.estg.dei.ei.pref.entities.relations.product_package_type_pro
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class ProductPackageRelationPK implements Serializable {
-    @Column(name = "product_package_id")
-    private long productPackageId;
+    @Column(name = "product_package_type_id")
+    private String productPackageTypeId;
 
     @Column(name = "product_id")
-    private long productId;
+    private String productId;
 
     public ProductPackageRelationPK() {
     }
 
-    public ProductPackageRelationPK(long productPackageId, long productId) {
-        this.productPackageId = productPackageId;
+    public ProductPackageRelationPK(String productPackageTypeId, String productId) {
+        this.productPackageTypeId = productPackageTypeId;
+        this.productId = productId;
+    }
+
+    public String getProductPackageTypeId() {
+        return productPackageTypeId;
+    }
+
+    public void setProductPackageTypeId(String productPackageTypeId) {
+        this.productPackageTypeId = productPackageTypeId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
@@ -27,14 +44,15 @@ public class ProductPackageRelationPK implements Serializable {
 
         ProductPackageRelationPK that = (ProductPackageRelationPK) o;
 
-        if (productPackageId != that.productPackageId) return false;
-        return productId == that.productId;
+        if (!Objects.equals(productPackageTypeId, that.productPackageTypeId))
+            return false;
+        return Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (productPackageId ^ (productPackageId >>> 32));
-        result = 31 * result + (int) (productId ^ (productId >>> 32));
+        int result = productPackageTypeId != null ? productPackageTypeId.hashCode() : 0;
+        result = 31 * result + (productId != null ? productId.hashCode() : 0);
         return result;
     }
 }

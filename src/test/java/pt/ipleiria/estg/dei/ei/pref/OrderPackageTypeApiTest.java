@@ -22,7 +22,7 @@ public class OrderPackageTypeApiTest {
     @Test
     public void testGetPackages() throws IOException {
         Request request = new Request.Builder()
-                .url(baseUrl + "order-package-types?id=19&id=20&id=21")
+                .url(baseUrl + "order-package-types?id=085x020x150&id=120x070x210")
                 .addHeader("Accept", "application/json")
                 .build();
 

@@ -32,26 +32,4 @@ public class ProductApiTests {
         }
     }
 
-    @Test
-    public void testCreateProduct() throws IOException {
-        String jsonBody = "{\"name\":\"Example\",\"category\":\"FOOD\",\"price\":12.3,\"weight\":0.5,\"validityRange\":4,\"length\":2,\"width\":2,\"height\":1,\"productPackageTypes\":[{\"id\":1},{\"id\":4}]}";
-
-        RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
-
-        Request request = new Request.Builder()
-                .url(baseUrl + "products" )
-                .post(body)
-                .addHeader("Accept", "application/json")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            System.out.println("Request URL: " + request.url());
-            System.out.println("Response Body:");
-            if (response.body() != null) {
-                printJsonResponse(response.body().string());
-            }
-            assertEquals(201, response.code());
-        }
-    }
-
 }

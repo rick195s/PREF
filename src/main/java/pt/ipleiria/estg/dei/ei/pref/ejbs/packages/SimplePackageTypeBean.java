@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ProductPackageType;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.SimplePackageType;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.ResistenceType;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +13,7 @@ public class SimplePackageTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SimplePackageType findOrFail(long id) {
+    public SimplePackageType findOrFail(String id) {
         return entityManager.find(SimplePackageType.class, id);
     }
 
@@ -22,9 +21,9 @@ public class SimplePackageTypeBean {
         return (List<SimplePackageType>) entityManager.createNamedQuery("getAllSimplePackageTypes").getResultList();
     }
 
-    public SimplePackageType create(String name, double cost, String dimension, boolean isSustainable, ResistenceType resistence, boolean isSmart) {
+    public SimplePackageType create(String id, double cost, boolean isSustainable, boolean isSmart) {
         // create simple package and persist it
-        SimplePackageType simplePackageType = new SimplePackageType( name, cost, dimension, isSustainable, resistence, isSmart);
+        SimplePackageType simplePackageType = new SimplePackageType(id,  cost,  isSustainable,  isSmart);
 
         entityManager.persist(simplePackageType);
 

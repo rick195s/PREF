@@ -22,6 +22,8 @@ public class OrderLine {
     @Column(name = "product_price")
     private float productPrice;
 
+    private String validity;
+
     @OneToMany(mappedBy = "orderLine", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<OrderLineProductRelation> orderLineProductRelations;
 
@@ -29,11 +31,12 @@ public class OrderLine {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderLine(int quantity, float productPrice,  Order order) {
+    public OrderLine(int quantity, float productPrice,  Order order, String validity) {
         this();
         this.quantity = quantity;
         this.order = order;
         this.productPrice = productPrice;
+        this.validity = validity;
     }
 
     public OrderLine() {
@@ -71,6 +74,14 @@ public class OrderLine {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getValidity() {
+        return validity;
+    }
+
+    public void setValidity(String validity) {
+        this.validity = validity;
     }
 
     public List<OrderLineProductRelation> getOrderLineProductRelations() {
