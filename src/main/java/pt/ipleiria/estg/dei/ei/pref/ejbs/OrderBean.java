@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.Order;
 import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.relations.order_line_product.OrderLineProductRelation;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.pref.exceptions.MyIllegalArgumentException;
 
@@ -40,7 +41,7 @@ public class OrderBean {
     public Order create(String date, Map<String, Integer> productsQuantities, String carrier, String shippingMethod, String channel, String store, String distributionCenter, String cpDestiny, String prevDeliveryDateHour, int volumeNumber) throws MyIllegalArgumentException, MyEntityNotFoundException {
         List<Product> products = productsQuantities.keySet().stream().map(productBean::findOrFail).collect(Collectors.toList());
 
-        Order order = new Order(date, 0, carrier, shippingMethod, channel, store, distributionCenter,cpDestiny, null, null, prevDeliveryDateHour, volumeNumber);
+        Order order = new Order(date, 0, carrier, shippingMethod, channel, store, distributionCenter,cpDestiny, null, null, prevDeliveryDateHour, volumeNumber, OrderState.PENDING);
 
         String date30Days = LocalDate.now().plusDays(30).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<OrderLine> orderLines = products.stream().map(product ->
@@ -114,9 +115,14 @@ public class OrderBean {
             throw new EntityNotFoundException("Order not found");
         }
 
+        if (order.getState() == OrderState.PACKED) {
+            throw new IllegalArgumentException("Order is already packed");
+        }
+        
         if (order.getOrderPackages().size() == 0) {
             throw new IllegalArgumentException("Order has no packages associated");
         }
+        order.setState(OrderState.PACKED);
 
         return order;
     }

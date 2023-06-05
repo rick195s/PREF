@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.requests.ProductQuantityDTO;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class OrderDTO {
     private String prevDeliveryDateHour;
     private int volumeNumber;
     private List<ProductQuantityDTO> productsQuantities;
+    private OrderState state;
+
 
     public OrderDTO() {
         this.orderLines = new LinkedList<>();
@@ -34,7 +37,7 @@ public class OrderDTO {
         this.orderPackageTypes = new LinkedList<>();
     }
 
-    public OrderDTO(String id, String orderDate, List<OrderLineDTO> orderLines, float weight, String carrier, String shippingMethod, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes, String channel, String store, String distributionCenter, String cpDestiny, String feedback, String deliveryDateHour, String prevDeliveryDateHour, int volumeNumber) {
+    public OrderDTO(String id, String orderDate, List<OrderLineDTO> orderLines, float weight, String carrier, String shippingMethod, List<OrderPackageDTO> orderPackages, List<OrderPackageTypeDTO> orderPackageTypes, String channel, String store, String distributionCenter, String cpDestiny, String feedback, String deliveryDateHour, String prevDeliveryDateHour, int volumeNumber, OrderState state) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderLines = orderLines;
@@ -51,6 +54,7 @@ public class OrderDTO {
         this.deliveryDateHour = deliveryDateHour;
         this.prevDeliveryDateHour = prevDeliveryDateHour;
         this.volumeNumber = volumeNumber;
+        this.state = state;
     }
 
     public String getId() {
@@ -189,6 +193,14 @@ public class OrderDTO {
         this.productsQuantities = productsQuantities;
     }
 
+    public OrderState getState() {
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
+    }
+
     public static OrderDTO from(Order order, Boolean detailed) {
         return new OrderDTO(
                 order.getId(),
@@ -206,7 +218,8 @@ public class OrderDTO {
                 order.getFeedback(),
                 order.getDeliveryDateHour(),
                 order.getPrevDeliveryDateHour(),
-                order.getVolumeNumber()
+                order.getVolumeNumber(),
+                order.getState()
         );
     }
 
