@@ -8,50 +8,38 @@ import java.util.stream.Collectors;
 
 public class ProductPackageDTO {
 
-    private long id;
-    private String name;
-
-    // filled with the ProductPackageRelation.type
-    private ProductPackageLevel packageType;
+    private String id;
+    // filled with the ProductPackageRelation.productPackageLevel
+    private ProductPackageLevel productPackageLevel;
 
     public ProductPackageDTO() {
     }
 
-    public ProductPackageDTO(long id, String name, ProductPackageLevel packageType) {
+    public ProductPackageDTO(String id, ProductPackageLevel productPackageLevel) {
         this.id = id;
-        this.name = name;
-        this.packageType = packageType;
+        this.productPackageLevel = productPackageLevel;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public ProductPackageLevel getProductPackageLevel() {
+        return productPackageLevel;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ProductPackageLevel getPackageType() {
-        return packageType;
-    }
-
-    public void setPackageType(ProductPackageLevel packageType) {
-        this.packageType = packageType;
+    public void setProductPackageLevel(ProductPackageLevel productPackageLevel) {
+        this.productPackageLevel = productPackageLevel;
     }
 
     public static ProductPackageDTO from(ProductPackageType productPackageType) {
         return new ProductPackageDTO(
                 productPackageType.getId(),
-                productPackageType.getName(),
-                productPackageType.getType()
+                productPackageType.getProductPackageLevel()
         );
     }
 

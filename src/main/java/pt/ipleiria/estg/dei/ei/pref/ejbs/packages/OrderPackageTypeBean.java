@@ -19,7 +19,7 @@ public class OrderPackageTypeBean {
     @EJB
     private OrderPackageBean orderPackageBean;
 
-    public OrderPackageType findOrFail(long id) {
+    public OrderPackageType findOrFail(String id) {
         return entityManager.find(OrderPackageType.class, id);
     }
 
@@ -27,7 +27,7 @@ public class OrderPackageTypeBean {
         return (List<OrderPackageType>) entityManager.createNamedQuery("getAllOrderPackageTypes").getResultList();
     }
 
-    public List<OrderPackageType> getAllOrderPackageTypesWithId(List<Long> ids) {
+    public List<OrderPackageType> getAllOrderPackageTypesWithId(List<String> ids) {
         return (List<OrderPackageType>) entityManager.createNamedQuery("getAllOrderPackageTypesWithId")
                 .setParameter("ids", ids)
                 .getResultList();

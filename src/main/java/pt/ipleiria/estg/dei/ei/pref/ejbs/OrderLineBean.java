@@ -19,8 +19,8 @@ public class OrderLineBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderLine create(int quantity, float productPrice, Product product, Order order) throws MyIllegalArgumentException, MyEntityNotFoundException {
-        OrderLine orderLine = new OrderLine(quantity, productPrice, order);
+    public OrderLine create(int quantity, float productPrice, Product product, Order order, String validity) throws MyIllegalArgumentException, MyEntityNotFoundException {
+        OrderLine orderLine = new OrderLine(quantity, productPrice, order, validity);
         entityManager.persist(orderLine);
 
         Hibernate.initialize(product.getProductPackageRelations());
