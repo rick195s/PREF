@@ -81,6 +81,26 @@ public class OrderApiTests {
         }
     }
 
+    @Test
+    public void packOrder() throws IOException {
+        Request request = new Request.Builder()
+                .url(baseUrl + "orders/U0000009d000000b5000000d100000079000000a000000099000000a20000008500000093000000ac000000ab/pack")
+                .patch(RequestBody.create("", MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("Request URL: " + request.url());
+            System.out.println("Response Body:");
+            if (response.body() != null) {
+                printJsonResponse(response.body().string());
+            }
+            assertEquals(200, response.code());
+        }
+
+    }
+
+
 
     @Test
     public void testCreateOrder() throws IOException {

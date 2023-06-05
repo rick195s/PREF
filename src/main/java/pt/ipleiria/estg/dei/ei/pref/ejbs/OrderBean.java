@@ -115,10 +115,10 @@ public class OrderBean {
             throw new EntityNotFoundException("Order not found");
         }
 
-        if (order.getState() == OrderState.PACKED) {
-            throw new IllegalArgumentException("Order is already packed");
+        if (order.getState() != OrderState.PENDING) {
+            throw new IllegalArgumentException("Order already packed");
         }
-        
+
         if (order.getOrderPackages().size() == 0) {
             throw new IllegalArgumentException("Order has no packages associated");
         }
