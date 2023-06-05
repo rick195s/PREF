@@ -16,4 +16,8 @@ public class PackageSelectionContext {
     public OrderPackageType selectPackage(List<OrderPackage> orderPackages) {
         return strategy.selectPackage(orderPackages);
     }
+
+    public List<String> getAllStrategies() {
+        return List.of("biggestNumberObservations");
+    }
 }

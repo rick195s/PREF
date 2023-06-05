@@ -2,8 +2,9 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.strategyPattern.LowestReclamationStrategy;
+import pt.ipleiria.estg.dei.ei.pref.strategyPattern.BigestNumberObservationsStrategy;
 import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionContext;
+import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionStrategy;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -33,13 +34,18 @@ public class OrderPackageTypeBean {
                 .getResultList();
     }
 
-    public OrderPackageType suggestPackage() {
+    public OrderPackageType suggestPackage(String strategy) {
         List<OrderPackage> orderPackages = orderPackageBean.getAllOrderPackages();
         PackageSelectionContext context = new PackageSelectionContext();
-        context.setStrategy(new LowestReclamationStrategy());
-
+        if (strategy.equals("biggestNumberObservations")) {
+            context.setStrategy(new BigestNumberObservationsStrategy());
+        }
         OrderPackageType orderPackageType = context.selectPackage(orderPackages);
-
         return orderPackageType;
+    }
+
+    public List<String> getAllStrategies() {
+        PackageSelectionContext context = new PackageSelectionContext();
+        return context.getAllStrategies();
     }
 }

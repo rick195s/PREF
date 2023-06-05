@@ -1,5 +1,4 @@
 package pt.ipleiria.estg.dei.ei.pref.ws;
-import pt.ipleiria.estg.dei.ei.pref.dtos.detailed.DetailedOrderDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.packages.OrderPackageTypeDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.packages.OrderPackageTypeBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
@@ -35,8 +34,15 @@ public class OrderPackageTypeService {
     }
 
     @GET
-    @Path("/suggest-package")
-    public Response suggestPackage() {
-        return Response.ok(OrderPackageTypeDTO.from(orderPackageTypeBean.suggestPackage())).build();
+    @Path("/suggest-package/{strategy}")
+    public Response suggestPackage(@PathParam("strategy") String strategy) {
+        return Response.ok(OrderPackageTypeDTO.from(orderPackageTypeBean.suggestPackage(strategy))).build();
+    }
+
+    //get all startegies
+    @GET
+    @Path("/strategies")
+    public Response getAllStrategies() {
+        return Response.ok(orderPackageTypeBean.getAllStrategies()).build();
     }
 }
