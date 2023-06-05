@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.entities;
 import org.hibernate.annotations.GenericGenerator;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
+import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -72,12 +73,15 @@ public class Order {
     @Column(name="volume_number")
     private int volumeNumber;
 
+    @Enumerated(EnumType.STRING)
+    private OrderState state;
+
     public Order() {
         this.orderLines = new LinkedList<>();
         this.orderPackages = new LinkedList<>();
     }
 
-    public Order(String date, float weight, String carrier, String shippingMethod, String channel, String store, String distributionCenter, String cpDestiny, String feedback, String deliveryDateHour, String prevDeliveryDateHour, int volumeNumber){
+    public Order(String date, float weight, String carrier, String shippingMethod, String channel, String store, String distributionCenter, String cpDestiny, String feedback, String deliveryDateHour, String prevDeliveryDateHour, int volumeNumber, OrderState state){
         this();
         this.date = date;
         this.weight = weight;
@@ -91,6 +95,7 @@ public class Order {
         this.deliveryDateHour = deliveryDateHour;
         this.prevDeliveryDateHour = prevDeliveryDateHour;
         this.volumeNumber = volumeNumber;
+        this.state = state;
     }
 
     public String getId() {
@@ -199,6 +204,14 @@ public class Order {
 
     public void setVolumeNumber(int volumeNumber) {
         this.volumeNumber = volumeNumber;
+    }
+
+    public OrderState getState() {
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
     }
 
     public List<OrderPackage> getOrderPackages() {
