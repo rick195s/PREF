@@ -56,13 +56,4 @@ public class AuthService {
         }
         return Response.ok(UserDTO.from(user)).build();
     }
-
-    @PUT
-    @Authenticated
-    @Path("/updatePassword")
-    public Response updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO) throws PasswordInvalidException {
-        String userEmail = securityContext.getUserPrincipal().getName();
-        userBean.updatePassword(userEmail, updatePasswordDTO.getOldPassword(), updatePasswordDTO.getConfirmNewPassword(), updatePasswordDTO.getNewPassword());
-        return Response.ok().build();
-    }
 }
