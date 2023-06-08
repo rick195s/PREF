@@ -86,7 +86,9 @@ public class ConfigBean {
             System.out.println("Sequences not updated");
         }
 
-        userBean.create("Example", "example@gmail.com", "123", Role.CLIENT.toString());
+        if(userBean.getAllUsers().size() == 0){
+            userBean.create("Client1", "client@gmail.com", "123", Role.CLIENT.toString());
+        }
         createObservers();
         System.out.println("Observers created");
 /*

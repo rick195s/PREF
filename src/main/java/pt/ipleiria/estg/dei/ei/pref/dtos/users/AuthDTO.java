@@ -2,16 +2,16 @@ package pt.ipleiria.estg.dei.ei.pref.dtos.users;
 
 import javax.validation.constraints.NotBlank;
 
-public class Auth {
+public class AuthDTO {
     @NotBlank
     private String email;
 
     @NotBlank
     private String password;
 
-    public Auth() {}
+    public AuthDTO() {}
 
-    public Auth(String email, String password) {
+    public AuthDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
