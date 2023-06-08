@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.pref.entities.users;
 
-import pt.ipleiria.estg.dei.ei.dae.project.security.enums.Role;
+
+import pt.ipleiria.estg.dei.ei.pref.enumerators.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
