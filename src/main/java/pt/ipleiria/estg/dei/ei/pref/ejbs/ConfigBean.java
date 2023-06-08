@@ -69,15 +69,24 @@ public class ConfigBean {
     @EJB
     OrderLineProductPackageBean orderLineProductPackageBean;
 
+    @EJB
+    UserBean userBean;
+
     @PostConstruct
     public void populateDB() {
         System.out.println("Hello Java EfE!");
 
-        syncSequences("order_line_product_relations_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLineProductRelation o").getSingleResult()+1);
-        syncSequences("order_lines_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLine o").getSingleResult()+1);
-        // update hibernate_sequences table
-        updateHibernateSequences();
+        try{
+            syncSequences("order_line_product_relations_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLineProductRelation o").getSingleResult()+1);
+            syncSequences("order_lines_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLine o").getSingleResult()+1);
+            // update hibernate_sequences table
+            updateHibernateSequences();
 
+        }catch (Exception e){
+            System.out.println("Sequences not updated");
+        }
+
+        userBean.create("Example", "example@gmail.com", "123", Role.CLIENT.toString());
         createObservers();
         System.out.println("Observers created");
 /*

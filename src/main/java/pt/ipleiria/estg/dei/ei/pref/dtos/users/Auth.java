@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.dtos;
+package pt.ipleiria.estg.dei.ei.pref.dtos.users;
 
 import javax.validation.constraints.NotBlank;
 
