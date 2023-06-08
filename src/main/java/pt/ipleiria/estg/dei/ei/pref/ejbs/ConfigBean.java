@@ -88,6 +88,9 @@ public class ConfigBean {
 
         if(userBean.getAllUsers().size() == 0){
             userBean.create("Client1", "client@gmail.com", "123", Role.CLIENT.toString());
+            userBean.create("Manager1", "manager@gmail.com", "123", Role.LOGISTICS_MANAGER.toString());
+            userBean.create("Analyst1", "analyst@gmail.com", "123", Role.ANALYST.toString());
+            userBean.create("Operator1", "operator@gmail.com", "123", Role.LOGISTICS_OPERATOR.toString());
         }
         createObservers();
         System.out.println("Observers created");
