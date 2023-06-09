@@ -1,7 +1,10 @@
 package pt.ipleiria.estg.dei.ei.pref.dtos.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.validation.constraints.NotBlank;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthDTO {
     @NotBlank
     private String email;
