@@ -15,6 +15,7 @@
                   Email
                 </label>
                 <input
+                  v-model="formData.email"
                   type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
@@ -29,22 +30,11 @@
                   Password
                 </label>
                 <input
+                  v-model="formData.password"
                   type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
                 />
-              </div>
-              <div>
-                <label class="inline-flex items-center cursor-pointer">
-                  <input
-                    id="customCheckLogin"
-                    type="checkbox"
-                    class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                  />
-                  <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                    Remember me
-                  </span>
-                </label>
               </div>
 
               <div class="text-center mt-6">
@@ -56,6 +46,11 @@
                   Sign In
                 </button>
               </div>
+              <div>
+                <p class="pt-3 text-center text-red-500 text-small italic">
+                  {{ errorMsg }}
+                </p>
+              </div>
             </form>
           </div>
         </div>
@@ -65,13 +60,22 @@
 </template>
 <script setup>
 const { signIn } = useAuth();
+const formData = ref({
+  email: "",
+  password: ""
+});
+const errorMsg = ref("");
 const login = async () => {
-  await signIn(
-    { email: "manager@gmail.com", password: "123" },
-    { redirect: false }
-  );
-
-  await navigateTo("/");
+  errorMsg.value = "";
+  try {
+    await signIn(
+      { email: formData.value.email, password: formData.value.password },
+      { redirect: false }
+    );
+    await navigateTo("/");
+  } catch (error) {
+    errorMsg.value = "Invalid email or password";
+  }
 };
 
 definePageMeta({
