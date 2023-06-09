@@ -12,19 +12,8 @@
     </main>
   </div>
 </template>
-<script>
+<script setup>
 import FooterSmall from "@/components/Footers/FooterSmall.vue";
 
 import registerBg2 from "@/assets/img/register_bg_2.png";
-
-export default {
-  components: {
-    FooterSmall
-  },
-  data() {
-    return {
-      registerBg2
-    };
-  }
-};
 </script>

@@ -42,8 +42,7 @@
                 <button
                   type="button"
                   class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  aria-expanded="false"
-                  data-dropdown-toggle="dropdown-user"
+                  @click="showDropdown = !showDropdown"
                 >
                   <span class="sr-only">Open user menu</span>
                   <img
@@ -55,7 +54,9 @@
               </div>
               <div
                 id="dropdown-user"
-                class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                class="z-50 text-base list-none bg-white divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                :class="{ hidden: !showDropdown }"
+                style="position: absolute; top: 50px; right: 10px"
               >
                 <div class="px-4 py-3" role="none">
                   <p class="text-sm text-gray-900 dark:text-white" role="none">
@@ -98,6 +99,7 @@
                       href="#"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                       role="menuitem"
+                      @click="signOut({ redirect: false })"
                       >Sign out</a
                     >
                   </li>
@@ -148,6 +150,8 @@
 </template>
 
 <script setup>
+const { signOut } = useAuth();
+const showDropdown = ref(false);
 const pages = ref([
   {
     name: "Dashboard",
