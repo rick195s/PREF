@@ -3,11 +3,9 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 
 import pt.ipleiria.estg.dei.ei.pref.dtos.users.AuthDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.users.TokenDTO;
-import pt.ipleiria.estg.dei.ei.pref.dtos.users.UpdatePasswordDTO;
 import pt.ipleiria.estg.dei.ei.pref.dtos.users.UserDTO;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.UserBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.users.User;
-import pt.ipleiria.estg.dei.ei.pref.exceptions.PasswordInvalidException;
 import pt.ipleiria.estg.dei.ei.pref.security.Authenticated;
 import pt.ipleiria.estg.dei.ei.pref.security.TokenIssuer;
 
@@ -44,6 +42,12 @@ public class AuthService {
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
+
+    @POST
+    @Path("/logout")
+    public Response logout() {
+        return Response.status(Response.Status.OK).build();
+    }
 
     @GET
     @Authenticated
