@@ -1,6 +1,6 @@
 
 ### Get Order Details
-GET http://localhost:8080/pref/api/orders/1
+GET http://localhost:8080/pref/api/order-package-types/suggestPackage
 Accept: application/json
 
 > {%
