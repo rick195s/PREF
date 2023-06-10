@@ -61,8 +61,8 @@
 <script setup>
 const { signIn } = useAuth();
 const formData = ref({
-  email: "",
-  password: ""
+  email: "manager@gmail.com",
+  password: "123"
 });
 const errorMsg = ref("");
 const login = async () => {
