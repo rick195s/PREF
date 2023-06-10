@@ -36,68 +36,53 @@
               />
             </nuxt-link>
           </div>
-          <div class="flex items-center">
+
+          <div class="flex items-center" @click="showDropdown = !showDropdown">
             <div class="flex items-center ml-3">
               <div>
                 <button
                   type="button"
-                  class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  aria-expanded="false"
-                  data-dropdown-toggle="dropdown-user"
+                  class="flex focus:ring-gray-300 dark:focus:ring-gray-600"
                 >
                   <span class="sr-only">Open user menu</span>
+                  <p
+                    class="self-center px-1 text-sm text-gray-900 dark:text-white"
+                    role="none"
+                  >
+                    {{ data.name }}
+                  </p>
                   <img
                     class="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    src="~/assets/img/default_user.png"
                     alt="user photo"
                   />
                 </button>
               </div>
               <div
                 id="dropdown-user"
-                class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                class="z-50 text-base list-none bg-white divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                :class="{ hidden: !showDropdown }"
+                style="position: absolute; top: 50px; right: 10px"
               >
                 <div class="px-4 py-3" role="none">
                   <p class="text-sm text-gray-900 dark:text-white" role="none">
-                    Neil Sims
+                    {{ data.role }}
                   </p>
                   <p
                     class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                     role="none"
                   >
-                    neil.sims@flowbite.com
+                    {{ data.email }}
                   </p>
                 </div>
-                <ul class="py-1" role="none">
+
+                <ul class="py-1" role="none" @focusout="showDropdown = false">
                   <li>
                     <a
                       href="#"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                       role="menuitem"
-                      >Dashboard</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
-                      >Settings</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
-                      >Earnings</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                      role="menuitem"
+                      @click="signOut({ redirect: false })"
                       >Sign out</a
                     >
                   </li>
@@ -148,6 +133,9 @@
 </template>
 
 <script setup>
+const { signOut, data } = useAuth();
+const showDropdown = ref(false);
+
 const pages = ref([
   {
     name: "Dashboard",
