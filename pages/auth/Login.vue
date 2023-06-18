@@ -37,14 +37,12 @@
                 />
               </div>
 
-              <div class="text-center mt-6">
-                <button
-                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
-                  @click="login"
-                >
-                  Sign In
-                </button>
+              <div
+                class="cursor-pointer flex flex-row justify-evenly px-6 py-3 ease-linear transition-all duration-150 text-center mt-6 bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                @click="login"
+              >
+                <button type="button">Sign In</button>
+                <SpinnerComponent v-if="pending" />
               </div>
               <div>
                 <p class="pt-3 text-center text-red-500 text-small italic">
@@ -59,21 +57,29 @@
   </div>
 </template>
 <script setup>
+import SpinnerComponent from "@/components/Spinner/SpinnerComponent.vue";
 const { signIn } = useAuth();
 const formData = ref({
   email: "manager@gmail.com",
   password: "123"
 });
 const errorMsg = ref("");
+const pending = ref(false);
 const login = async () => {
+  if (pending.value) {
+    return;
+  }
   errorMsg.value = "";
   try {
+    pending.value = true;
     await signIn(
       { email: formData.value.email, password: formData.value.password },
       { redirect: false }
     );
+    pending.value = false;
     await navigateTo("/");
   } catch (error) {
+    pending.value = false;
     errorMsg.value = "Invalid email or password";
   }
 };
