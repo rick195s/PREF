@@ -19,5 +19,11 @@ public class StatisticsService {
         return Response.ok(statisticsBean.getTemperatureByCarrier(carrier)).build();
     }
 
+    @GET
+    @Path("/{role}")
+    public Response getStatistics(@PathParam("role") String role) {
+        return Response.ok(statisticsBean.getStatisticsDashboardUsers(role)).build();
+    }
+
 
 }
