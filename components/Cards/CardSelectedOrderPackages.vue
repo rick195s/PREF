@@ -1,16 +1,26 @@
 <template>
   <div>
-    <div class="bg-white flex flex-row justify-between px-6 align-middle p-4 overflow-x-auto">
+    <div
+      class="bg-white flex flex-row justify-between px-6 align-middle p-4 overflow-x-auto"
+    >
       <h4>SuggestedPackage:</h4>
-      <span v-if="!pending" class="ml-2 font-medium text-gray-600">{{ suggestedPackage }}</span>
+      <span v-if="!pending" class="ml-2 font-medium text-gray-600">{{
+        suggestedPackage
+      }}</span>
       <span v-else class="ml-2 font-medium text-gray-600"> Searching... </span>
 
-      <select class="ml-2 w-40 border border-gray-300 rounded px-2 py-1"
-              v-model="selectedStrategy"
-              @change="updateSelectedStrategy">
+      <select
+        class="ml-2 w-40 border border-gray-300 rounded px-2 py-1"
+        v-model="selectedStrategy"
+        @change="updateSelectedStrategy"
+      >
         <!-- Opções da combobox -->
         <option value="" disabled>Select Strategy</option>
-        <option v-for="strategy in strategies" :key="strategy" :value="strategy">
+        <option
+          v-for="strategy in strategies"
+          :key="strategy"
+          :value="strategy"
+        >
           {{ strategy }}
         </option>
       </select>
@@ -85,7 +95,6 @@ const { data: strategies } = await useLazyAsyncData(
   }
 );
 
-
 const selectedPackages = computed({
   get: () => {
     return props.modelValue;
@@ -94,7 +103,6 @@ const selectedPackages = computed({
     emit("update:modelValue", value);
   }
 });
-
 
 const removePackage = (element) => {
   const index = selectedPackages.value.indexOf(element);
@@ -109,7 +117,6 @@ const addPackages = () => {
 
 const updateSelectedStrategy = () => {
   pending.value = true;
-  console.log(selectedStrategy.value);
   $fetch(`/api/order-package-types/suggest-package/${selectedStrategy.value}`)
     .then((response) => {
       pending.value = false;
@@ -118,9 +125,6 @@ const updateSelectedStrategy = () => {
     .catch((error) => {
       pending.value = false;
       suggestedPackage.value = "-";
-      console.log(error);
     });
 };
-
-
 </script>
