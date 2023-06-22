@@ -45,7 +45,6 @@ const { data: orderData, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
-      console.log(data);
       data.orderPackages.forEach((orderPackage) => {
         packageIds.value.push(orderPackage.id);
       });

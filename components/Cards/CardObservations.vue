@@ -61,7 +61,6 @@ const { data: observations, pending } = await useLazyAsyncData(
     transform: (data) => {
       setDefaultKeys();
       // Sort the observations by date in descending order (most recent date appears first)
-      console.log(data);
       data = data.flat().sort((a, b) => new Date(b.date) - new Date(a.date));
 
       data.forEach((element) => {
