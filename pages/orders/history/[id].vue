@@ -6,7 +6,7 @@
         @order-package-selected="updateSelectedPackages"
         :loading="pending"
       />
-      <CardOrderLinePackages
+      <CardOrderLinesPackages
         :order-lines="orderDataWithDetails?.orderLines"
         @product-package-selected="updateSelectedPackages"
         :loading="pending"
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup>
-import CardOrderLinePackages from "~/components/Cards/CardOrderLinesPackages.vue";
+import CardOrderLinesPackages from "~/components/Cards/CardOrderLinesPackages.vue";
 import CardOrderPackagesOfOrder from "~/components/Cards/CardOrderPackagesOfOrder.vue";
 import CardObservations from "~/components/Cards/CardObservations.vue";
 
