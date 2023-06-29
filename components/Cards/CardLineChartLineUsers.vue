@@ -6,7 +6,7 @@
     <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full max-w-full flex-grow flex-1">
-          <h2 class="text-grey text-xl font-semibold">{{chartDataset?.chartTitle}}</h2>
+          <h2 class="text-grey text-xl font-semibold">{{title}}</h2>
         </div>
       </div>
     </div>
@@ -29,16 +29,33 @@ Chart.defaults.color = "rgba(0,0,0,0.7)";
 
 const router = useRouter();
 
-const chartDataset = JSON.parse(router.currentRoute.value.query.chartDataset)[0];
+const chartDataset = JSON.parse(router.currentRoute.value.query.chartDataset);
 
-const defaultDatasets = ref([
-  {
-    label: chartDataset?.chartTitle,
-    backgroundColor: "#e30613",
-    borderColor: "rgba(84,84,84,0.7)",
-    data: chartDataset?.data
+const title = router.currentRoute.value.query.title
+
+const colors = ["#b70202", "#336933"];
+const selectedColors = [];
+
+const getRandomColor = () => {
+  if (colors.length === 0) {
+    // Caso todas as cores tenham sido selecionadas, você pode optar por gerar uma nova cor ou parar a seleção
+    // return getRandomColor(); // Gere uma nova cor aleatória
+    return null; // Pare a seleção de cores
   }
-]);
+
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  const color = colors[randomIndex];
+  colors.splice(randomIndex, 1); // Remove a cor selecionada do array original
+  selectedColors.push(color); // Adiciona a cor selecionada ao array de cores selecionadas
+  return color;
+};
+
+const defaultDatasets = ref(chartDataset.map((dataset) => ({
+  label: dataset?.chartTitle,
+  backgroundColor: getRandomColor(),
+  borderColor: "rgba(84, 84, 84, 0.7)",
+  data: dataset?.data,
+})));
 
 const linechart = ref(null);
 
