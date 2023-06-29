@@ -1,9 +1,10 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
+import pt.ipleiria.estg.dei.ei.pref.entities.Order;
+import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.statistics.ChartData;
 import pt.ipleiria.estg.dei.ei.pref.entities.statistics.ChartDataset;
 import pt.ipleiria.estg.dei.ei.pref.entities.statistics.Statistics;
-import pt.ipleiria.estg.dei.ei.pref.enumerators.OrderState;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,15 +13,19 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class StatisticsBean {
     @PersistenceContext
     private EntityManager entityManager;
 
+    //get todays date
     LocalDate today = LocalDate.now();
 
+    //date format
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public Object getTemperatureByCarrier(String carrier) {
@@ -44,69 +49,175 @@ public class StatisticsBean {
             case "LOGISTICS_MANAGER":
                 result = getStatisticsLogisticsManager();
                 break;
+            case "ANALYST":
+                result = getStatisticsAnalyst();
+                break;
+            case "CLIENT":
+                result = getStatisticsClient();
+                break;
         }
         return result;
     }
 
-    public Object getStatisticsLogisticsManager(){
+    //statistics for Logistics Manager
+    public Object getStatisticsLogisticsManager() {
         List<Object> chartDatasets = new ArrayList<>();
 
-        // Primeiro objeto
-        Statistics statistics1 = new Statistics("Percentage of Orders In Transit", getPercentageOfOrdersInTransit().toString()+" %", new ArrayList<>());
+        // First object
+        Statistics statistics1 = new Statistics("Percentage of Orders In Transit", Math.round(getPercentageOfOrdersInTransit() * 100.0) / 100.0 + " %", new ArrayList<>());
         chartDatasets.add(statistics1);
 
-        // Segundo objeto
+        // Second object
+        //Add data for chart
         List<ChartData> chartData1 = new ArrayList<>();
-        addDataToChartData(chartData1, OrderState.RETURNED);
+        Map<String, Object> map1 = addDateAndTotalToChartData(chartData1,"COM DEVOLUÇÃO");
+        chartData1 = (List<ChartData>) map1.get("chartData");
 
         ChartDataset chartDataset1 = new ChartDataset("Number of Orders Returned", chartData1);
 
         List<ChartDataset> listChartDatasets1 = new ArrayList<>();
         listChartDatasets1.add(chartDataset1);
 
-        Statistics statistics2 = new Statistics("Percentage of Orders Returned", getPercentageOfOrdersReturned() + " %", listChartDatasets1);
+        Double percentageOfOrdersReturned = (Double) map1.get("total");
+        //Add data for card
+        Statistics statistics2 = new Statistics("Percentage of Orders Returned (Last 5 days)", Math.round(percentageOfOrdersReturned * 100.0) / 100.0+" %", listChartDatasets1);
         chartDatasets.add(statistics2);
 
-        //terceiro objeto
+        // Third object
+        //Add data for chart
         List<ChartData> chartData2 = new ArrayList<>();
-        addDataToChartData(chartData2, OrderState.COMPLAINED);
+        Map<String, Object> map2 = addDateAndTotalToChartData(chartData2, "COM RECLAMAÇÃO");
+        chartData2 = (List<ChartData>) map2.get("chartData");
 
-        ChartDataset chartDataset2 = new ChartDataset("Number of Orders Complained", chartData2);
+        ChartDataset chartDataset2 = new ChartDataset("Number of Orders Complaint", chartData2);
 
         List<ChartDataset> listChartDatasets2 = new ArrayList<>();
         listChartDatasets2.add(chartDataset2);
 
-        Statistics statistics3 = new Statistics("Percentage of Orders Complained", getPercentageOfOrdersComplained() + " %", listChartDatasets2);
+        Double percentageOfOrdersComplaint = (Double) map2.get("total");
+        //Add data for card
+        Statistics statistics3 = new Statistics("Percentage of Orders Complaint (Last 5 days)", Math.round(percentageOfOrdersComplaint * 100.0) / 100.0+" %", listChartDatasets2);
         chartDatasets.add(statistics3);
 
         return chartDatasets;
     }
 
-    public List<ChartData> addDataToChartData(List<ChartData> data, OrderState ordersState) {
+    public Object getStatisticsAnalyst() {
+        List<Object> chartDatasets = new ArrayList<>();
+        // First object
+        //Add data for chart
+        List<ChartData> chartData1 = new ArrayList<>();
+        //first line
+        Map<String, Object> map1 = addDateAndTotalToChartData(chartData1,"COM DEVOLUÇÃO");
+        chartData1 = (List<ChartData>) map1.get("chartData");
+
+        ChartDataset chartDataset1 = new ChartDataset("Number of Orders Returned", chartData1);
+
+        List<ChartDataset> listChartDatasets1 = new ArrayList<>();
+        listChartDatasets1.add(chartDataset1);
+
+        Double percentageOfOrdersReturned = (Double) map1.get("total");
+        //Second Line
+        List<ChartData> chartData3 = new ArrayList<>();
+        Map<String, Object> map3 = addDateAndTotalToChartData(chartData3,"OK");
+        chartData3 = (List<ChartData>) map3.get("chartData");
+
+        ChartDataset chartDataset3 = new ChartDataset("Number of Orders Delivered", chartData3);
+        listChartDatasets1.add(chartDataset3);
+
+        Double percentageOfOrdersDelivered = (Double) map3.get("total");
+
+        //Add data for card
+        Statistics statistics2 = new Statistics("Percentage of Orders Returned VS Delivered (Last 5 days)", Math.round(percentageOfOrdersReturned * 100.0) / 100.0 + " % returned VS " + Math.round(percentageOfOrdersDelivered * 100.0) / 100.0 + " % delivered" , listChartDatasets1);
+        chartDatasets.add(statistics2);
+
+        // Second object - not implemented // TODO
+        //Add data for chart
+        List<ChartData> chartData2 = new ArrayList<>();
+        Map<String, Object> map2 = addDateAndTotalToChartData(chartData2, "COM RECLAMAÇÃO");
+        chartData2 = (List<ChartData>) map2.get("chartData");
+
+        ChartDataset chartDataset2 = new ChartDataset("Number of Orders Complaint", chartData2);
+
+        List<ChartDataset> listChartDatasets2 = new ArrayList<>();
+        listChartDatasets2.add(chartDataset2);
+
+        Double percentageOfOrdersComplaint = (Double) map2.get("total");
+        //Add data for card
+        Statistics statistics3 = new Statistics("Percentage of Complaints for the 10 Packages with the Most Complaints", Math.round(percentageOfOrdersComplaint * 100.0) / 100.0+" %", listChartDatasets2);
+        chartDatasets.add(statistics3);
+
+        // Third object - not implemented // TODO
+        Statistics statistics1 = new Statistics("Percentage of Complaints for the 10 Products with the Most Complaints", Math.round(getPercentageOfOrdersInTransit() * 100.0) / 100.0 + " %", new ArrayList<>());
+        chartDatasets.add(statistics1);
+
+
+        return chartDatasets;
+    }
+
+    public Object getStatisticsClient() {
+        return null;
+    }
+
+
+
+    //add data to chart
+    public Map<String, Object> addDateAndTotalToChartData(List<ChartData> data, String orderFeedback) {
         int count = 0;
+        Double total = 0.0;
         while (data.size() < 5) {
             LocalDate date = today.minusDays(count);
             // Verificar se a data é um dia útil (não é final de semana e não está na lista de feriados)
             if (date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY) {
                 String formattedDate = date.format(formatter);
-                data.add(new ChartData(formattedDate, getOrdersFromDay(formattedDate, ordersState)));
+                Long result = getOrdersFromDay(formattedDate, orderFeedback);
+                total = total + result;
+                data.add(new ChartData(formattedDate, result));
             }
             count++;
         }
-        return data;
-    }
-    //get orders from a day
-    public Long getOrdersFromDay(String date, OrderState ordersState){
-        return (Long) entityManager.createQuery(
-                "SELECT COUNT(o) " +
-                        "FROM Order o " +
-                        "WHERE o.state = :ordersState AND o.date = :date"
-        ).setParameter("ordersState", ordersState)
-                .setParameter("date", date)
-                .getSingleResult();
+
+        Map<String, Object> result = new HashMap<>();
+        //randomize number
+        total = Math.random() * 100; // TODO: remove this line
+        result.put("chartData", data);
+        result.put("total", total);
+        return result;
     }
 
-    public Long getPercentageOfOrdersInTransit() {
+    //get number of orders for each day in a specific state
+    public Long getOrdersFromDay(String date, String orderFeedback) {
+        Long result = (Long) entityManager.createQuery(
+                        "SELECT COUNT(o) " +
+                                "FROM Order o " +
+                                "WHERE o.feedback = :orderFeedback AND o.date = :date"
+                ).setParameter("orderFeedback", orderFeedback)
+                .setParameter("date", date)
+                .getSingleResult();
+
+        result = Math.round(Math.random() * 100); // TODO: remove this line
+
+        return result;
+    }
+
+    /*public List<OrderPackage> getPackagesFromOrdersWithMostComplaints() {
+        //get orders with complaints
+        List<Order> orders = entityManager.createQuery(
+                "SELECT o " +
+                        "FROM Order o " +
+                        "WHERE o.feedback = 'COM RECLAMAÇÃO' " +
+                        "ORDER BY o.id DESC"
+        ).setMaxResults(10).getResultList();
+
+        //ver quais os packages que se repetem mais vezes nessas orders
+        List<OrderPackage> packages = new ArrayList<>();
+        for (Order order : orders) {
+            packages.addAll(order.getOrderPackages());
+        }
+        return packages;
+    }*/
+
+    public Double getPercentageOfOrdersInTransit() {
         Long ordersInTransit = (Long) entityManager.createQuery(
                 "SELECT COUNT(o) " +
                         "FROM Order o " +
@@ -115,33 +226,9 @@ public class StatisticsBean {
 
         Long totalOrders = getTotalOrders();
 
-        return ordersInTransit * 100 / totalOrders;
-    }
+        ordersInTransit = Math.round(Math.random() * 100); // TODO: remove this line
 
-    public Long getPercentageOfOrdersReturned() {
-        //obter numero de orders in transit
-        Long ordersReturned = (Long) entityManager.createQuery(
-                "SELECT COUNT(o) " +
-                        "FROM Order o " +
-                        "WHERE o.state = 'RETURNED'"
-        ).getSingleResult();
-
-        Long totalOrders = getTotalOrders();
-
-        return ordersReturned * 100 / totalOrders;
-    }
-
-    public Long getPercentageOfOrdersComplained() {
-        //obter numero de orders in transit
-        Long ordersComplained = (Long) entityManager.createQuery(
-                "SELECT COUNT(o) " +
-                        "FROM Order o " +
-                        "WHERE o.state = 'COMPLAINED'"
-        ).getSingleResult();
-
-        Long totalOrders = getTotalOrders();
-
-        return ordersComplained * 100 / totalOrders;
+        return ordersInTransit.doubleValue() * 100 / totalOrders;
     }
 
     public Long getTotalOrders() {
