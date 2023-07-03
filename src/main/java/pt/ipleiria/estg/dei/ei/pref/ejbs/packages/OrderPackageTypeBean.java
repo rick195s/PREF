@@ -2,9 +2,8 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.strategyPattern.BigestNumberObservationsStrategy;
-import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionContext;
-import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionStrategy;
+import pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern.BigestNumberObservationsStrategy;
+import pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern.PackageSelectionContext;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

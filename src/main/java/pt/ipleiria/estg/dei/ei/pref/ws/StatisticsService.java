@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.pref.ws;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.StatisticsBean;
 import pt.ipleiria.estg.dei.ei.pref.ejbs.UserBean;
 import pt.ipleiria.estg.dei.ei.pref.entities.users.User;
+import pt.ipleiria.estg.dei.ei.pref.security.Authenticated;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -31,9 +32,9 @@ public class StatisticsService {
     }
 
     @GET
+    @Authenticated
     @Path("/")
     public Response getStatistics() {
-        System.out.println("ROLEEEEEEEEEEEEEEEEEEEEEEEE" + securityContext.getUserPrincipal());
         User user =  userBean.findUserByEmail(securityContext.getUserPrincipal().getName());
         return Response.ok(statisticsBean.getStatisticsDashboardUsers(user.getRole())).build();
     }
