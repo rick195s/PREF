@@ -33,8 +33,8 @@ public class StatisticsService {
     @GET
     @Path("/")
     public Response getStatistics() {
+        System.out.println("ROLEEEEEEEEEEEEEEEEEEEEEEEE" + securityContext.getUserPrincipal());
         User user =  userBean.findUserByEmail(securityContext.getUserPrincipal().getName());
-        System.out.println("ROLEEEEEEEEEEEEEEEEEEEEEEEE" + user.getRole());
         return Response.ok(statisticsBean.getStatisticsDashboardUsers(user.getRole())).build();
     }
 
