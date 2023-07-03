@@ -46,8 +46,6 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-
 const emit = defineEmits(["product-package-selected"]);
 
 const props = defineProps({

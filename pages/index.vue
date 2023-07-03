@@ -1,13 +1,19 @@
 <template>
   <div>
     <div class="flex flex-wrap">
-      <div v-if="data?.role.toUpperCase()==='LOGISTICS_OPERATOR'" class="w-full px-4">
+      <div
+        v-if="data?.role.toUpperCase() === 'LOGISTICS_OPERATOR'"
+        class="w-full px-4"
+      >
         <CardBarChart :selected-carrier="selectedCarrier" />
       </div>
     </div>
 
     <div>
-      <div v-if="data?.role.toUpperCase()==='LOGISTICS_OPERATOR'" class="w-full mb-12 xl:mb-0">
+      <div
+        v-if="data?.role.toUpperCase() === 'LOGISTICS_OPERATOR'"
+        class="w-full mb-12 xl:mb-0"
+      >
         <CardOrders
           @selected-carrier="($event) => (selectedCarrier = $event)"
         />
@@ -19,8 +25,6 @@
         <CardGlobalCard :labels="card" />
       </div>
     </div>
-
-
   </div>
 </template>
 <script setup>
@@ -28,26 +32,24 @@ import CardBarChart from "@/components/Charts/CardBarChart.vue";
 import CardOrders from "@/components/Cards/CardOrders.vue";
 import CardGlobalCard from "@/components/Cards/CardGlobalCard.vue";
 
-const { data } = useAuth();
+const { data, token } = useAuth();
 
 const selectedCarrier = ref(null);
 
 const { data: cards, pending } = await useLazyAsyncData(
-    "cards",
+  "cards",
   () =>
     $fetch(`/api/statistics/`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: token.value
       }
     }),
   {
     server: false
   }
 );
-
-console.log("CARDS", cards);
-
 </script>
 
 <style scoped>
