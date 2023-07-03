@@ -35,7 +35,7 @@ const selectedCarrier = ref(null);
 const { data: cards, pending } = await useLazyAsyncData(
     "cards",
   () =>
-    $fetch(`/api/statistics/${data?.value.role.toUpperCase()}`, {
+    $fetch(`/api/statistics/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
