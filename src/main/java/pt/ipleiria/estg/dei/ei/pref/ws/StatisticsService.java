@@ -39,5 +39,12 @@ public class StatisticsService {
         return Response.ok(statisticsBean.getStatisticsDashboardUsers(user.getRole())).build();
     }
 
+    @GET
+    @Authenticated
+    @Path("/orders-comparation")
+    public Response getOrdersComparation() {
+        return Response.ok(statisticsBean.getOrdersComparation()).build();
+    }
+
 
 }

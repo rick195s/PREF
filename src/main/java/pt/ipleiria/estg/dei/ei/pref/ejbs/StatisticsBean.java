@@ -60,7 +60,7 @@ public class StatisticsBean {
 
     public Object getStatisticsLogisticsManager(){
         //statistics for Logistics Manager
-        List<Object> chartDatasets = new ArrayList<>();
+        List<Statistics> chartDatasets = new ArrayList<>();
 
         chartDatasets.add(getPercentageOfOrdersInTransit());
 
@@ -263,12 +263,8 @@ public class StatisticsBean {
 
         List<ChartData> charData = new ArrayList<>();
         for (Product product : products) {
-            int index = products.indexOf(product);
-
             Long totalLong = Math.round(Math.random() * 100); // TODO: remove this line
             charData.add(new ChartData(product.getName(), totalLong));
-
-
         }
 
         Double totalDouble = Math.random() * 100; // TODO: remove this line
@@ -320,6 +316,17 @@ public class StatisticsBean {
         return new Statistics("Percentage of Orders Returned (Last 5 days)", Math.round(percentageOfOrdersReturned * 100.0) / 100.0 + " %", chartDatasets);
     }
 
+    public Object getOrdersComparation() {
+        List<ChartDataset> chartDatasets = new ArrayList<>();
+
+        List<Object[]> result =  entityManager.createQuery(
+                "SELECT COUNT(o), TO_CHAR(DATE_TRUNC('month',TO_DATE(date, 'yyyy-MM-dd')), 'month'), YEAR(TO_DATE(date, 'yyyy-MM-dd')) " +
+                        "FROM Order o " +
+                        "GROUP BY DATE_TRUNC('month',TO_DATE(date, 'yyyy-MM-dd')), YEAR(TO_DATE(date, 'yyyy-MM-dd'))"
+        ).getResultList();
+
+        return result;
+    }
 
     public Long getTotalOrders() {
         return (Long) entityManager.createQuery(
