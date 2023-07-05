@@ -21,8 +21,20 @@
     </div>
 
     <div class="flex flex-wrap">
-      <div v-for="card in cards" :key="card.title" class="card">
-        <CardGlobalCard :labels="card" />
+      <div
+        v-for="card in cards"
+        :key="card.title"
+        class="w-full lg:w-6/12 xl:w-4/12 px-4 py-5"
+      >
+        <CardStats
+          :stat-subtitle="card.title"
+          :stat-title="card.value"
+          :stat-descripiron="card.description"
+          :chart-datasets="card.chartDatasets"
+          :stat-icon-color="card.danger ? 'text-white' : 'text-black'"
+          :stat-icon-background="card.danger ? 'bg-red-500' : 'bg-white'"
+          :loading="pending"
+        />
       </div>
     </div>
   </div>
@@ -30,7 +42,7 @@
 <script setup>
 import CardBarChart from "@/components/Charts/CardBarChart.vue";
 import CardOrders from "@/components/Cards/CardOrders.vue";
-import CardGlobalCard from "@/components/Cards/CardGlobalCard.vue";
+import CardStats from "@/components/Cards/CardStats.vue";
 
 const { data, token } = useAuth();
 
@@ -47,7 +59,23 @@ const { data: cards, pending } = await useLazyAsyncData(
       }
     }),
   {
-    server: false
+    server: false,
+    transform: (data) => {
+      data.forEach((element) => {
+        if (parseFloat(element.value) > 15) {
+          element.danger = true;
+        }
+        if (element.title.toUpperCase().includes("(LAST 5 DAYS)")) {
+          element.description = "Last 5 Days";
+          element.title = element.title
+            .toUpperCase()
+            .replace("(LAST 5 DAYS)", "");
+        }
+      });
+
+      console.log(data);
+      return data;
+    }
   }
 );
 </script>
