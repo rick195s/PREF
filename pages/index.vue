@@ -2,26 +2,6 @@
   <div>
     <div class="flex flex-wrap">
       <div
-        v-if="data?.role.toUpperCase() === 'LOGISTICS_OPERATOR'"
-        class="w-full px-4"
-      >
-        <CardBarChart :selected-carrier="selectedCarrier" />
-      </div>
-    </div>
-
-    <div>
-      <div
-        v-if="data?.role.toUpperCase() === 'LOGISTICS_OPERATOR'"
-        class="w-full mb-12 xl:mb-0"
-      >
-        <CardOrders
-          @selected-carrier="($event) => (selectedCarrier = $event)"
-        />
-      </div>
-    </div>
-
-    <div class="flex flex-wrap">
-      <div
         v-for="card in cards"
         :key="card.title"
         class="w-full lg:w-6/12 xl:w-4/12 px-4 py-5"
@@ -37,10 +17,39 @@
         />
       </div>
     </div>
+    <div class="flex flex-wrap">
+      <div
+        v-if="data?.role.toUpperCase() === 'LOGISTICS_MANAGER'"
+        class="w-full px-4"
+      >
+        <CardBarChart :selected-carrier="selectedCarrier" />
+      </div>
+    </div>
+
+    <div>
+      <div
+        v-if="data?.role.toUpperCase() === 'LOGISTICS_MANAGER'"
+        class="w-full mb-12 xl:mb-0"
+      >
+        <CardOrders
+          @selected-carrier="($event) => (selectedCarrier = $event)"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-wrap">
+      <div v-if="data?.role.toUpperCase() === 'ANALYST'" class="w-full px-4">
+        <order-number-chart
+          :orders-comparation="ordersComparation"
+          :loading="ordersComparationLoading"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
 import CardBarChart from "@/components/Charts/CardBarChart.vue";
+import OrderNumberChart from "@/components/Charts/OrderNumberChart.vue";
 import CardOrders from "@/components/Cards/CardOrders.vue";
 import CardStats from "@/components/Cards/CardStats.vue";
 
@@ -73,11 +82,26 @@ const { data: cards, pending } = await useLazyAsyncData(
         }
       });
 
-      console.log(data);
       return data;
     }
   }
 );
+
+const { data: ordersComparation, pending: ordersComparationLoading } =
+  await useLazyAsyncData(
+    "ordersComparation",
+    () =>
+      $fetch(`/api/statistics/orders-comparation`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token.value
+        }
+      }),
+    {
+      server: false
+    }
+  );
 </script>
 
 <style scoped>

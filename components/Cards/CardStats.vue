@@ -27,10 +27,12 @@
           </div>
           <div
             v-if="props.chartDatasets.length !== 0"
-            class="p-3 text-center inline-flex items-center justify-center hover:cursor-pointer"
+            class="p-3 text-center inline-flex items-center justify-center"
             @click="handleCardClick"
           >
-            <i class="fa-regular fa-eye hover:text-red-600"></i>
+            <i
+              class="fa-regular fa-eye hover:text-red-600 hover:cursor-pointer"
+            ></i>
           </div>
         </div>
       </div>
