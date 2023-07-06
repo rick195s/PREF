@@ -53,7 +53,6 @@ const { data: orderData, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
-      console.log(data);
       data.orderLines.forEach((element) => {
         element.productId = element.product.id;
         element.productName = element.product.name;

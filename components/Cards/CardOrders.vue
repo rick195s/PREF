@@ -80,7 +80,6 @@ const { data: orders, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
-      console.log("DATA", data);
       data.data.forEach((element) => {
         element.weight = element.weight.toFixed(2) + "kg";
 
