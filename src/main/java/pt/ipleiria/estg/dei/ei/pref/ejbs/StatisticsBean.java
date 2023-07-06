@@ -12,6 +12,7 @@ import pt.ipleiria.estg.dei.ei.pref.enumerators.Role;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -73,6 +74,7 @@ public class StatisticsBean {
     public Object getStatisticsAnalyst() {
         List<Object> chartDatasets = new ArrayList<>();
         chartDatasets.add(getPercentageOfOrdersComplaintByMonth());
+        chartDatasets.add(getProductsWithMoreComplaints());
 
 /*
 
@@ -138,6 +140,46 @@ public class StatisticsBean {
         return chartDatasets;
     }
 
+    private Statistics getProductsWithMoreComplaints() {
+
+        List<Object[]> productsWithMostComplaintPercentage = (List<Object[]>) entityManager.createNativeQuery(
+                "SELECT p.name,  (CAST(COUNT(o) * 1.0 / count_orders_ok.total as decimal(10,2)))*100 as ratio "
+                + "FROM orders o "
+                + "JOIN order_lines ol ON o.id = ol.order_id "
+                + "JOIN order_line_product_relations olpr ON ol.id = olpr.order_line_id "
+                + "JOIN products p ON olpr.product_id = p.id "
+                + "JOIN ( "
+                        + "SELECT COUNT(ord) as total, products.id as product_id "
+                        + "FROM orders ord "
+                        + "JOIN order_lines ol ON ord.id = ol.order_id "
+                        + "JOIN order_line_product_relations olpr ON ol.id = olpr.order_line_id "
+                        + "JOIN products ON olpr.product_id = products.id "
+                        + "GROUP BY products.id "
+                        + ") AS count_orders_ok ON p.id = count_orders_ok.product_id "
+                + "WHERE o.feedback != 'OK' AND count_orders_ok.total > 1000 "
+                + "GROUP BY p.name, count_orders_ok.total "
+                + "ORDER BY ratio DESC "
+                        ).setMaxResults(10).getResultList();
+
+
+        List<ChartData> chartData = new ArrayList<>();
+        for (Object[] objects : productsWithMostComplaintPercentage) {
+            BigDecimal bigDecimal = (BigDecimal) objects[1];
+            System.out.println(bigDecimal.longValue());
+
+            ChartData chartData1 = new ChartData((String) objects[0], bigDecimal.longValue());
+            chartData.add(chartData1);
+        }
+
+        ChartDataset chartDataset = new ChartDataset("Percentage of 10 products complaints with a minimum of 1000 orders", chartData);
+
+        List<ChartDataset> listChartDatasets = new ArrayList<>();
+        listChartDatasets.add(chartDataset);
+
+        BigDecimal productWithMostComplaintPercentage = (BigDecimal) productsWithMostComplaintPercentage.get(0)[1];
+        return new Statistics("Products with more complaints", "Product with "+Math.round(productWithMostComplaintPercentage.floatValue())+"% of complaints with min. 1000 orders", listChartDatasets);
+    }
+
     private Statistics getPercentageOfOrdersComplaintByMonth() {
 
         List<Object[]> ordersNotOk = (List<Object[]>) entityManager.createQuery(
@@ -166,15 +208,12 @@ public class StatisticsBean {
 
         }
 
-        System.out.println(totalOrders);
-        System.out.println(totalOrdersNotOk);
-        System.out.println((float) totalOrdersNotOk /totalOrders);
         ChartDataset chartDataset = new ChartDataset("Number of Complaints by month", chartData);
 
         List<ChartDataset> listChartDatasets = new ArrayList<>();
         listChartDatasets.add(chartDataset);
 
-        return new Statistics("Total Complaints", Math.round(( (float) totalOrdersNotOk /totalOrders )*100) + "% ("+ totalOrdersNotOk +" in "+ totalOrders+")", listChartDatasets);
+        return new Statistics("Total Complaints", Math.round(( (float) totalOrdersNotOk /totalOrders )*100) + "% ("+ totalOrdersNotOk +" in "+ totalOrders+" orders)", listChartDatasets);
     }
 
     //add data to chart
