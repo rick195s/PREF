@@ -73,7 +73,12 @@ const { data: cards, pending } = await useLazyAsyncData(
     server: false,
     transform: (data) => {
       data.forEach((element) => {
-        if (parseFloat(element.value) > 15) {
+        const value = element.value.substring(
+          element.value.indexOf("%") - 3,
+          element.value.indexOf("%")
+        );
+        console.log(value);
+        if (parseFloat(value) > 15) {
           element.danger = true;
         }
         if (element.title.toUpperCase().includes("(LAST 5 DAYS)")) {
