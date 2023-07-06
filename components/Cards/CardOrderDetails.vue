@@ -208,7 +208,7 @@ const packOrder = async () => {
     async () => {
       // Make the callback function async
       const response = await $fetch(
-        `/api/orders/${props.orderData.trackingNumber}/pack`,
+        `/api/orders/${props.orderData.id}/pack`,
         {
           method: "PATCH",
           headers: {
