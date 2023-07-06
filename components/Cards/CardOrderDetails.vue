@@ -75,7 +75,7 @@
             <td
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-              {{ props.orderData?.prevDeliveryDateHour }}
+              {{ props.orderData?.prevDeliveryDateHour === null ? "N/A" : props.orderData?.prevDeliveryDateHour }}
             </td>
           </tr>
           <tr>
@@ -148,6 +148,18 @@
               class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
               {{ props.orderData?.shippingMethod }}
+            </td>
+          </tr>
+          <tr>
+            <th
+              class="px-6 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            >
+              State
+            </th>
+            <td
+              class="border-t-0 px-6 align-middle border border-solid border-blueGray-100 border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
+            >
+              {{ props.orderData?.state }}
             </td>
           </tr>
           <tr>
