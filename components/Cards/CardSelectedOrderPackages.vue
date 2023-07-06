@@ -9,10 +9,9 @@
       }}</span>
       <span v-else class="ml-2 font-medium text-gray-600"> Searching... </span>
 
-      <select
+      <select v-if="!selectedPackage"
         class="ml-2 w-40 border border-gray-300 rounded px-2 py-1"
         v-model="selectedStrategy"
-        @change="updateSelectedStrategy"
       >
         <!-- Opções da combobox -->
         <option value="" disabled>Select Strategy</option>
@@ -26,6 +25,8 @@
       </select>
 
       <button
+        v-if="!selectedPackage"
+        @click="updateSelectedStrategy"
         class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
         type="button"
       >
@@ -51,7 +52,7 @@
         >
           <i class="fas fa-bars"></i>
           <div>
-            {{ element.name }}
+            {{ element.id }}
           </div>
 
           <div>
@@ -81,6 +82,7 @@ const props = defineProps({
 const selectedStrategy = ref("");
 const suggestedPackage = ref("");
 const pending = ref(false);
+const selectedPackage = ref(false);
 
 const emit = defineEmits(["update:modelValue"], ["addPackages"]);
 
@@ -117,10 +119,12 @@ const addPackages = () => {
 
 const updateSelectedStrategy = () => {
   pending.value = true;
+  selectedPackage.value = true;
   $fetch(`/api/order-package-types/suggest-package/${selectedStrategy.value}`)
     .then((response) => {
       pending.value = false;
       suggestedPackage.value = response.id;
+
     })
     .catch((error) => {
       pending.value = false;
