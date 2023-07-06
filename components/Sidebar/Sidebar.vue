@@ -146,11 +146,6 @@ const pages = ref([
     name: "Create Order",
     route: "/orders/create",
     icon: "fas fa-cart-plus"
-  },
-  {
-    name: "Create Product",
-    route: "/products/create",
-    icon: "fas fa-circle-plus"
   }
 ]);
 </script>

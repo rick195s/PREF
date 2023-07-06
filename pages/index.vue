@@ -19,7 +19,7 @@
     </div>
     <div class="flex flex-wrap">
       <div
-        v-if="data?.role.toUpperCase() === 'LOGISTICS_MANAGER'"
+        v-if="['LOGISTICS_MANAGER'].indexOf(data?.role.toUpperCase()) > -1"
         class="w-full px-4"
       >
         <CardBarChart :selected-carrier="selectedCarrier" />
@@ -28,7 +28,9 @@
 
     <div>
       <div
-        v-if="data?.role.toUpperCase() === 'LOGISTICS_MANAGER'"
+        v-if="
+          ['LOGISTICS_MANAGER', 'ADMIN'].indexOf(data?.role.toUpperCase()) > -1
+        "
         class="w-full mb-12 xl:mb-0"
       >
         <CardOrders
