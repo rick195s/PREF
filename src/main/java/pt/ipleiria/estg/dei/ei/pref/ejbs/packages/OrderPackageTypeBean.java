@@ -4,7 +4,6 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 import pt.ipleiria.estg.dei.ei.pref.strategyPattern.BigestNumberObservationsStrategy;
 import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionContext;
-import pt.ipleiria.estg.dei.ei.pref.strategyPattern.PackageSelectionStrategy;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -35,12 +34,19 @@ public class OrderPackageTypeBean {
     }
 
     public OrderPackageType suggestPackage(String strategy) {
-        List<OrderPackage> orderPackages = orderPackageBean.getAllOrderPackages();
+
+        //get the 10 most recent packages
+        List<OrderPackage> orderPackages = entityManager.createNamedQuery("getMostRecentOrderPackages")
+                .setMaxResults(25)
+                .getResultList();
+
         PackageSelectionContext context = new PackageSelectionContext();
         if (strategy.equals("biggestNumberObservations")) {
             context.setStrategy(new BigestNumberObservationsStrategy());
         }
+
         OrderPackageType orderPackageType = context.selectPackage(orderPackages);
+
         return orderPackageType;
     }
 
