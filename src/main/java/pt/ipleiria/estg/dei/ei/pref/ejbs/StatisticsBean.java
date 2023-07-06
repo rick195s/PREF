@@ -365,7 +365,7 @@ public class StatisticsBean {
         List<ChartDataset> listChartDatasets2 = new ArrayList<>();
         listChartDatasets2.add(chartDataset2);
 
-        String percentageOfOrdersComplaint =  Math.round((Double) map2.get("total") * 100.0) / 100.0 + " %";
+        String percentageOfOrdersComplaint =  Math.round((Double) map2.get("total") )  + "%";
 
         return new Statistics("Percentage of Orders Complaint (Last 5 days)", percentageOfOrdersComplaint, listChartDatasets2);
     }
@@ -381,7 +381,7 @@ public class StatisticsBean {
 
         ordersInTransit = Math.round(Math.random() * 100); // TODO: remove this line
 
-        String percentage = Math.round(ordersInTransit.doubleValue() * 100 / totalOrders * 100.0) / 100.0 + " %";
+        String percentage = Math.round(ordersInTransit.doubleValue() * 100 / totalOrders * 100.0)  + "%";
 
         return new Statistics("Percentage of Orders In Transit", percentage, new ArrayList<>());
     }
@@ -394,7 +394,7 @@ public class StatisticsBean {
         //Add data for card
         LinkedList<ChartDataset> chartDatasets = new LinkedList<>();
         chartDatasets.add(chartDataset1);
-        return new Statistics("Percentage of Orders Returned (Last 5 days)", Math.round(percentageOfOrdersReturned * 100.0) / 100.0 + " %", chartDatasets);
+        return new Statistics("Percentage of Orders Returned (Last 5 days)", Math.round(percentageOfOrdersReturned )  + "%", chartDatasets);
     }
 
     public Object getOrdersComparation() {
