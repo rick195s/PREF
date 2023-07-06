@@ -18,6 +18,10 @@ import java.io.Serializable;
                 name = "getAllSmartOrderPackages",
                 query = "SELECT o FROM OrderPackage o WHERE o.simplePackageType.isSmart = true ORDER BY o.id" // JPQL
         ),
+        @NamedQuery(
+                name = "getMostRecentOrderPackages",
+                query = "SELECT o FROM OrderPackage o ORDER BY o.id DESC" // JPQL
+        ),
 })
 public class OrderPackage extends ObservablePackage<OrderPackageType> implements Serializable {
 

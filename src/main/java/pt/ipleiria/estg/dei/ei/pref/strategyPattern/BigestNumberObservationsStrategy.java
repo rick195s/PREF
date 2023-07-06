@@ -15,8 +15,7 @@ public class BigestNumberObservationsStrategy implements PackageSelectionStrateg
         OrderPackage selectedPackage = orderPackages.get(0);
         int biggestNumberObservations = selectedPackage.getObservations().size();
 
-        for (int i = 1; i < orderPackages.size(); i++) {
-            OrderPackage currentPackage = orderPackages.get(i);
+        for (OrderPackage currentPackage : orderPackages) {
             //change this for reclamations
             int currentBiggestNumberObservations = currentPackage.getObservations().size();
 
