@@ -22,8 +22,8 @@ const emit = defineEmits(["addOrderPackage"]);
 
 const keys = ref([
   {
-    key: "name",
-    label: "Name"
+    key: "id",
+    label: "ID"
   }
 ]);
 

@@ -4,12 +4,12 @@
       <CardOrderDetails :order-data="orderData" :loading="pending" />
     </div>
 
-    <div class="w-full lg:w-8/12" v-if="shouldRenderCardOrderPackages">
+    <div class="w-full lg:w-6/12" v-if="shouldRenderCardOrderPackages">
       <CardOrderPackages @add-order-package="addSelectedPackage($event)" />
     </div>
 
     <div
-      class="w-full lg:w-4/12 md:px-4 py-4"
+      class="w-full lg:w-6/12 md:px-1 "
       v-if="shouldRenderCardOrderPackages"
     >
       <CardSelectedOrderPackages
@@ -53,7 +53,6 @@ const { data: orderData, pending } = await useLazyAsyncData(
   {
     server: false,
     transform: (data) => {
-      console.log(data);
       data.orderLines.forEach((element) => {
         element.productId = element.product.id;
         element.productName = element.product.name;
