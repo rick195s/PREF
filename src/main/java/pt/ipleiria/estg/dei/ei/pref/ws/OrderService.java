@@ -68,7 +68,7 @@ public class OrderService {
     @POST
     @Path("/")
     public Response createOrder(OrderDTO orderDTO){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Map<String, Integer> map = new HashMap<>();
 
         // Add values to the map
@@ -78,7 +78,7 @@ public class OrderService {
 
         // Create the LocalDateTime object
         LocalDateTime dateTime = LocalDateTime.now().plusDays(1);
-        String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         // Use the formattedDateTime in your order creation
         Order order = orderBean.create(dateFormat.format(new Date()), map, orderDTO.getCarrier(),

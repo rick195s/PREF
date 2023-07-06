@@ -5,7 +5,7 @@ import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
 import java.util.List;
 
-public class BigestNumberObservationsStrategy implements PackageSelectionStrategy {
+public class BiggestNumberObservationsStrategy implements PackageSelectionStrategy {
     @Override
     public OrderPackageType selectPackage(List<OrderPackage> orderPackages) {
         if (orderPackages.isEmpty()) {

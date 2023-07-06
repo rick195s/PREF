@@ -2,7 +2,7 @@ package pt.ipleiria.estg.dei.ei.pref.ejbs.packages;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
-import pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern.BigestNumberObservationsStrategy;
+import pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern.BiggestNumberObservationsStrategy;
 import pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern.PackageSelectionContext;
 
 import javax.ejb.EJB;
@@ -37,7 +37,7 @@ public class OrderPackageTypeBean {
         List<OrderPackage> orderPackages = orderPackageBean.getAllOrderPackages();
         PackageSelectionContext context = new PackageSelectionContext();
         if (strategy.equals("biggestNumberObservations")) {
-            context.setStrategy(new BigestNumberObservationsStrategy());
+            context.setStrategy(new BiggestNumberObservationsStrategy());
         }
         OrderPackageType orderPackageType = context.selectPackage(orderPackages);
         return orderPackageType;

@@ -46,5 +46,12 @@ public class StatisticsService {
         return Response.ok(statisticsBean.getOrdersComparation()).build();
     }
 
+    @GET
+    @Authenticated
+    @Path("/orders-returned")
+    public Response getOrdersReturned() {
+        return Response.ok(statisticsBean.getOrdersComparation()).build();
+    }
+
 
 }

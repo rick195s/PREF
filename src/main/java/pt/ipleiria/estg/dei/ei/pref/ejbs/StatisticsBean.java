@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.pref.ejbs;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.Order;
-import pt.ipleiria.estg.dei.ei.pref.entities.OrderLine;
 import pt.ipleiria.estg.dei.ei.pref.entities.Product;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
@@ -10,7 +9,6 @@ import pt.ipleiria.estg.dei.ei.pref.entities.statistics.ChartDataset;
 import pt.ipleiria.estg.dei.ei.pref.entities.statistics.Statistics;
 import pt.ipleiria.estg.dei.ei.pref.enumerators.Role;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -74,6 +72,10 @@ public class StatisticsBean {
 
     public Object getStatisticsAnalyst() {
         List<Object> chartDatasets = new ArrayList<>();
+        chartDatasets.add(getPercentageOfOrdersComplaintByMonth());
+
+/*
+
         // First object
         //Add data for chart
         List<ChartData> chartData1 = new ArrayList<>();
@@ -131,8 +133,48 @@ public class StatisticsBean {
 
         Statistics statistics3 = new Statistics("Percentage of Complaints for the 10 Products with the Most Complaints", Math.round(percentageOfProductsComplaint * 100.0) / 100.0 + " %", listChartDatasets3);
         chartDatasets.add(statistics3);
+*/
 
         return chartDatasets;
+    }
+
+    private Statistics getPercentageOfOrdersComplaintByMonth() {
+
+        List<Object[]> ordersNotOk = (List<Object[]>) entityManager.createQuery(
+                        "SELECT COUNT(o), TO_CHAR(TO_DATE(date, 'yyyy-MM-dd'), 'month') " +
+                                "FROM Order o " +
+                                "WHERE o.feedback != :orderFeedback " +
+                                "GROUP BY TO_CHAR(TO_DATE(date, 'yyyy-MM-dd'), 'month')"
+                ).setParameter("orderFeedback", "OK")
+                .getResultList();
+
+        Long totalOrdersNotOk = (Long) entityManager.createQuery(
+                "SELECT COUNT(o) " +
+                        "FROM Order o " +
+                        "WHERE o.feedback != :orderFeedback "
+        ).setParameter("orderFeedback", "OK").getSingleResult();
+
+        Long totalOrders = (Long) entityManager.createQuery(
+                        "SELECT COUNT(o) " +
+                                "FROM Order o "
+                ).getSingleResult();
+
+        List<ChartData> chartData = new ArrayList<>();
+        for (Object[] objects : ordersNotOk) {
+            ChartData chartData1 = new ChartData((String) objects[1], (Long) objects[0]);
+            chartData.add(chartData1);
+
+        }
+
+        System.out.println(totalOrders);
+        System.out.println(totalOrdersNotOk);
+        System.out.println((float) totalOrdersNotOk /totalOrders);
+        ChartDataset chartDataset = new ChartDataset("Number of Complaints by month", chartData);
+
+        List<ChartDataset> listChartDatasets = new ArrayList<>();
+        listChartDatasets.add(chartDataset);
+
+        return new Statistics("Total Complaints", Math.round(( (float) totalOrdersNotOk /totalOrders )*100) + "% ("+ totalOrdersNotOk +" in "+ totalOrders+")", listChartDatasets);
     }
 
     //add data to chart
