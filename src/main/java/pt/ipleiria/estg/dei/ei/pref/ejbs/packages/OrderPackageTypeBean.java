@@ -34,7 +34,12 @@ public class OrderPackageTypeBean {
     }
 
     public OrderPackageType suggestPackage(String strategy) {
-        List<OrderPackage> orderPackages = orderPackageBean.getAllOrderPackages();
+
+        //get the 10 most recent packages
+        List<OrderPackage> orderPackages = entityManager.createNamedQuery("getMostRecentOrderPackages")
+                .setMaxResults(25)
+                .getResultList();
+
         PackageSelectionContext context = new PackageSelectionContext();
         if (strategy.equals("biggestNumberObservations")) {
             context.setStrategy(new BiggestNumberObservationsStrategy());
