@@ -1,22 +1,49 @@
 <template>
   <div>
     <div class="flex flex-wrap">
-      <!-- <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-        <CardLineChart
-          :labels="labels"
-          :datasets="datasets"
-          title="Average Temperatures to Destination (Cº)"
+      <div
+        v-for="card in cards"
+        :key="card.title"
+        class="w-full lg:w-6/12 xl:w-4/12 px-4 py-5"
+      >
+        <CardStats
+          :stat-subtitle="card.title"
+          :stat-title="card.value"
+          :stat-descripiron="card.description"
+          :chart-datasets="card.chartDatasets"
+          :stat-icon-color="card.danger ? 'text-white' : 'text-black'"
+          :stat-icon-background="card.danger ? 'bg-red-500' : 'bg-white'"
+          :loading="pending"
         />
-      </div> -->
-      <div class="w-full px-4">
+      </div>
+    </div>
+    <div class="flex flex-wrap">
+      <div
+        v-if="['LOGISTICS_MANAGER'].indexOf(data?.role.toUpperCase()) > -1"
+        class="w-full px-4"
+      >
         <CardBarChart :selected-carrier="selectedCarrier" />
       </div>
     </div>
 
     <div>
-      <div class="w-full mb-12 xl:mb-0">
+      <div
+        v-if="
+          ['LOGISTICS_MANAGER', 'ADMIN'].indexOf(data?.role.toUpperCase()) > -1
+        "
+        class="w-full mb-12 xl:mb-0"
+      >
         <CardOrders
           @selected-carrier="($event) => (selectedCarrier = $event)"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-wrap">
+      <div v-if="data?.role.toUpperCase() === 'ANALYST'" class="w-full px-4">
+        <order-number-chart
+          :orders-comparation="ordersComparation"
+          :loading="ordersComparationLoading"
         />
       </div>
     </div>
@@ -24,7 +51,90 @@
 </template>
 <script setup>
 import CardBarChart from "@/components/Charts/CardBarChart.vue";
+import OrderNumberChart from "@/components/Charts/OrderNumberChart.vue";
 import CardOrders from "@/components/Cards/CardOrders.vue";
+import CardStats from "@/components/Cards/CardStats.vue";
+
+const { data, token } = useAuth();
 
 const selectedCarrier = ref(null);
+
+const { data: cards, pending } = await useLazyAsyncData(
+  "cards",
+  () =>
+    $fetch(`/api/statistics/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token.value
+      }
+    }),
+  {
+    server: false,
+    transform: (data) => {
+      data.forEach((element) => {
+        if (element.value.indexOf("%") !== -1) {
+          //   element.chartDatasets.forEach((dataset) => {
+          //   console.log(dataset.chartTitle);
+          //   console.log(dataset.data);
+
+          //   if (dataset.chartTitle.toUpperCase().includes("PERCENTAGE")) {
+          //     dataset.data = dataset.data.forEach((value) => {
+          //       value.y = value.y + "%";
+          //     });
+          //   }
+          // });
+          const value = element.value.substring(
+            element.value.indexOf("%") - 3,
+            element.value.indexOf("%")
+          );
+          if (parseFloat(value) > 15) {
+            element.danger = true;
+          }
+        }
+
+        if (element.title.toUpperCase().includes("(LAST 5 DAYS)")) {
+          element.description = "Last 5 Days";
+          element.title = element.title
+            .toUpperCase()
+            .replace("(LAST 5 DAYS)", "");
+        }
+      });
+
+      return data;
+    }
+  }
+);
+
+const { data: ordersComparation, pending: ordersComparationLoading } =
+  await useLazyAsyncData(
+    "ordersComparation",
+    () =>
+      $fetch(`/api/statistics/orders-comparation`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token.value
+        }
+      }),
+    {
+      server: false,
+      transform: (data) => {
+        console.log(data);
+
+        return data;
+      }
+    }
+  );
 </script>
+
+<style scoped>
+.card {
+  width: 30%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 10px;
+}
+</style>

@@ -6,9 +6,7 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    build: {
-        transpile: ['jsonwebtoken'],
-    },
+    
     modules: ['@nuxtjs-alt/proxy', '@sidebase/nuxt-auth'],
     app: {
         head: {
