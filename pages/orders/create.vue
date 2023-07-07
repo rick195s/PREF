@@ -39,13 +39,8 @@ const loading = ref(false);
 const selectedProductsComponent = ref(null);
 const fields = ref([
   {
-    label: "Source",
-    name: "source",
-    type: "text"
-  },
-  {
-    label: "Destination",
-    name: "destination",
+    label: "Channel",
+    name: "channel",
     type: "text"
   },
   {
@@ -55,8 +50,28 @@ const fields = ref([
   },
   {
     label: "Shipping Methods",
-    name: "shippingMethods",
+    name: "shippingMethod",
     type: "text"
+  },
+  {
+    label: "Distribution Center",
+    name: "distributionCenter",
+    type: "text"
+  },
+  {
+    label: "Store",
+    name: "store",
+    type: "text"
+  },
+  {
+    label: "CP Destination",
+    name: "cpDestiny",
+    type: "text"
+  },
+  {
+    label: "Volume Number",
+    name: "volumeNumber",
+    type: "number"
   }
 ]);
 
@@ -76,7 +91,6 @@ const removeProduct = (id) => {
 const createOrder = async (formData) => {
   if (!hasErrors(formData)) {
     const newOrder = { ...formData };
-    newOrder.shippingMethods = newOrder.shippingMethods.split(" ");
     newOrder.productsQuantities =
       selectedProductsComponent.value.productsByQuantity.map(
         ({ id, quantity }) => ({
@@ -84,6 +98,8 @@ const createOrder = async (formData) => {
           quantity
         })
       );
+
+    console.log(newOrder);
 
     loading.value = true;
     const { pending } = await useLazyAsyncData(
@@ -94,6 +110,7 @@ const createOrder = async (formData) => {
           body: JSON.stringify(newOrder),
           onResponseError: ({ request, options, response }) => {
             toastMessage.value = response._data?.reason;
+            console.log(response);
             toastType.value = "error";
           },
           onResponse: ({ request, response, options }) => {
