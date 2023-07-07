@@ -48,7 +48,7 @@ public class ProductService {
         return Response.ok(paginatedDTO).build();
     }
 
-    @POST
+   /* @POST
     @Path("/")
     public Response createProduct(ProductDTO productDTO){
         HashSet<String> productPackagesIds = new HashSet<>();
@@ -71,4 +71,5 @@ public class ProductService {
                 .ok(ProductDTO.from(productBean.findOrFail(product.getId()), true))
                 .status(Response.Status.CREATED).build();
     }
+    */
 }

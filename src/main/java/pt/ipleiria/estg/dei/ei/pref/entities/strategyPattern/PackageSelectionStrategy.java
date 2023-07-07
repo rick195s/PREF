@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.pref.strategyPattern;
+package pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.ObservablePackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;

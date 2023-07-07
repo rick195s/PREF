@@ -4,5 +4,6 @@ public enum Role {
     LOGISTICS_MANAGER,
     ANALYST,
     LOGISTICS_OPERATOR,
-    CLIENT
+    CLIENT,
+    ADMIN
 }

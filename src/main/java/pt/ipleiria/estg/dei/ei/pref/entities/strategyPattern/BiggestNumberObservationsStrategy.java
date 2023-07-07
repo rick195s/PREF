@@ -1,11 +1,11 @@
-package pt.ipleiria.estg.dei.ei.pref.strategyPattern;
+package pt.ipleiria.estg.dei.ei.pref.entities.strategyPattern;
 
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackage;
 import pt.ipleiria.estg.dei.ei.pref.entities.packages.OrderPackageType;
 
 import java.util.List;
 
-public class BigestNumberObservationsStrategy implements PackageSelectionStrategy {
+public class BiggestNumberObservationsStrategy implements PackageSelectionStrategy {
     @Override
     public OrderPackageType selectPackage(List<OrderPackage> orderPackages) {
         if (orderPackages.isEmpty()) {

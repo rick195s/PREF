@@ -5,5 +5,7 @@ public enum OrderState {
     PACKED,
     IN_TRANSIT,
     DELIVERED,
+    RETURNED,
+    COMPLAINED,
     CANCELED
 }
