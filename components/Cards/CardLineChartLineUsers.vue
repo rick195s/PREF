@@ -6,7 +6,7 @@
     <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
       <div class="flex flex-wrap items-center">
         <div class="relative w-full max-w-full flex-grow flex-1">
-          <h2 class="text-grey text-xl font-semibold">{{title}}</h2>
+          <h2 class="text-grey text-xl font-semibold">{{ title }}</h2>
         </div>
       </div>
     </div>
@@ -20,10 +20,8 @@
 </template>
 <script setup>
 import { Line } from "vue-chartjs";
-import { Chart, registerables } from "chart.js";
 import { useRouter } from "vue-router";
-
-Chart.register(...registerables);
+import Chart from "chart.js/auto";
 
 Chart.defaults.color = "rgba(0,0,0,0.7)";
 
@@ -31,7 +29,7 @@ const router = useRouter();
 
 const chartDataset = JSON.parse(router.currentRoute.value.query.chartDataset);
 
-const title = router.currentRoute.value.query.title
+const title = router.currentRoute.value.query.title;
 
 const colors = ["#b70202", "#336933"];
 const selectedColors = [];
@@ -50,12 +48,14 @@ const getRandomColor = () => {
   return color;
 };
 
-const defaultDatasets = ref(chartDataset.map((dataset) => ({
-  label: dataset?.chartTitle,
-  backgroundColor: getRandomColor(),
-  borderColor: "rgba(84, 84, 84, 0.7)",
-  data: dataset?.data,
-})));
+const defaultDatasets = ref(
+  chartDataset.map((dataset) => ({
+    label: dataset?.chartTitle,
+    backgroundColor: getRandomColor(),
+    borderColor: "rgba(84, 84, 84, 0.7)",
+    data: dataset?.data
+  }))
+);
 
 const linechart = ref(null);
 
@@ -63,6 +63,13 @@ const chartOptions = ref({
   maintainAspectRatio: false,
   responsive: true,
   tension: 0.4,
+  options: {
+    scales: {
+      y: {
+        min: 0
+      }
+    }
+  },
   plugins: {
     legend: {
       labels: {

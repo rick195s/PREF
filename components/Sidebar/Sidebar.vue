@@ -141,11 +141,14 @@ const pages = ref([
     name: "Dashboard",
     route: "/",
     icon: "fas fa-tv"
-  },
-  {
+  }
+]);
+
+if (data.value?.role.toUpperCase() === "LOGISTICS_MANAGER") {
+  pages.value.push({
     name: "Create Order",
     route: "/orders/create",
     icon: "fas fa-cart-plus"
-  }
-]);
+  });
+}
 </script>

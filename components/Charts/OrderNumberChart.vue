@@ -69,8 +69,9 @@ const ordersComparation = computed(() => {
       y: element[0]
     });
   });
-  datasets[1].backgroundColor = "#e30613";
 
+  datasets[1].backgroundColor = "#e30613";
+  console.log(datasets);
   return datasets;
 });
 

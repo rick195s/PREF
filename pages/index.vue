@@ -73,14 +73,26 @@ const { data: cards, pending } = await useLazyAsyncData(
     server: false,
     transform: (data) => {
       data.forEach((element) => {
-        const value = element.value.substring(
-          element.value.indexOf("%") - 3,
-          element.value.indexOf("%")
-        );
-        console.log(value);
-        if (parseFloat(value) > 15) {
-          element.danger = true;
+        if (element.value.indexOf("%") !== -1) {
+          //   element.chartDatasets.forEach((dataset) => {
+          //   console.log(dataset.chartTitle);
+          //   console.log(dataset.data);
+
+          //   if (dataset.chartTitle.toUpperCase().includes("PERCENTAGE")) {
+          //     dataset.data = dataset.data.forEach((value) => {
+          //       value.y = value.y + "%";
+          //     });
+          //   }
+          // });
+          const value = element.value.substring(
+            element.value.indexOf("%") - 3,
+            element.value.indexOf("%")
+          );
+          if (parseFloat(value) > 15) {
+            element.danger = true;
+          }
         }
+
         if (element.title.toUpperCase().includes("(LAST 5 DAYS)")) {
           element.description = "Last 5 Days";
           element.title = element.title
@@ -106,7 +118,12 @@ const { data: ordersComparation, pending: ordersComparationLoading } =
         }
       }),
     {
-      server: false
+      server: false,
+      transform: (data) => {
+        console.log(data);
+
+        return data;
+      }
     }
   );
 </script>
