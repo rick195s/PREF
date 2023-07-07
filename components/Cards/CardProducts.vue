@@ -33,20 +33,16 @@ const keys = ref([
     label: "Name"
   },
   {
-    key: "category",
-    label: "Category"
+    key: "type",
+    label: "Type"
   },
   {
-    key: "price",
-    label: "Price"
+    key: "height",
+    label: "Height"
   },
   {
-    key: "weight",
-    label: "Weight"
-  },
-  {
-    key: "validityRange",
-    label: "Validity Range"
+    key: "width",
+    label: "Width"
   }
 ]);
 
@@ -76,6 +72,8 @@ const { data: products, pending } = await useLazyAsyncData(
     }
   }
 );
+
+console.log(products);
 
 const addProduct = (product) => {
   const cleanedProduct = { ...product };
