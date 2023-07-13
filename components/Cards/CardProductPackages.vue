@@ -29,7 +29,7 @@ const keys = ref([
 
 const { data: packages, pending } = await useLazyAsyncData(
   "productPackages",
-  () => $fetch(`/api/product-packages`),
+  () => $fetch(`/api/product-packages-types`),
   {
     server: false,
     transform: (data) => {
