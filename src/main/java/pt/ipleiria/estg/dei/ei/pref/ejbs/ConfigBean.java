@@ -79,6 +79,11 @@ public class ConfigBean {
         try{
             syncSequences("order_line_product_relations_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLineProductRelation o").getSingleResult()+1);
             syncSequences("order_lines_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM OrderLine o").getSingleResult()+1);
+            syncSequences("quantities_id_seq", (Long) entityManager.createQuery("SELECT MAX(q.id) FROM Quantity q").getSingleResult()+1);
+            syncSequences("observations_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM Observation o").getSingleResult()+1);
+            syncSequences("categories_id_seq", (Long) entityManager.createQuery("SELECT MAX(c.id) FROM Category c").getSingleResult()+1);
+            syncSequences("observers_id_seq", (Long) entityManager.createQuery("SELECT MAX(o.id) FROM Observer o").getSingleResult()+1);
+
             // update hibernate_sequences table
             updateHibernateSequences();
 

@@ -21,7 +21,7 @@ public class AuthApiTests {
     @Test
     public void testLogin() throws IOException {
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("email", "client@gmail.com");
+        requestBody.put("email", "analyst@gmail.com");
         requestBody.put("password", "123");
         String requestBodyJson = new ObjectMapper().writeValueAsString(requestBody);
 
@@ -52,7 +52,7 @@ public class AuthApiTests {
 
         Request request = new Request.Builder()
                 .url(baseUrl + "auth/user")
-                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbGllbnRAZ21haWwuY29tIiwiaWF0IjoxNjg2MjI0ODQ0LCJleHAiOjE2ODYyMjg0NDR9.ggQCvSeIq2usjp02u0kvQGqTtiBX5mFGlYXfDlwvoUM")
+                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmFseXN0QGdtYWlsLmNvbSIsImlhdCI6MTY4OTI0MzE5MCwiZXhwIjoxNjg5MjQ2NzkwfQ.6aIkX_APKrCnypkl7G4riOp44Ce88pDf_Ek0pMivMzQ")
                 .addHeader("Accept", "application/json")
                 .build();
 

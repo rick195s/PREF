@@ -33,7 +33,7 @@ public class AuthService {
 
     @POST
     @Path("/login")
-    public Response authenticate(@Valid AuthDTO authDTO) {
+    public Response login(@Valid AuthDTO authDTO) {
         if (userBean.canLogin(authDTO.getEmail(), authDTO.getPassword())) {
             String token = issuer.issue(authDTO.getEmail());
             return Response.ok(new TokenDTO(token)).build();

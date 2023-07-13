@@ -86,6 +86,21 @@
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/io.swagger/swagger-core -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+
+
+
+
     </dependencies>
 
     <build>
@@ -99,6 +114,7 @@
                     <warName>pref</warName>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

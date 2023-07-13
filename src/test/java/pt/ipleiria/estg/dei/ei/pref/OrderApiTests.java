@@ -47,7 +47,7 @@ public class OrderApiTests {
         RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
-                .url(baseUrl + "orders/U0000009d000000b5000000d100000079000000a000000099000000a20000008500000093000000ac000000ab")
+                .url(baseUrl + "orders/2c93808388a52d770188a53e69810000")
                 .patch(body)
                 .addHeader("Accept", "application/json")
                 .build();
@@ -84,7 +84,7 @@ public class OrderApiTests {
     @Test
     public void packOrder() throws IOException {
         Request request = new Request.Builder()
-                .url(baseUrl + "orders/U0000009d000000b5000000d100000079000000a000000099000000a20000008500000093000000ac000000ab/pack")
+                .url(baseUrl + "orders/2c93808388a52d770188a53e69810000/pack")
                 .patch(RequestBody.create("", MediaType.parse("application/json")))
                 .addHeader("Accept", "application/json")
                 .build();
