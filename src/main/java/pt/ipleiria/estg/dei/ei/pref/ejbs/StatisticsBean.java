@@ -219,8 +219,7 @@ public class StatisticsBean {
         }
 
         Map<String, Object> result = new HashMap<>();
-        //randomize number
-       // total = Math.random() * 100; // TODO: remove this line
+
         result.put("chartData", data);
         result.put("total", total);
         return result;
@@ -237,98 +236,7 @@ public class StatisticsBean {
                 .setParameter("endDate", endDate)
                 .getSingleResult();
 
-        //result = Math.round(Math.random() * 100); // TODO: remove this line
-
         return result;
-    }
-    public Map<String, Object> getOrderPackagesWithMostComplaints() {
-        //get orders with complaints
-        List<OrderPackage> orderPackages = entityManager.createQuery(
-                "SELECT op " +
-                        "FROM OrderPackage op "
-        ).setMaxResults(10).getResultList();
-
-
-        //ver quais os packages que se repetem mais vezes nestas orders
-        Map<String, Object> map = new HashMap<>();
-        List<OrderPackageType> orderPackageTypes = new ArrayList<>();
-        List<Double> total = new ArrayList<>();
-
-       /* for (Order order : orders) {
-            for (OrderPackage orderPackage : order.getOrderPackages()) {
-                if (orderPackageTypes.contains(orderPackage.getSimplePackageType())) {
-                    int index = orderPackageTypes.indexOf(orderPackage.getSimplePackageType());
-                    total.set(index, total.get(index) + 1);
-                } else {
-                    orderPackageTypes.add(orderPackage.getSimplePackageType());
-                    total.add(1.0);
-                }
-            }
-        }*/
-
-        List<ChartData> charData = new ArrayList<>();
-        for (OrderPackageType orderPackageType : orderPackageTypes) {
-
-            Long totalLong = Math.round(Math.random() * 100); // TODO: remove this line
-            charData.add(new ChartData(orderPackageType.getId(), totalLong));
-
-
-        }
-
-        Double totalDouble = Math.random() * 100; // TODO: remove this line
-
-        map.put("chartData", charData);
-        map.put("total", totalDouble);
-
-        return map;
-    }
-
-    public Map<String, Object> getProductsFromOrdersWithMostComplaints() {
-        //get orders with complaints
-        List<Order> orders = entityManager.createQuery(
-                "SELECT o " +
-                        "FROM Order o " +
-                        "WHERE o.feedback = 'COM RECLAMAÇÃO' " +
-                        "ORDER BY o.id DESC"
-        ).setMaxResults(10).getResultList();
-
-
-        //ver quais os packages que se repetem mais vezes nessas orders
-        Map<String, Object> map = new HashMap<>();
-        List<Product> products = new ArrayList<>();
-        List<Double> total = new ArrayList<>();
-
-       /* for (Order order : orders) {
-            for (OrderLine orderLine : order.getOrderLines()) {
-                if (products.contains(orderLine.getProduct())) {
-                    int index = products.indexOf(orderLine.getProduct());
-                    total.set(index, total.get(index) + 1);
-                } else {
-                    products.add(orderLine.getProduct());
-                    total.add(1.0);
-                }
-            }
-        }*/
-
-        //add 10 random products
-        products = entityManager.createQuery(
-                "SELECT p " +
-                        "FROM Product p " +
-                        "ORDER BY p.id DESC"
-        ).setMaxResults(10).getResultList();
-
-
-        List<ChartData> charData = new ArrayList<>();
-        for (Product product : products) {
-            Long totalLong = Math.round(Math.random() * 100); // TODO: remove this line
-            charData.add(new ChartData(product.getName(), totalLong));
-        }
-
-        Double totalDouble = Math.random() * 100; // TODO: remove this line
-
-        map.put("chartData", charData);
-        map.put("total", totalDouble);
-        return map;
     }
 
     private Statistics getPercentageOfOrdersComplaint() {
@@ -355,9 +263,9 @@ public class StatisticsBean {
 
         Long totalOrders = getTotalOrders();
 
-        ordersInTransit = Math.round(Math.random() * 100); // TODO: remove this line
 
-        String percentage = Math.round(ordersInTransit.doubleValue() * 100 / totalOrders * 100.0)  + "%";
+
+        String percentage = Math.round((double) (50 * 100) / totalOrders * 100.0)  + "%";
 
         return new Statistics("Percentage of Orders In Transit", percentage, new ArrayList<>());
     }
